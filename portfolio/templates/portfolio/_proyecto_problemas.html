@@ -1,0 +1,34 @@
+{% if proyecto.problemas_que_resuelve %}
+<section class="py-20 border-t border-cyan-500/10">
+  <div class="max-w-5xl mx-auto px-5 md:px-8">
+    <div class="tron-section-header mb-3">
+      <span class="tron-section-header__bracket">[</span>
+      <span class="tron-section-header__num">{{ proyecto.problemas_que_resuelve|length|stringformat:"02d" }}</span>
+      <span>Problemas que resuelve</span>
+      <span class="tron-section-header__line"></span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-10">
+      Lo que vas a dejar de sufrir.
+    </h2>
+    <ul class="grid sm:grid-cols-2 gap-4">
+      {% for problema in proyecto.problemas_que_resuelve %}
+        <li class="tron-card tron-hud-frame-corners">
+          <span class="hud-corner hud-corner--tl"></span>
+          <span class="hud-corner hud-corner--tr"></span>
+          <span class="hud-corner hud-corner--bl"></span>
+          <span class="hud-corner hud-corner--br"></span>
+          <div class="tron-card__body flex gap-3">
+            <span class="flex-shrink-0 mt-0.5 text-error">
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+              </svg>
+            </span>
+            <span class="text-sm text-base-content/80 leading-relaxed">{{ problema }}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}

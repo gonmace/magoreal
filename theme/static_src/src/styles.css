@@ -1,0 +1,1325 @@
+/* ── Self-hosted fonts (SIL OFL 1.1 — ver static/fonts/LICENSE.txt) ────── */
+@font-face {
+  font-family: 'Inter';
+  src: url('/static/fonts/Inter-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/static/fonts/Inter-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/static/fonts/Inter-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/static/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/static/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import "tailwindcss";
+
+@source not "../static";
+@source "../../../templates";
+@source "../../../home";
+@source "../../../landing";
+@source "../../../site_config";
+@source "../../../portfolio";
+@source "../../../translations";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin "daisyui" {
+  themes: tron, ares, clu, athena, aphrodite, poseidon, light;
+}
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ── Colores de marca por pilar comercial ─────────────────────────
+     Registrados en @theme de Tailwind para que se generen utilidades
+     con opacidad automática: text-ia, bg-ia/15, border-ia/40, etc. */
+  --color-whatsapp: #25D366;
+  --color-ia: #7C3AED;
+  --color-ia-end: #3B82F6;
+  --color-logistica: #FBBF24;
+  --color-automatizacion: #EA4B71;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   §0 · Temas The Grid (DaisyUI v5)
+   6 variantes: Tron, Ares, Clu, Athena, Aphrodite, Poseidon
+   Cada tema se activa vía data-theme="<nombre>" en <html>.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tron (Cyan) ────────────────────────────────────────────────────────── */
+@plugin "daisyui/theme" {
+  name: "tron";
+  color-scheme: dark;
+
+  --color-base-100: #050A14;
+  --color-base-200: #0A1020;
+  --color-base-300: #111C2E;
+  --color-base-content: #94A3B8;
+
+  --color-primary: #00D4FF;
+  --color-primary-content: #050A14;
+
+  --color-secondary: #FF3366;
+  --color-secondary-content: #050A14;
+
+  --color-accent: #00FF88;
+  --color-accent-content: #050A14;
+
+  --color-neutral: #111C2E;
+  --color-neutral-content: #94A3B8;
+
+  --color-info: #00D4FF;
+  --color-info-content: #050A14;
+
+  --color-success: #00FF88;
+  --color-success-content: #050A14;
+
+  --color-warning: #FFD700;
+  --color-warning-content: #050A14;
+
+  --color-error: #FF3333;
+  --color-error-content: #050A14;
+
+  --gradient-ia: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+}
+
+/* ── Ares (Red / God of War) ───────────────────────────────────────────── */
+@plugin "daisyui/theme" {
+  name: "ares";
+  color-scheme: dark;
+
+  --color-base-100: #140505;
+  --color-base-200: #1A0A0A;
+  --color-base-300: #240F0F;
+  --color-base-content: #94A3B8;
+
+  --color-primary: #FF3333;
+  --color-primary-content: #050A14;
+
+  --color-secondary: #FFD700;
+  --color-secondary-content: #050A14;
+
+  --color-accent: #FF6600;
+  --color-accent-content: #050A14;
+
+  --color-neutral: #240F0F;
+  --color-neutral-content: #94A3B8;
+
+  --color-info: #FF3333;
+  --color-info-content: #050A14;
+
+  --color-success: #00FF88;
+  --color-success-content: #050A14;
+
+  --color-warning: #FFD700;
+  --color-warning-content: #050A14;
+
+  --color-error: #FF3333;
+  --color-error-content: #050A14;
+
+  --gradient-ia: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+}
+
+/* ── Clu (Orange / Program) ────────────────────────────────────────────── */
+@plugin "daisyui/theme" {
+  name: "clu";
+  color-scheme: dark;
+
+  --color-base-100: #0F0A05;
+  --color-base-200: #1A1008;
+  --color-base-300: #26180C;
+  --color-base-content: #94A3B8;
+
+  --color-primary: #FF6600;
+  --color-primary-content: #050A14;
+
+  --color-secondary: #00D4FF;
+  --color-secondary-content: #050A14;
+
+  --color-accent: #FF3333;
+  --color-accent-content: #050A14;
+
+  --color-neutral: #26180C;
+  --color-neutral-content: #94A3B8;
+
+  --color-info: #00D4FF;
+  --color-info-content: #050A14;
+
+  --color-success: #00FF88;
+  --color-success-content: #050A14;
+
+  --color-warning: #FFD700;
+  --color-warning-content: #050A14;
+
+  --color-error: #FF3333;
+  --color-error-content: #050A14;
+
+  --gradient-ia: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+}
+
+/* ── Athena (Gold / Goddess of Wisdom) ─────────────────────────────────── */
+@plugin "daisyui/theme" {
+  name: "athena";
+  color-scheme: dark;
+
+  --color-base-100: #0A0F14;
+  --color-base-200: #101820;
+  --color-base-300: #18222E;
+  --color-base-content: #94A3B8;
+
+  --color-primary: #FFD700;
+  --color-primary-content: #050A14;
+
+  --color-secondary: #00D4FF;
+  --color-secondary-content: #050A14;
+
+  --color-accent: #FF6600;
+  --color-accent-content: #050A14;
+
+  --color-neutral: #18222E;
+  --color-neutral-content: #94A3B8;
+
+  --color-info: #00D4FF;
+  --color-info-content: #050A14;
+
+  --color-success: #00FF88;
+  --color-success-content: #050A14;
+
+  --color-warning: #FFD700;
+  --color-warning-content: #050A14;
+
+  --color-error: #FF3333;
+  --color-error-content: #050A14;
+
+  --gradient-ia: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+}
+
+/* ── Aphrodite (Pink / Goddess of Love) ────────────────────────────────── */
+@plugin "daisyui/theme" {
+  name: "aphrodite";
+  color-scheme: dark;
+
+  --color-base-100: #140510;
+  --color-base-200: #1E0818;
+  --color-base-300: #2A0C20;
+  --color-base-content: #94A3B8;
+
+  --color-primary: #FF1493;
+  --color-primary-content: #050A14;
+
+  --color-secondary: #FFD700;
+  --color-secondary-content: #050A14;
+
+  --color-accent: #FF3333;
+  --color-accent-content: #050A14;
+
+  --color-neutral: #2A0C20;
+  --color-neutral-content: #94A3B8;
+
+  --color-info: #FF1493;
+  --color-info-content: #050A14;
+
+  --color-success: #00FF88;
+  --color-success-content: #050A14;
+
+  --color-warning: #FFD700;
+  --color-warning-content: #050A14;
+
+  --color-error: #FF3333;
+  --color-error-content: #050A14;
+
+  --gradient-ia: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+}
+
+/* ── Poseidon (Blue / God of Sea) ──────────────────────────────────────── */
+@plugin "daisyui/theme" {
+  name: "poseidon";
+  color-scheme: dark;
+
+  --color-base-100: #050A14;
+  --color-base-200: #0A1020;
+  --color-base-300: #111C2E;
+  --color-base-content: #94A3B8;
+
+  --color-primary: #0066FF;
+  --color-primary-content: #050A14;
+
+  --color-secondary: #00D4FF;
+  --color-secondary-content: #050A14;
+
+  --color-accent: #00FF88;
+  --color-accent-content: #050A14;
+
+  --color-neutral: #111C2E;
+  --color-neutral-content: #94A3B8;
+
+  --color-info: #00D4FF;
+  --color-info-content: #050A14;
+
+  --color-success: #00FF88;
+  --color-success-content: #050A14;
+
+  --color-warning: #FFD700;
+  --color-warning-content: #050A14;
+
+  --color-error: #FF3333;
+  --color-error-content: #050A14;
+
+  --gradient-ia: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+}
+
+/* ── Utilities custom ──────────────────────────────────────────────
+    text-whatsapp, text-ia, text-logistica, text-automatizacion (y sus
+    variantes bg-*, border-*, con opacidad /xx) las genera Tailwind a
+    partir del @theme. Acá solo el gradiente de texto que no tiene
+    equivalente utility en Tailwind. */
+.bg-gradient-ia { background-image: var(--gradient-ia); }
+.text-gradient-ia {
+  background-image: var(--gradient-ia);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Light (fallback) ───────────────────────────────────────────────────── */
+@plugin "daisyui/theme" {
+  name: "light";
+  color-scheme: light;
+  --color-base-100: #FFFFFF;
+  --color-base-200: #F1F5F9;
+  --color-base-300: #E2E8F0;
+  --color-base-content: #0F172A;
+  --color-primary: #0EA5E9;
+  --color-primary-content: #FFFFFF;
+  --color-secondary: #7C3AED;
+  --color-secondary-content: #FFFFFF;
+  --color-accent: #16A34A;
+  --color-accent-content: #FFFFFF;
+  --color-neutral: #1E293B;
+  --color-neutral-content: #F8FAFC;
+  --color-warning: #D97706;
+  --color-warning-content: #FFFFFF;
+  --color-error: #DC2626;
+  --color-error-content: #FFFFFF;
+}
+
+/* ── Smooth scroll para los anchors del nav ──────────────────────────────── */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Scrollbar estilo theme-aware */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-base-100); }
+::-webkit-scrollbar-thumb { background: var(--color-base-300); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--color-primary) 30%, transparent); }
+
+/* Timeline conector — línea punteada entre fases del proceso
+   Mobile (1 col): vertical, de cada paso al siguiente
+   Desktop (3 col): horizontal en cada fila */
+.timeline-step::after {
+  content: '';
+  position: absolute;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 40%, transparent) 1px, transparent 1px);
+  background-size: 8px 2px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+/* Mobile: línea vertical debajo del step (excepto último) */
+.timeline-step:not(:last-child)::after {
+  left: 40px;
+  top: 100%;
+  width: 2px;
+  height: 1rem;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 40%, transparent) 1px, transparent 1px);
+  background-size: 2px 8px;
+  background-repeat: repeat-y;
+}
+@media (min-width: 768px) {
+  /* Tablet 2 col */
+  .timeline-step::after { display: none; }
+}
+
+/* FAQ chevron — transición smooth en lugar del snap default de DaisyUI */
+.collapse-arrow > .collapse-title:after {
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .collapse-arrow > .collapse-title:after { transition: none; }
+}
+
+/* Filter pills — micro-feedback táctil al click (scale 0.96 por 80ms) */
+.pill-click {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pill-click:active {
+  transform: scale(0.96);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pill-click, .pill-click:active { transform: none !important; transition: none !important; }
+}
+
+/* ── WCAG 2.4.7 Focus visible — ring neón del tema en keyboard nav ──── */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* Excepción: botones con su propio focus ring de DaisyUI */
+.btn:focus-visible {
+  outline-offset: 2px;
+}
+/* Skip link — sr-only por default, visible al focus */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.focus\:not-sr-only:focus {
+  position: fixed;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Scroll animations: eliminadas (rompían headless screenshots + SEO preview).
+   El contenido aparece de una. Las animaciones scoped del hero (terminal,
+   mesh gradient) y los counters de social proof siguen funcionando. */
+
+/* ── §9 Micro-animaciones originales ──────────────────────────────────── */
+
+/* Hover tilt 3D para cards del grid. La rotación se controla vía JS con
+   CSS custom properties --tilt-x y --tilt-y, seteadas desde el mouse.
+   El transform es parte del `.group` hover normal — no reemplaza
+   hover:-translate-y-1, lo compone.
+
+   Variantes:
+   - .tilt-card          — ±8° (default, cards chicas tipo grid proyectos)
+   - .tilt-card-soft     — ±4° (filas anchas tipo servicios, menos mareador) */
+.tilt-card,
+.tilt-card-soft {
+  transform-style: preserve-3d;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform: perspective(1200px)
+             rotateX(var(--tilt-x, 0deg))
+             rotateY(var(--tilt-y, 0deg));
+}
+.tilt-card:hover,
+.tilt-card-soft:hover {
+  transition: transform 80ms linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card, .tilt-card-soft {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Mesh gradient reactivo al mouse. CSS vars --mx/--my controlados por JS
+   desplazan los radial-gradients hasta 50px respecto de su centro.
+   Colores theme-aware vía var() del tema DaisyUI activo. */
+.hero-mesh-reactive {
+  background-image:
+    radial-gradient(ellipse 60% 50% at calc(20% + var(--mx, 0px)) calc(30% + var(--my, 0px)), color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 60%),
+    radial-gradient(ellipse 50% 50% at calc(80% - var(--mx, 0px)) calc(20% - var(--my, 0px)), color-mix(in srgb, var(--color-secondary) 14%, transparent), transparent 60%),
+    radial-gradient(ellipse 50% 40% at calc(50% + var(--mx, 0px) * 0.5) calc(90% - var(--my, 0px) * 0.5), color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 60%);
+  background-size: 100% 100%;
+  transition: background-image 100ms linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-mesh-reactive { transition: none; }
+}
+
+/* Alpine.js: evita flash de elementos con x-cloak */
+[x-cloak] { display: none !important; }
+
+/* ════════════════════════════════════════════════════════════════════════
+   §11 · Tratamiento de <em> dentro de títulos + párrafos en Geist Mono.
+   Los títulos mantienen fuente (Inter), peso y tamaño originales.
+   Los párrafos <p> pasan a Geist Mono para un look editorial/tech.
+   ════════════════════════════════════════════════════════════════════════ */
+h1 em, h2 em, h3 em, h4 em, h5 em, h6 em {
+  font-style: normal;
+  color: var(--color-primary);
+}
+
+p {
+  font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   §13 · Giro de dígitos en section headers
+   ════════════════════════════════════════════════════════════════════════ */
+.section-header .digit-slot {
+  font-variant-numeric: tabular-nums;
+  will-change: transform, opacity;
+}
+@keyframes magoreal-rain-fall {
+  0%   { transform: translateY(-0.55em); opacity: 0.15; }
+  40%  { opacity: 1; }
+  100% { transform: translateY(0);       opacity: 1; }
+}
+.section-header .digit-slot.rolling {
+  animation: magoreal-rain-fall 55ms linear;
+  color: var(--color-accent);
+}
+.section-header .digit-slot.settled {
+  color: inherit;
+  transition: color 240ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .section-header .digit-slot.rolling,
+  .section-header .digit-slot.settled { animation: none; transition: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   §10 · Capa de modernización (index_1.html → paleta Magoreal)
+   Reveal por scroll, progress bar, grano, marquee, cursor, line-rise,
+   hover patterns (service-row, work-item, stack-item), hero canvas.
+   Todas respetan prefers-reduced-motion.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Reveal on scroll — aplicar .reveal a cualquier bloque ─────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 900ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* ── Progress bar superior (scroll-linked) ─────────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  z-index: 90;
+  pointer-events: none;
+  transition: width 100ms ease-out;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-primary) 50%, transparent);
+}
+
+/* ── Grain overlay global (SVG fractal noise vía data URI) ─────────────── */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+@media (prefers-reduced-motion: reduce) {
+  .grain { display: none; }
+}
+
+/* ── Marquee infinito (stack strip) ────────────────────────────────────── */
+@keyframes magoreal-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee {
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.marquee-track {
+  display: inline-flex;
+  gap: 3rem;
+  padding-right: 3rem;
+  animation: magoreal-marquee 45s linear infinite;
+  white-space: nowrap;
+  will-change: transform;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* ── Hero line-rise (stagger por nth-child) ────────────────────────────── */
+@keyframes magoreal-rise {
+  to { transform: translateY(0); opacity: 1; }
+}
+.hero-line {
+  display: block;
+  overflow: hidden;
+}
+.hero-line .inner {
+  display: inline-block;
+  transform: translateY(105%);
+  opacity: 0;
+  animation: magoreal-rise 900ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.hero-line:nth-child(1) .inner { animation-delay: 0.15s; }
+.hero-line:nth-child(2) .inner { animation-delay: 0.30s; }
+.hero-line:nth-child(3) .inner { animation-delay: 0.45s; }
+.hero-line:nth-child(4) .inner { animation-delay: 0.60s; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-line .inner {
+    transform: none;
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* ── Live pulse dot (reemplaza animate-pulse por un ring expansivo) ────── */
+@keyframes magoreal-livePulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+@keyframes magoreal-liveRing {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: currentColor;
+  animation: magoreal-livePulse 2s ease-in-out infinite;
+}
+.live-dot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: currentColor;
+  animation: magoreal-liveRing 2s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-dot, .live-dot::before { animation: none; }
+}
+
+/* ── Service row hover (scaleX top border) ─────────────────────────────── */
+.service-row {
+  position: relative;
+}
+  .service-row::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+.service-row:hover::before { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .service-row::before { transition: none; }
+}
+
+/* ── Work item / timeline row (arrow reveal + indent on hover) ─────────── */
+.work-item {
+  position: relative;
+  transition: padding-left 350ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              background 350ms ease;
+}
+  .work-item::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-30px, -50%);
+    opacity: 0;
+    color: var(--color-primary);
+    font-weight: 600;
+    transition: transform 350ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                opacity 350ms ease;
+    pointer-events: none;
+  }
+.work-item:hover::before {
+  transform: translate(0, -50%);
+  opacity: 1;
+}
+@media (min-width: 768px) {
+  .work-item:hover { padding-left: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-item, .work-item::before { transition: none !important; }
+  .work-item:hover { padding-left: 0 !important; }
+}
+
+/* ── Stack item hover (dim → accent highlight) ─────────────────────────── */
+.stack-item {
+  opacity: 0.55;
+  transition:
+    opacity 300ms ease,
+    color 300ms ease,
+    transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 300ms ease;
+}
+  .stack-item:hover {
+    opacity: 1;
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  }
+@media (prefers-reduced-motion: reduce) {
+  .stack-item { transition: opacity 0ms; transform: none !important; }
+}
+
+/* ── Morphosis SVG (scroll-triggered via KUTE.js) ──────────────────────── */
+[data-morph] path.invisible,
+[data-morph] path[id^="banner-t"],
+[data-morph] path[id^="svc-t"],
+[data-morph] path[id^="svc-m"],
+[data-morph] path[id^="letter-"] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ── Morph icon aura glow (service rows) ───────────────────────────────── */
+.morph-aura {
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  filter: blur(14px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+.reveal.visible .morph-aura {
+  animation: morph-aura-pulse 2.5s 600ms ease-in-out infinite;
+}
+@keyframes morph-aura-pulse {
+  0%, 100% { opacity: 0.12; }
+  50%       { opacity: 0.30; }
+}
+.service-row:hover .morph-aura {
+  opacity: 0.38 !important;
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .morph-aura,
+  .reveal.visible .morph-aura { animation: none; opacity: 0.15; }
+}
+[data-morph] .morph-shape {
+  will-change: transform;
+}
+/* Ghosts · letras tenues que se revelan al pasar la shape activa */
+[data-morph] .letter-ghost {
+  opacity: 0;
+  transition: opacity 800ms ease-out;
+  filter: blur(0.5px);
+}
+[data-morph] .letter-ghost.is-visible {
+  opacity: 0.22;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-morph] .morph-shape { transition: none; }
+  [data-morph] .letter-ghost { transition: none; opacity: 0.22; }
+}
+
+/* ── Canvas network del hero ───────────────────────────────────────────── */
+#hero-net {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* ── Gradient orb decorative (utilidad usable en cualquier sección) ────── */
+.orb-primary {
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 12%, transparent) 0%, transparent 60%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-secondary {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 8%, transparent) 0%, transparent 60%);
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   §14 · Utilidades Tron Grid — glows, grid pattern, scanlines
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* Borde con glow neón del tema */
+.border-glow-cyan {
+  border-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--color-primary) 8%, transparent),
+    inset 0 0 12px color-mix(in srgb, var(--color-primary) 4%, transparent);
+}
+
+/* Texto con glow neón del tema */
+.text-glow-cyan {
+  text-shadow: 0 0 16px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+/* Patrón de grid sutil tipo Tron — theme-aware */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-primary) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 4%, transparent) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── Auto-carousel override ───────────────────────────────────────────
+   DaisyUI carousel uses scroll-snap by default, which conflicts with
+   JS-controlled auto-scroll. We disable snap on auto-carousels. */
+.js-auto-carousel {
+  scroll-snap-type: none !important;
+  -webkit-scroll-snap-type: none !important;
+}
+.js-auto-carousel .carousel-item {
+  scroll-snap-align: none !important;
+  -webkit-scroll-snap-align: none !important;
+}
+
+/* ── Tron Carousel ──────────────────────────────────────────────────── */
+.tron-carousel__track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+.tron-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+.tron-carousel__arrow {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tron-carousel__arrow:hover {
+  box-shadow: 0 0 16px color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+.tron-carousel__arrow--prev {
+  left: 0.5rem;
+}
+.tron-carousel__arrow--next {
+  right: 0.5rem;
+}
+@media (max-width: 640px) {
+  .tron-carousel__arrow {
+    display: none;
+  }
+}
+
+/* Scanlines overlay (muy sutil) — theme-aware */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    color-mix(in srgb, var(--color-primary) 6%, transparent) 2px,
+    color-mix(in srgb, var(--color-primary) 6%, transparent) 4px
+  );
+}
+
+/* ── Drop-shadow theme-aware (reemplaza drop-shadow-[rgba(...)] inline) ── */
+.drop-shadow-theme {
+  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--color-primary) 20%, transparent));
+}
+
+/* ── Gradient orbs para secciones (reemplazan inline styles) ───────────── */
+.bg-orb-theme {
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, color-mix(in srgb, var(--color-primary) 8%, transparent), transparent 60%);
+}
+.bg-orb-theme-soft {
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 60%);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   §15 · The Gridcn Patterns — Tron HUD UI System
+   Replicated locally from https://thegridcn.com/ design tokens.
+   All utilities are theme-aware via DaisyUI CSS custom properties.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Glow intensity levels (theme-aware) ────────────────────────────── */
+.tron-glow-light {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 12%, transparent),
+              inset 0 0 6px color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+.tron-glow-medium {
+  box-shadow: 0 0 16px color-mix(in srgb, var(--color-primary) 20%, transparent),
+              0 0 32px color-mix(in srgb, var(--color-primary) 10%, transparent),
+              inset 0 0 12px color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+.tron-glow-heavy {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--color-primary) 30%, transparent),
+              0 0 48px color-mix(in srgb, var(--color-primary) 15%, transparent),
+              0 0 80px color-mix(in srgb, var(--color-primary) 8%, transparent),
+              inset 0 0 16px color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+/* ── HUD Corner Frame ─────────────────────────────────────────────────
+   Pseudo-elements render ┌ ┐ └ ┘ corners via border + size.
+   Usage: add .tron-hud-frame to any relative-positioned container. */
+.tron-hud-frame {
+  position: relative;
+}
+.tron-hud-frame::before,
+.tron-hud-frame::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--color-primary);
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+.tron-hud-frame::before {
+  top: -1px; left: -1px;
+  border-top: 1px solid; border-left: 1px solid;
+}
+.tron-hud-frame::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 1px solid; border-right: 1px solid;
+}
+.tron-hud-frame:hover::before,
+.tron-hud-frame:hover::after {
+  opacity: 1;
+}
+
+/* Extended corners (all 4) — child spans required for BR and BL */
+.tron-hud-frame-corners {
+  position: relative;
+}
+.tron-hud-frame-corners > .hud-corner {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-color: var(--color-primary);
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 300ms ease, box-shadow 300ms ease;
+}
+.tron-hud-frame-corners > .hud-corner--tl { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; }
+.tron-hud-frame-corners > .hud-corner--tr { top: -1px; right: -1px; border-top: 1px solid; border-right: 1px solid; }
+.tron-hud-frame-corners > .hud-corner--bl { bottom: -1px; left: -1px; border-bottom: 1px solid; border-left: 1px solid; }
+.tron-hud-frame-corners > .hud-corner--br { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
+.tron-hud-frame-corners:hover > .hud-corner {
+  opacity: 0.85;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+/* ── Tron Card ────────────────────────────────────────────────────────
+   Card with top status bar + corner brackets + optional glow.
+   Structure: .tron-card > .tron-card__header + .tron-card__body */
+.tron-card {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-radius: var(--radius-box, 0.75rem);
+  background: color-mix(in srgb, var(--color-base-200) 80%, transparent);
+  overflow: hidden;
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+.tron-card:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+  box-shadow:
+    0 0 24px color-mix(in srgb, var(--color-primary) 25%, transparent),
+    0 0 48px color-mix(in srgb, var(--color-primary) 12%, transparent),
+    inset 0 0 16px color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+.tron-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+  background: color-mix(in srgb, var(--color-base-300) 40%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, var(--color-primary) 70%, var(--color-base-content));
+}
+.tron-card__header::before {
+  content: '[';
+  opacity: 0.6;
+}
+.tron-card__header::after {
+  content: ']';
+  opacity: 0.6;
+}
+.tron-card__body {
+  padding: 1rem;
+}
+
+/* ── Status Bar ───────────────────────────────────────────────────────
+   Horizontal bar: label + separator + status text + optional dot */
+.tron-status-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
+  border-radius: var(--radius-field, 0.5rem);
+  background: color-mix(in srgb, var(--color-base-300) 30%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-base-content);
+}
+.tron-status-bar__label {
+  color: color-mix(in srgb, var(--color-primary) 60%, var(--color-base-content));
+}
+.tron-status-bar__sep {
+  opacity: 0.35;
+}
+.tron-status-bar__value {
+  color: var(--color-accent);
+}
+
+/* ── Status Dot (pulsating) ─────────────────────────────────────────── */
+.tron-status-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+.tron-status-dot::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  opacity: 0;
+  animation: tron-dot-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes tron-dot-ping {
+  0%   { transform: scale(0.8); opacity: 0.6; }
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tron-status-dot::before { animation: none; opacity: 0.25; transform: scale(1.4); }
+}
+
+/* ── Data Label (mono KEY: VALUE pairs) ─────────────────────────────── */
+.tron-data-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--color-primary) 50%, var(--color-base-content));
+}
+.tron-data-label strong,
+.tron-data-label b {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.tron-data-label strong.text-success {
+  color: var(--color-success);
+}
+.tron-data-label strong.text-error {
+  color: var(--color-error);
+}
+
+/* ── Tron Section Header (replaces _section_header style) ─────────────
+   Format: [ 00X ]  LABEL   with corner brackets and mono font */
+.tron-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: color-mix(in srgb, var(--color-primary) 70%, var(--color-base-content));
+}
+.tron-section-header__bracket {
+  color: var(--color-primary);
+  opacity: 0.5;
+}
+.tron-section-header__num {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+.tron-section-header__line {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 25%, transparent), transparent);
+  max-width: 80px;
+}
+
+/* ── Tron Accordion (FAQ style) ───────────────────────────────────────
+   Replicates The Gridcn FAQ component with HUD styling:
+   - Corner brackets on each item
+   - Monospace question numbers (Q01, Q02...)
+   - Status bar header
+   - Glow on hover
+   - Animated arrow indicator */
+.tron-accordion {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-radius: var(--radius-box, 0.75rem);
+  background: color-mix(in srgb, var(--color-base-200) 70%, transparent);
+  overflow: hidden;
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+.tron-accordion:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--color-primary) 15%, transparent),
+    inset 0 0 8px color-mix(in srgb, var(--color-primary) 5%, transparent);
+}
+
+/* FAQ Item Header with status bar */
+.tron-accordion__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+  background: color-mix(in srgb, var(--color-base-300) 50%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.tron-accordion__header-num {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+.tron-accordion__header-status {
+  color: color-mix(in srgb, var(--color-primary) 60%, var(--color-base-content));
+}
+
+/* Toggle button */
+.tron-accordion__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-base-content);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+.tron-accordion__toggle:hover {
+  color: var(--color-primary);
+}
+.tron-accordion__toggle::before {
+  content: '▸';
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  opacity: 0.7;
+  transition: transform 200ms ease;
+  display: inline-block;
+  margin-right: 0.75rem;
+}
+.tron-accordion[open] > .tron-accordion__toggle::before,
+.tron-accordion[open] > summary::before {
+  transform: rotate(90deg);
+}
+.tron-accordion > summary {
+  list-style: none;
+}
+.tron-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+.tron-accordion__content {
+  padding: 0 1.25rem 1.25rem;
+  color: color-mix(in srgb, var(--color-base-content) 80%, white);
+  line-height: 1.65;
+  font-size: 0.9rem;
+}
+.tron-accordion__sep {
+  height: 1px;
+  margin: 0 1.25rem;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-primary) 15%, transparent), transparent);
+}
+
+/* Variant: accent border (for featured/IA items) */
+.tron-accordion--accent {
+  border-color: color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+.tron-accordion--accent:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--color-accent) 15%, transparent),
+    inset 0 0 10px color-mix(in srgb, var(--color-accent) 6%, transparent);
+}
+.tron-accordion--accent .tron-accordion__header {
+  border-bottom-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+.tron-accordion--accent .tron-accordion__toggle::before {
+  color: var(--color-accent);
+}
+.tron-accordion--accent .tron-accordion__header-num {
+  color: var(--color-accent);
+}
+
+/* ── Tron Button (CTA) ────────────────────────────────────────────────
+   Primary action button with glow and corner brackets */
+.tron-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-field, 0.5rem);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 200ms ease, box-shadow 200ms ease, transform 100ms ease;
+}
+.tron-btn:hover {
+  background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-primary) 25%, transparent);
+  transform: translateY(-1px);
+}
+.tron-btn:active {
+  transform: translateY(0);
+}
+
+/* ── HUD Badge (floating status badge on cards/demos) ──────────────── */
+.tron-hud-badge {
+  position: absolute;
+  top: -0.6rem;
+  right: -0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 40%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-base-100) 90%, transparent);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  z-index: 10;
+}
+.tron-hud-badge--accent {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+.tron-hud-badge--warning {
+  color: var(--color-warning);
+  border-color: color-mix(in srgb, var(--color-warning) 40%, transparent);
+}
+
+/* ── Mono metadata line (used in cards/rows) ────────────────────────── */
+.tron-meta {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, var(--color-base-content) 50%, transparent);
+}
+.tron-meta strong {
+  color: color-mix(in srgb, var(--color-primary) 70%, var(--color-base-content));
+  font-weight: 500;
+}
+

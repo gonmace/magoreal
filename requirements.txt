@@ -1,0 +1,15 @@
+Django>=5.2
+django-tailwind>=4.0
+whitenoise>=6.9
+pillow>=11.0
+python-decouple>=3.8
+psycopg2-binary>=2.9
+gunicorn>=23.0
+django-axes>=7.0
+django-csp>=3.8
+django-redis>=5.4
+django-ratelimit>=4.1
+sentry-sdk[django]>=2.0
+redis>=5.2
+# django-html-translator incluye beautifulsoup4, openai y django-ratelimit como dependencias
+django-html-translator @ file:///C:/Users/gonma/Documents/Claude/django-html-translator

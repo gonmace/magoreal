@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static translations %}
+
+{% block title %}{{ siteconfig.site_name }} — {{ siteconfig.tagline }}{% endblock %}
+{% block meta_description %}{{ siteconfig.hero_subtitle|truncatewords:30 }}{% endblock %}
+{% block og_title %}{{ siteconfig.site_name }}{% endblock %}
+{% block og_description %}{{ siteconfig.tagline }}{% endblock %}
+
+{% block extra_head %}
+  {% section "seo_schema" "landing/_seo_schema.html" %}
+{% endblock %}
+
+{% block content %}
+  {% include "landing/_nav.html" %}
+
+  <main id="main-content">
+    {% section "chat_hero"    "landing/_chat_hero_messages.html" %}
+    {% section "pliego"       "landing/_pliego_sections.html" %}
+    {% section "hero"         "landing/_000_hero.html" %}
+    {% section "morph_banner" "landing/_morph_banner.html" %}
+    {% section "social_proof" "landing/_001_social_proof.html" %}
+    {% include "landing/_marquee.html" %}
+    {% section "screenshots"  "landing/_002_screenshots_real.html" %}
+
+    {% section "licitaciones" "landing/_003_licitaciones.html" %}
+
+    <section id="proyectos">
+      {% section "proyectos"  "landing/_004_proyectos_grid.html" %}
+    </section>
+
+    <section id="servicios">
+      {% section "servicios"  "landing/_005_servicios.html" %}
+    </section>
+
+    <section id="stack">
+      {% section "stack"      "landing/_006_stack.html" %}
+    </section>
+
+    {% section "proceso"      "landing/_007_proceso.html" %}
+    {% section "comparativa"  "landing/_008_comparativa.html" %}
+    {% section "faq"          "landing/_009_faq.html" %}
+
+    <section id="contacto">
+      {% section "contacto"   "landing/_010_contacto.html" %}
+    </section>
+  </main>
+
+  {% section "footer" "landing/_footer.html" %}
+{% endblock %}

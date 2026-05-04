@@ -1,0 +1,125 @@
+{% load portfolio_tags %}
+<section class="relative overflow-hidden pb-16 pt-12">
+  <div class="absolute inset-0 pointer-events-none hero-mesh opacity-50"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8">
+    <a href="{{ lang_prefix }}#proyectos"
+       class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-primary mb-6 transition-colors">
+      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Volver a proyectos
+    </a>
+
+    <div class="grid lg:grid-cols-[1fr_1fr] gap-12 items-center">
+      <div>
+        <div class="flex flex-wrap items-center gap-2 text-xs mb-4">
+          <span class="tron-status-bar">
+            <span class="tron-status-bar__label">CAT</span>
+            <span class="tron-status-bar__sep">/</span>
+            <span class="tron-status-bar__value">{{ proyecto.categoria_principal }}</span>
+          </span>
+          <span class="tron-status-bar">
+            <span class="tron-status-bar__label">STATUS</span>
+            <span class="tron-status-bar__sep">/</span>
+            <span class="tron-status-bar__value">{{ proyecto.estado|default:"En producción" }}</span>
+          </span>
+          {% if proyecto.has_workflows %}
+            <span class="tron-status-bar">
+              <span class="tron-status-bar__label">AUTO</span>
+              <span class="tron-status-bar__sep">/</span>
+              <span class="tron-status-bar__value" translate="no">n8n</span>
+            </span>
+          {% endif %}
+        </div>
+
+        <h1 id="detalle-h1" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.15]">
+          {{ proyecto.titulo_card|default:proyecto.titulo }}
+        </h1>
+        <script>
+        (function () {
+          var h1 = document.getElementById('detalle-h1');
+          if (!h1) return;
+          var HIGHLIGHTS = [
+            { re: /WhatsApp/g,                                cls: 'text-whatsapp' },
+            { re: /como humano/gi,                            cls: 'text-whatsapp' },
+            { re: /like a human/gi,                           cls: 'text-whatsapp' },
+            { re: /sin que el cliente sepa que no sos vos\.?/g, cls: 'text-gradient-ia font-black' },
+            { re: /(Inteligencia Artificial|Inteligência Artificial|Artificial Intelligence|Intelligence Artificielle|Künstliche Intelligenz|Intelligenza Artificiale|Kunstmatige Intelligentie|Sztuczna Inteligencja|Yapay Zeka|Artificiell Intelligens|Umělá Inteligence|Inteligență Artificială|Kecerdasan Buatan|Mesterséges Intelligens|Kunstig Intelligens|Tekoäly|Intel·ligència Artificial|Umjetna Inteligencija|Trí Tuệ Nhân Tạo|Kunstmatige Intelligensie|Adimen Artifiziala|Intelixencia Artificial|Akili Bandia)/gi,                cls: 'text-gradient-ia font-black' },
+          ];
+          function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+          var html = esc(h1.textContent.trim());
+          HIGHLIGHTS.forEach(function (h) {
+            html = html.replace(h.re, function (m) {
+              return '<span class="' + h.cls + '">' + m + '</span>';
+            });
+          });
+          h1.innerHTML = html;
+        })();
+        </script>
+        <p class="mt-5 text-lg text-base-content/70 leading-relaxed">
+          {{ proyecto.subtitulo }}
+        </p>
+
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="{{ lang_prefix }}#contacto" class="tron-btn text-sm">
+            {{ proyecto.copy_landing.cta|default:"Quiero algo así" }}
+          </a>
+          {% if siteconfig.calendar_url %}
+            <a href="{{ siteconfig.calendar_url }}" target="_blank" rel="noopener"
+               class="tron-btn" style="border-color: color-mix(in srgb, var(--color-accent) 40%, transparent); color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 10%, transparent);">
+              Agendar 30 min →
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="relative">
+        {% if proyecto.show_wa_demo %}
+          <div class="hero-demo-card hero-demo-card--wa rounded-2xl ring-1 ring-accent/10 shadow-2xl shadow-accent/10 overflow-hidden">
+            <div class="wa-header flex items-center gap-2.5 px-3 py-2.5">
+              <svg class="w-5 h-5 text-white/60 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+              </svg>
+              <div class="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-[#1F2C33] font-bold text-sm flex-shrink-0" translate="no">M</div>
+              <div class="leading-tight min-w-0 flex-1">
+                <div class="text-[13px] text-white font-semibold truncate" translate="no">MG</div>
+                <div class="text-[11px] text-[#8696A0] flex items-center gap-1">
+                  <span class="wa-dot"></span>en línea
+                </div>
+              </div>
+              <svg class="w-4 h-4 text-white/40 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="12" cy="5"  r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>
+              </svg>
+            </div>
+            <div class="wa-chat relative">
+              <div id="chat-body" class="chat-body flex flex-col gap-1.5 px-3 py-3 h-[520px] overflow-hidden"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 mt-3 text-xs text-accent/80 font-medium">
+            <span class="live-dot"></span>respuesta 24/7
+          </div>
+        {% elif proyecto.screenshot_main %}
+          <div class="tron-card tron-hud-frame-corners">
+            <span class="hud-corner hud-corner--tl"></span>
+            <span class="hud-corner hud-corner--tr"></span>
+            <span class="hud-corner hud-corner--bl"></span>
+            <span class="hud-corner hud-corner--br"></span>
+            <div class="tron-card__header">
+              <span translate="no">SYS.{{ proyecto.slug|upper }}</span>
+              <span class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-red-500/70"></span>
+                <span class="w-2 h-2 rounded-full bg-yellow-500/70"></span>
+                <span class="w-2 h-2 rounded-full bg-green-500/70"></span>
+              </span>
+            </div>
+            <div class="tron-card__body p-0">
+              {% picture proyecto.screenshot_main alt=proyecto.titulo|truncatechars:80 css_class="w-full h-auto block" eager=True sizes="(max-width: 1024px) 100vw, 50vw" %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

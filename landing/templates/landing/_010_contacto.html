@@ -1,0 +1,219 @@
+{% load static %}
+
+<section class="relative py-12 lg:py-20 border-t border-primary/10 overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none opacity-50 bg-orb-theme"></div>
+
+  {% include "landing/_section_header.html" with num="010" label="Contacto · respuesta en 24 horas" %}
+
+  <div class="relative max-w-6xl mx-auto px-5 md:px-8">
+    <div class="max-w-3xl mb-14 text-center mx-auto reveal">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-white leading-relaxed">
+        ¿Listo para <span class="text-automatizacion">automatizar</span>? Cuéntanos tu proceso y diseñamos la solución
+      </h2>
+      <ul class="mt-4 space-y-2 text-left max-w-2xl mx-auto">
+        <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Llamada de diagnóstico de 30 minutos sin costo ni compromiso</h3></li>
+        <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Respuesta personalizada en menos de 24 horas</h3></li>
+        <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Acuerdos de confidencialidad (NDA) antes de compartir información sensible</h3></li>
+      </ul>
+    </div>
+
+    <div class="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-12 items-start reveal">
+
+      {# ═════════════════════ FORMULARIO ═════════════════════ #}
+      <div class="tron-card tron-hud-frame-corners p-0 overflow-hidden"
+           x-data="{
+               sending: false, sent: false, error: null,
+               async submit(ev) {
+                 this.sending = true; this.error = null;
+                 const form = ev.target;
+                 const data = new FormData(form);
+                 data.append('origen', window.location.pathname);
+                 try {
+                   const resp = await fetch(form.action, {
+                     method: 'POST',
+                     body: data,
+                     headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                   });
+                   const json = await resp.json();
+                   if (!resp.ok || !json.ok) {
+                     const msgs = Object.values(json.errors || {}).flat();
+                     this.error = msgs[0] || 'Algo salió mal. Probá de nuevo.';
+                     this.sending = false;
+                     return;
+                   }
+                   this.sent = true; this.sending = false;
+                 } catch (e) {
+                   this.error = 'No pudimos enviar. Escribime por WhatsApp o email mejor.';
+                   this.sending = false;
+                 }
+               }
+            }">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+
+        <div class="tron-card__header">
+          <span class="tron-meta"><strong>Formulario de contacto</strong></span>
+          <span class="tron-status-bar">
+            <span class="tron-status-bar__label">Status</span>
+            <span class="tron-status-bar__sep">·</span>
+            <span class="tron-status-bar__value">En línea</span>
+            <span class="tron-status-dot"></span>
+          </span>
+        </div>
+
+        <div class="tron-card__body">
+        <form method="post" action="{% url 'landing:contacto_submit' %}"
+              x-on:submit.prevent="submit($event)"
+              x-show="!sent">
+          {% csrf_token %}
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label for="{{ contact_form.nombre.id_for_label }}"
+                     class="tron-data-label block mb-1.5"><strong>Nombre</strong></label>
+              {{ contact_form.nombre }}
+            </div>
+            <div>
+              <label for="{{ contact_form.email.id_for_label }}"
+                     class="tron-data-label block mb-1.5"><strong>Email</strong></label>
+              {{ contact_form.email }}
+            </div>
+            <div>
+              <label for="{{ contact_form.empresa.id_for_label }}"
+                     class="tron-data-label block mb-1.5"><strong>Empresa (opcional)</strong></label>
+              {{ contact_form.empresa }}
+            </div>
+            <div>
+              <label for="{{ contact_form.interes.id_for_label }}"
+                     class="tron-data-label block mb-1.5"><strong>¿Qué te interesa?</strong></label>
+              {{ contact_form.interes }}
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <label for="{{ contact_form.mensaje.id_for_label }}"
+                   class="tron-data-label block mb-1.5"><strong>Tu consulta</strong></label>
+            {{ contact_form.mensaje }}
+          </div>
+
+          <div class="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <button type="submit"
+                    x-bind:disabled="sending"
+                    class="tron-btn btn-lg flex-shrink-0
+                           disabled:opacity-60 disabled:cursor-not-allowed">
+              <span x-show="!sending">Hablemos →</span>
+              <span x-show="sending" x-cloak class="inline-flex items-center gap-2">
+                <span class="loading loading-spinner loading-sm"></span>
+                Enviando...
+              </span>
+            </button>
+            <p class="tron-meta">
+              Respondemos personalmente. Sin auto-reply. Sin vendedor llamándote.
+            </p>
+          </div>
+
+          <div x-show="error" x-cloak
+               x-transition
+               class="mt-4 rounded-lg border border-error/30 bg-error/10 text-error text-sm p-3">
+            <span x-text="error"></span>
+          </div>
+        </form>
+        </div>
+
+        {# ── Estado: enviado ──────────────────────────────── #}
+        <div x-show="sent" x-cloak x-transition
+             class="text-center py-10">
+          <div class="inline-flex w-16 h-16 rounded-full bg-accent/15 text-accent items-center justify-center mb-5">
+            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Mensaje recibido</h3>
+          <p class="text-base-content/70">
+            Te respondo por email en menos de 24 horas. Gracias por escribir.
+          </p>
+        </div>
+
+      </div>
+
+      {# ═════════════════════ ALTERNATIVAS ═════════════════════ #}
+      <div class="space-y-4">
+        <p class="text-xs uppercase tracking-widest text-base-content/50 font-semibold">
+          O por un canal directo
+        </p>
+
+        {% if siteconfig.calendar_url %}
+          <a href="{{ siteconfig.calendar_url }}" target="_blank" rel="noopener"
+             class="group flex items-start gap-4 rounded-xl border border-primary/10 bg-base-200/40
+                    hover:border-primary hover:border-glow-cyan transition-colors p-5">
+            <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </span>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-white font-semibold group-hover:text-primary transition-colors">
+                Agendar 30 min
+              </h3>
+              <p class="text-sm text-base-content/60">
+                Llamada de diagnóstico sin costo. Yo escucho, vos decidís después.
+              </p>
+            </div>
+          </a>
+        {% endif %}
+
+        {% if siteconfig.whatsapp_link %}
+          <a href="{{ siteconfig.whatsapp_link }}" target="_blank" rel="noopener"
+             class="group flex items-start gap-4 rounded-xl border border-primary/10 bg-base-200/40
+                    hover:border-primary hover:border-glow-cyan transition-colors p-5">
+            <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-accent/10 text-accent flex items-center justify-center">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-1.4-.7-2.3-1.3-3.2-2.9-.3-.5.3-.5.7-1.4.1-.2 0-.4 0-.6 0-.2-.7-1.7-.9-2.3-.2-.6-.5-.5-.7-.5H8.3c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9 0 1.7 1.2 3.4 1.4 3.6.2.2 2.4 3.6 5.9 5.1 2.8 1.1 3.3 1 3.9.8.6-.2 1.8-.7 2.1-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.7-.4zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.2L2 22l5-1.3c1.5.8 3.2 1.3 5 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/>
+              </svg>
+            </span>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-white font-semibold group-hover:text-accent transition-colors">WhatsApp</h3>
+              <p class="text-sm text-base-content/60">
+                Respuesta en horas en días hábiles.
+              </p>
+            </div>
+          </a>
+        {% endif %}
+
+        {% if siteconfig.email %}
+          <a href="mailto:{{ siteconfig.email }}"
+             class="group flex items-start gap-4 rounded-xl border border-primary/10 bg-base-200/40
+                    hover:border-primary hover:border-glow-cyan transition-colors p-5">
+            <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </span>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-white font-semibold group-hover:text-secondary transition-colors break-all">
+                {{ siteconfig.email }}
+              </h3>
+              <p class="text-sm text-base-content/60">
+                Si preferís el clásico.
+              </p>
+            </div>
+          </a>
+        {% endif %}
+
+        <div class="rounded-xl border border-primary/10 bg-base-200/30 p-5 text-xs text-base-content/50 leading-relaxed">
+          <strong class="text-white/90">¿Tu empresa necesita NDA?</strong><br>
+          Firmamos sin problema antes de empezar a hablar de data sensible. Solo escribime por
+          cualquier canal y lo mando.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

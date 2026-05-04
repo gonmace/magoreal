@@ -1,0 +1,19 @@
+<section class="py-24 border-t border-cyan-500/10 bg-gradient-to-b from-base-200/30 to-base-100">
+  <div class="max-w-3xl mx-auto px-5 md:px-8 text-center">
+    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+      ¿Algo así para tu empresa?
+    </h2>
+    <p class="mt-4 text-lg text-base-content/70">
+      Una llamada de 30 min para ver si tu caso encaja — sin compromiso, sin pitch.
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+      {% if siteconfig.calendar_url %}
+        <a href="{{ siteconfig.calendar_url }}" target="_blank" rel="noopener"
+           class="tron-btn">Agendar llamada →</a>
+      {% endif %}
+      <a href="{{ lang_prefix }}#contacto" class="tron-btn" style="border-color: color-mix(in srgb, var(--color-accent) 40%, transparent); color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 10%, transparent);">
+        O escribí tu consulta
+      </a>
+    </div>
+  </div>
+</section>

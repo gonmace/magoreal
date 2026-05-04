@@ -1,0 +1,89 @@
+{% load static portfolio_tags %}
+{% if proyecto.gallery %}
+<section class="py-20 border-t border-cyan-500/10"
+         x-data="{ open: false, current: 0, items: {{ proyecto.gallery|length }} }"
+         x-on:keydown.escape.window="open = false"
+         x-on:keydown.arrow-left.window="if (open) current = (current - 1 + items) % items"
+         x-on:keydown.arrow-right.window="if (open) current = (current + 1) % items">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="tron-section-header mb-3">
+      <span class="tron-section-header__bracket">[</span>
+      <span class="tron-section-header__num">{{ proyecto.gallery|length|stringformat:"02d" }}</span>
+      <span>Capturas del producto</span>
+      <span class="tron-section-header__line"></span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-10">
+      {{ proyecto.gallery|length }} vista{{ proyecto.gallery|length|pluralize:"s" }} en detalle.
+    </h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {% for shot in proyecto.gallery %}
+        <button type="button"
+                x-on:click="open = true; current = {{ forloop.counter0 }}"
+                class="group relative aspect-video rounded-xl overflow-hidden tron-card tron-hud-frame-corners">
+          <span class="hud-corner hud-corner--tl"></span>
+          <span class="hud-corner hud-corner--tr"></span>
+          <span class="hud-corner hud-corner--bl"></span>
+          <span class="hud-corner hud-corner--br"></span>
+          {% picture shot.url alt=shot.descripcion|default:proyecto.titulo|truncatechars:80 css_class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 50vw, 25vw" %}
+          <div class="absolute inset-0 bg-base-100/0 group-hover:bg-base-100/20 transition-colors"></div>
+        </button>
+      {% endfor %}
+    </div>
+
+    {# ── Lightbox modal ───────────────────────────────────── #}
+    <div x-show="open" x-cloak
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-[100] bg-base-100/95 backdrop-blur-sm flex items-center justify-center p-4"
+         x-on:click.self="open = false">
+
+      <button type="button" x-on:click="open = false" aria-label="Cerrar"
+              class="absolute top-4 right-4 text-white hover:text-primary p-2">
+        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <button type="button" x-on:click="current = (current - 1 + items) % items" aria-label="Anterior"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-primary p-2">
+        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+
+      <button type="button" x-on:click="current = (current + 1) % items" aria-label="Siguiente"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-primary p-2">
+        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+      <div class="max-w-6xl max-h-[85vh] flex flex-col gap-4">
+        {% for shot in proyecto.gallery %}
+          <div x-show="current === {{ forloop.counter0 }}" class="flex flex-col gap-4">
+            <img src="{% get_media_prefix %}{{ shot.url }}"
+                 alt="{{ shot.descripcion|default:proyecto.titulo }}"
+                 class="max-w-full max-h-[75vh] object-contain rounded-lg ring-1 ring-cyan-500/10">
+            {% if shot.descripcion %}
+              <p class="text-sm text-base-content/70 text-center max-w-3xl mx-auto">
+                {{ shot.descripcion }}
+              </p>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <div class="text-xs text-base-content/40 text-center font-mono">
+          <span x-text="current + 1"></span> / {{ proyecto.gallery|length }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}

@@ -1,0 +1,217 @@
+
+<section class="relative py-12 lg:py-20 border-t border-white/5">
+  {% include "landing/_section_header.html" with num="005" label="Servicios · cuatro frentes" %}
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-3xl mb-16 reveal">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-white leading-relaxed">
+        Cuatro frentes. El mismo principio:
+        <em>tu operación automatizada, en tu propio servidor.</em>
+      </h2>
+    </div>
+
+    {# Layout editorial: 4 filas con numeración + título + metadata + bullets #}
+    <div class="divide-y divide-primary/5 border-y border-primary/5">
+
+      {# ── 1. Chatbots WhatsApp con IA ─────────────────────────── #}
+      <article class="service-row reveal tilt-card-soft group tron-hud-frame-corners grid md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-start py-10 lg:py-12 hover:bg-primary/5 transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex md:flex-col items-center md:items-start gap-3 md:gap-4 md:pt-1">
+          <div class="relative shrink-0">
+            <span class="morph-aura absolute bg-whatsapp"></span>
+            <svg class="w-14 h-14 text-whatsapp relative z-10" viewBox="0 0 32 32"
+                 data-morph
+                 data-morph-duration="1600"
+                 data-morph-hold="400"
+                 data-morph-easing="easingCubicInOut"
+                 aria-hidden="true">
+              <path class="morph-shape" d="M4,4 L28,4 L28,28 L4,28 Z" fill="currentColor"
+                    data-morph-to="#svc-m1,#svc-t1"
+                    data-morph-home="#svc-h1"
+                    data-morph-loop="yoyo"
+                    data-morph-delay="0" />
+              <path id="svc-h1" class="invisible" d="M4,4 L28,4 L28,28 L4,28 Z" />
+              <path id="svc-m1" class="invisible"
+                    d="M16,4 L28,10 L28,22 L16,28 L4,22 L4,10 Z" />
+              <path id="svc-t1" class="invisible"
+                    d="M16,4 L19,13 L28,13 L21,18 L24,28 L16,22 L8,28 L11,18 L4,13 L13,13 Z" />
+            </svg>
+          </div>
+          <span class="tron-meta">01 / 04</span>
+        </div>
+        <div>
+          <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-white mb-2 leading-relaxed group-hover:text-whatsapp transition-colors">
+            <span class="text-automatizacion">Automatización</span> de atención en <span class="text-whatsapp">WhatsApp</span> con <span class="text-gradient-ia">inteligencia artificial</span>
+          </h2>
+          <ul class="mt-3 space-y-1">
+            <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Resolución automática de consultas frecuentes en segundos</h3></li>
+            <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Escalamiento inteligente con contexto completo para el equipo humano</h3></li>
+            <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Integración con CRM y sistemas internos sin afectar tus procesos actuales</h3></li>
+          </ul>
+        </div>
+        <a href="#proyectos"
+           class="tron-btn md:mt-2 shrink-0" style="color: var(--color-whatsapp); border-color: color-mix(in srgb, var(--color-whatsapp) 50%, transparent); background: color-mix(in srgb, var(--color-whatsapp) 10%, transparent);">
+          P2 · P3 →
+        </a>
+      </article>
+
+      {# ── 2. Infraestructura self-hosted ───────────────────── #}
+      <article class="service-row reveal tilt-card-soft group tron-hud-frame-corners grid md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-start py-10 lg:py-12 hover:bg-primary/5 transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex md:flex-col items-center md:items-start gap-3 md:gap-4 md:pt-1">
+          <div class="relative shrink-0">
+            <span class="morph-aura absolute bg-accent"></span>
+            <svg class="w-14 h-14 text-accent relative z-10" viewBox="0 0 32 32"
+                 data-morph
+                 data-morph-duration="1600"
+                 data-morph-hold="400"
+                 data-morph-easing="easingCubicInOut"
+                 aria-hidden="true">
+              <path class="morph-shape" d="M4,4 L28,4 L28,28 L4,28 Z" fill="currentColor"
+                    data-morph-to="#svc-m2,#svc-t2"
+                    data-morph-home="#svc-h2"
+                    data-morph-loop="yoyo"
+                    data-morph-delay="200" />
+              <path id="svc-h2" class="invisible" d="M4,4 L28,4 L28,28 L4,28 Z" />
+              <path id="svc-m2" class="invisible"
+                    d="M16,4 L28,16 L16,28 L4,16 Z" />
+              {# Hexágono — single subpath, morphea limpio #}
+              <path id="svc-t2" class="invisible"
+                    d="M16,4 L28,10 L28,22 L16,28 L4,22 L4,10 Z" />
+            </svg>
+          </div>
+          <span class="tron-meta">02 / 04</span>
+        </div>
+        <div>
+          <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-white mb-2 leading-relaxed group-hover:text-accent transition-colors">
+            <span class="text-automatizacion">Automatización</span> en tu propia infraestructura: control total de tus datos y procesos
+          </h2>
+          <ul class="mt-3 space-y-1">
+            <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Alternativa a SaaS en tu propia infraestructura con menor costo operativo</h3></li>
+            <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Tus datos permanecen en tu infraestructura sin exposición externa</h3></li>
+            <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Tecnología open source sin dependencia de proveedores ni licencias ocultas</h3></li>
+          </ul>
+        </div>
+        <a href="#proyectos"
+           class="tron-btn md:mt-2 shrink-0" style="color: var(--color-accent); border-color: color-mix(in srgb, var(--color-accent) 50%, transparent); background: color-mix(in srgb, var(--color-accent) 10%, transparent);">
+          P7 →
+        </a>
+      </article>
+
+      {# ── 3. Pliegos y documentos con IA ──────────────────────── #}
+      <article class="service-row reveal tilt-card-soft group tron-hud-frame-corners grid md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-start py-10 lg:py-12 hover:bg-primary/5 transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex md:flex-col items-center md:items-start gap-3 md:gap-4 md:pt-1">
+          <div class="relative shrink-0">
+            <span class="morph-aura absolute bg-ia"></span>
+            <svg class="w-14 h-14 text-ia relative z-10" viewBox="0 0 32 32"
+                 data-morph
+                 data-morph-duration="1600"
+                 data-morph-hold="400"
+                 data-morph-easing="easingCubicInOut"
+                 aria-hidden="true">
+              <path class="morph-shape" d="M4,4 L28,4 L28,28 L4,28 Z" fill="currentColor"
+                    data-morph-to="#svc-m3,#svc-t3"
+                    data-morph-home="#svc-h3"
+                    data-morph-loop="yoyo"
+                    data-morph-delay="400" />
+              <path id="svc-h3" class="invisible" d="M4,4 L28,4 L28,28 L4,28 Z" />
+              <path id="svc-m3" class="invisible"
+                    d="M16,4 C22,4 28,10 28,16 C28,22 22,28 16,28 C10,28 4,22 4,16 C4,10 10,4 16,4 Z" />
+              <path id="svc-t3" class="invisible"
+                    d="M16,4 L28,16 L16,28 L4,16 Z" />
+            </svg>
+          </div>
+          <span class="tron-meta">03 / 04</span>
+        </div>
+        <div>
+          <h3 class="text-lg sm:text-xl lg:text-2xl font-extrabold text-white mb-2 group-hover:text-gradient-ia transition-colors">
+            Pliegos y documentos con <span class="text-gradient-ia">IA</span>
+          </h3>
+          <h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">
+            Un pliego en 15 minutos. Tu historial de documentos trabaja por vos.
+          </h3>
+        </div>
+        <a href="#licitaciones"
+           class="tron-btn md:mt-2 shrink-0" style="color: var(--color-ia); border-color: color-mix(in srgb, var(--color-ia) 50%, transparent); background: color-mix(in srgb, var(--color-ia) 10%, transparent);">
+          Sección licitaciones →
+        </a>
+      </article>
+
+      {# ── 4. Desarrollo web a medida ──────────────────────── #}
+      <article class="service-row reveal tilt-card-soft group tron-hud-frame-corners grid md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-start py-10 lg:py-12 hover:bg-primary/5 transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex md:flex-col items-center md:items-start gap-3 md:gap-4 md:pt-1">
+          <div class="relative shrink-0">
+            <span class="morph-aura absolute bg-primary"></span>
+            <svg class="w-14 h-14 text-primary relative z-10" viewBox="0 0 32 32"
+                 data-morph
+                 data-morph-duration="1600"
+                 data-morph-hold="400"
+                 data-morph-easing="easingCubicInOut"
+                 aria-hidden="true">
+              <path class="morph-shape" d="M4,4 L28,4 L28,28 L4,28 Z" fill="currentColor"
+                    data-morph-to="#svc-m4,#svc-t4"
+                    data-morph-home="#svc-h4"
+                    data-morph-loop="yoyo"
+                    data-morph-delay="600" />
+              <path id="svc-h4" class="invisible" d="M4,4 L28,4 L28,28 L4,28 Z" />
+              <path id="svc-m4" class="invisible"
+                    d="M4,12 C4,6 6,4 12,4 L20,4 C26,4 28,6 28,12 L28,20 C28,26 26,28 20,28 L12,28 C6,28 4,26 4,20 Z" />
+              <path id="svc-t4" class="invisible"
+                    d="M16,4 C22,4 28,10 28,16 C28,22 22,28 16,28 C10,28 4,22 4,16 C4,10 10,4 16,4 Z" />
+            </svg>
+          </div>
+          <span class="tron-meta">04 / 04</span>
+        </div>
+        <div>
+          <h3 class="text-lg sm:text-xl lg:text-2xl font-extrabold text-white mb-2 group-hover:text-primary transition-colors">
+            Software a medida en tu servidor
+          </h3>
+          <h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">
+            Tu operación en tu propio servidor. Sin suscripciones, entregado en días.
+          </h3>
+        </div>
+        <a href="#proyectos"
+           class="tron-btn md:mt-2 shrink-0">
+          P1·4·5·6 →
+        </a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // Colorear palabras-clave en párrafos de servicios
+  (function colorServicesParagraphs() {
+    const HIGHLIGHTS = [
+      { re: /WhatsApp/g,                    wrap: '<span class="text-whatsapp">$&</span>' },
+      { re: /\b(IA|AI|KI)\b/gi,             wrap: '<span class="text-gradient-ia">$&</span>' },
+      { re: /(Inteligencia Artificial|Inteligência Artificial|Artificial Intelligence|Intelligence Artificielle|Künstliche Intelligenz|Intelligenza Artificiale|Kunstmatige Intelligentie|Sztuczna Inteligencja|Yapay Zeka|Artificiell Intelligens|Umělá Inteligence|Inteligență Artificială|Kecerdasan Buatan|Mesterséges Intelligens|Kunstig Intelligens|Tekoäly|Intel·ligència Artificial|Umjetna Inteligencija|Trí Tuệ Nhân Tạo|Kunstmatige Intelligensie|Adimen Artifiziala|Intelixencia Artificial|Akili Bandia)/gi,    wrap: '<span class="text-gradient-ia">$&</span>' },
+    ];
+    function esc(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    document.querySelectorAll('#servicios p').forEach(function (el) {
+      let html = esc(el.textContent);
+      HIGHLIGHTS.forEach(function (h) {
+        html = html.replace(h.re, function (m) {
+          return h.wrap.replace('$&', m);
+        });
+      });
+      el.innerHTML = html;
+    });
+  })();
+</script>

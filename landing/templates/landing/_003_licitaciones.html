@@ -1,0 +1,238 @@
+{% load static %}
+
+<section id="licitaciones" class="relative py-12 lg:py-20 border-t border-primary/10">
+  {% include "landing/_section_header.html" with num="003" label="Licitaciones y Pliegos" %}
+
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-3xl mb-12 reveal">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-white leading-relaxed">
+        Generación de pliegos y licitaciones con <span class="text-gradient-ia">inteligencia artificial</span>
+      </h2>
+      <p class="mt-5 text-lg text-base-content leading-relaxed">
+        A partir de una descripción de la actividad, el sistema genera parámetros técnicos, selección de materiales, normas aplicables (IRAM, ACI, ASTM) y criterios de control de calidad.
+
+        El resultado es una especificación técnica editable, lista para integrarse en pliegos o propuestas.
+      </p>
+    </div>
+
+    {# ── Grid de 4 conceptos clave ───────────────────────────────── #}
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-16">
+
+      <li class="reveal group tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 list-none
+                 hover:border-primary hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-ia/15 text-ia-end
+                       font-mono font-bold flex items-center justify-center">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="font-semibold text-white text-lg leading-snug">Describís la actividad</h3>
+        <p class="text-sm text-base-content leading-relaxed mt-2">
+          Nombre, unidad de medida y tipo de servicio. La IA completa el resto.
+        </p>
+      </li>
+
+      <li class="reveal group tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 list-none
+                 hover:border-primary hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-ia/15 text-ia-end
+                       font-mono font-bold flex items-center justify-center">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="font-semibold text-white text-lg leading-snug">La IA propone los parámetros técnicos</h3>
+        <p class="text-sm text-base-content leading-relaxed mt-2">
+          Materiales, normas IRAM/ACI/ASTM y criterios de calidad. Validás y ajustás en pantalla.
+        </p>
+      </li>
+
+      <li class="reveal group tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 list-none
+                 hover:border-primary hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-ia/15 text-ia-end
+                       font-mono font-bold flex items-center justify-center">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="9" y1="13" x2="15" y2="13"/>
+              <line x1="9" y1="17" x2="15" y2="17"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="font-semibold text-white text-lg leading-snug">La IA refina los detalles</h3>
+        <p class="text-sm text-base-content leading-relaxed mt-2">
+          Nombre técnico exacto y actividades complementarias. Editás lo que necesites.
+        </p>
+      </li>
+
+      <li class="reveal group tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 list-none
+                 hover:border-primary hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-ia/15 text-ia-end
+                       font-mono font-bold flex items-center justify-center">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </span>
+        </div>
+        <h3 class="font-semibold text-white text-lg leading-snug">Obtenés la especificación generada</h3>
+        <p class="text-sm text-base-content leading-relaxed mt-2">
+          Documento técnico completo listo para tu pliego o contrato.
+        </p>
+      </li>
+
+    </ul>
+
+    {# ── Métricas de impacto ───────────────────────────────────── #}
+    <dl class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mb-16 reveal">
+      <div class="tron-hud-frame-corners relative rounded-2xl border border-ia/20 bg-ia/5 p-6 lg:p-7 text-center">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <dt class="tron-data-label mb-3 text-gradient-ia"><strong>Tiempo de redacción</strong></dt>
+        <dd class="text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+          10 días <span class="text-gradient-ia">→</span> 6 horas
+        </dd>
+        <p class="text-sm text-primary mt-2">Pliego de 40+ páginas promedio.</p>
+      </div>
+      <div class="tron-hud-frame-corners relative rounded-2xl border border-ia/20 bg-ia/5 p-6 lg:p-7 text-center">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <dt class="tron-data-label mb-3 text-gradient-ia"><strong>Capacidad de respuesta</strong></dt>
+        <dd class="text-3xl lg:text-4xl font-extrabold text-gradient-ia leading-tight">4x</dd>
+        <p class="text-sm text-primary mt-2">Más documentos por mes — pliegos, propuestas y contratos.</p>
+      </div>
+      <div class="tron-hud-frame-corners relative rounded-2xl border border-ia/20 bg-ia/5 p-6 lg:p-7 text-center">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <dt class="tron-data-label mb-3 text-gradient-ia"><strong>Trazabilidad técnica</strong></dt>
+        <dd class="text-3xl lg:text-4xl font-extrabold text-gradient-ia leading-tight">100%</dd>
+        <p class="text-sm text-primary mt-2">Cada afirmación linkeada a su fuente.</p>
+      </div>
+    </dl>
+
+    {# ── Callout: self-hosted ──────────────────────────────────── #}
+    <div class="reveal tron-hud-frame-corners relative rounded-2xl border border-ia/25 bg-gradient-to-br from-ia/10 to-ia/0 p-6 lg:p-8 mb-10">
+      <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+      <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+      <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+      <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+      <div class="flex items-start gap-4">
+        <span class="flex-shrink-0 w-11 h-11 rounded-xl bg-ia/20 text-ia-end flex items-center justify-center">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </span>
+        <div class="min-w-0">
+          <p class="text-white text-lg lg:text-xl font-semibold leading-snug">
+            Todo corre en tu servidor.
+          </p>
+          <p class="text-base-content/70 mt-1 leading-relaxed">
+            Tus pliegos, normas y documentos técnicos no salen de tu red.
+            El modelo <em class="text-gradient-ia not-italic font-semibold">consulta, no reentrena</em>
+            con tu información.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {# ── CTA dual ──────────────────────────────────────────────── #}
+    <div class="flex flex-col sm:flex-row flex-wrap gap-3 mb-16 reveal">
+      <button onclick="magDemoOpen()"
+              class="btn btn-lg font-semibold gap-2"
+              style="background-image: var(--gradient-ia); border-color: var(--color-ia); color: white;">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        Probá el generador →
+      </button>
+      {% if siteconfig.calendar_url %}
+        <a href="{{ siteconfig.calendar_url }}" target="_blank" rel="noopener"
+           class="btn btn-ghost btn-lg font-semibold text-white hover:bg-white/10">
+          Agendá <span class="text-gradient-ia">15 min</span> →
+        </a>
+      {% else %}
+        <a href="#contacto"
+           class="btn btn-ghost btn-lg font-semibold text-white hover:bg-white/10">
+          Agendá <span class="text-gradient-ia">15 min</span> →
+        </a>
+      {% endif %}
+    </div>
+
+
+  </div>
+
+  {# ── Modal demo generador ───────────────────────────────────── #}
+  <dialog id="modal-demo-generador"
+          class="modal"
+          aria-label="Demo — Generador de especificaciones técnicas">
+    <div class="modal-box w-11/12 max-w-6xl h-[88vh] p-0 overflow-hidden flex flex-col bg-base-100">
+      <div class="flex items-center justify-between px-5 py-3 border-b border-white/10 flex-shrink-0">
+        <span class="text-sm font-semibold text-white">Generador de especificaciones técnicas</span>
+        <form method="dialog">
+          <button class="btn btn-sm btn-ghost btn-circle text-base-content/60 hover:text-white"
+                  aria-label="Cerrar">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+      <iframe id="demo-generador-frame"
+              src=""
+              class="flex-1 w-full border-0"
+              title="Demo — Generador de especificaciones técnicas"
+              allow="fullscreen">
+      </iframe>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button aria-label="Cerrar demo">cerrar</button>
+    </form>
+  </dialog>
+
+  <script>
+    (function () {
+      var DEMO_URL = 'https://cev.magoreal.com/demo/';
+      var modal = document.getElementById('modal-demo-generador');
+      var frame = document.getElementById('demo-generador-frame');
+      window.magDemoOpen = function () {
+        frame.src = DEMO_URL;
+        modal.showModal();
+      };
+      modal.addEventListener('close', function () {
+        frame.src = 'about:blank';
+      });
+    })();
+  </script>
+</section>

@@ -1,0 +1,109 @@
+{# Sticky navbar — se opaca al hacer scroll (JS inline al final) #}
+{% load translations %}
+<nav id="site-nav"
+     class="fixed top-0 inset-x-0 z-50 transition-[background-color,backdrop-filter,box-shadow] duration-300 border-b border-primary/10">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
+    {# ── Logo ───────────────────────────────────────────────── #}
+    <a href="{{ lang_prefix }}" aria-label="Inicio"
+       class="flex items-center h-10">
+      {% if siteconfig.logo_svg %}
+        <span class="block h-10 w-auto [&>svg]:h-10 [&>svg]:w-auto">{{ siteconfig.logo_svg|safe }}</span>
+      {% else %}
+        <span class="font-extrabold text-xl tracking-tight text-white" translate="no">
+          <span class="text-primary">&lt;</span>M<span class="text-primary">/&gt;</span>
+        </span>
+      {% endif %}
+    </a>
+
+    {# ── Desktop nav ────────────────────────────────────────── #}
+    <ul class="hidden md:flex items-center gap-1 text-sm text-white font-mono uppercase tracking-wider">
+      <li><a href="{{ lang_prefix }}#proyectos" class="inline-flex items-center h-11 px-3 rounded-lg hover:text-primary hover:bg-primary/5 transition-colors" style="text-shadow: 0 0 4px var(--color-primary);">{{ nav_t.proyectos|default:"Proyectos" }}</a></li>
+      <li><a href="{{ lang_prefix }}#servicios" class="inline-flex items-center h-11 px-3 rounded-lg hover:text-primary hover:bg-primary/5 transition-colors" style="text-shadow: 0 0 4px var(--color-primary);">{{ nav_t.servicios|default:"Servicios" }}</a></li>
+      <li><a href="{{ lang_prefix }}#stack"     class="inline-flex items-center h-11 px-3 rounded-lg hover:text-primary hover:bg-primary/5 transition-colors" style="text-shadow: 0 0 4px var(--color-primary);">{{ nav_t.tecnologia|default:"Tecnología" }}</a></li>
+      <li><a href="{{ lang_prefix }}#contacto"  class="inline-flex items-center h-11 px-3 rounded-lg hover:text-primary hover:bg-primary/5 transition-colors" style="text-shadow: 0 0 4px var(--color-primary);">{{ nav_t.contacto|default:"Contacto" }}</a></li>
+    </ul>
+
+    {# ── CTA + selector idioma desktop ──────────────────────── #}
+    <div class="hidden md:flex items-center gap-3">
+      {% if multilingual %}{% language_selector "desktop" %}{% endif %}
+      {% if siteconfig.calendar_url %}
+        <a href="{{ siteconfig.calendar_url }}" target="_blank" rel="noopener"
+           class="btn btn-primary font-semibold">
+          {{ nav_t.agendar|default:"Agendar llamada" }}
+        </a>
+      {% else %}
+        <a href="{{ lang_prefix }}#contacto" class="btn btn-primary font-semibold">
+          {{ nav_t.agendar|default:"Agendar llamada" }}
+        </a>
+      {% endif %}
+    </div>
+
+    {# ── Mobile burger ──────────────────────────────────────── #}
+    <button id="nav-burger" type="button"
+            class="md:hidden p-2 text-white"
+            aria-label="{{ nav_t.abrir_menu|default:'Abrir menú' }}" aria-expanded="false">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+           stroke-linejoin="round">
+        <line x1="4" y1="6"  x2="20" y2="6"/>
+        <line x1="4" y1="12" x2="20" y2="12"/>
+        <line x1="4" y1="18" x2="20" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  {# ── Mobile menu (se desliza desde arriba) ─────────────────── #}
+  <div id="nav-mobile"
+       class="md:hidden overflow-hidden max-h-0 transition-[max-height] duration-300 bg-base-200/95 backdrop-blur-md border-t border-primary/10">
+    <ul class="flex flex-col gap-2 px-5 py-4 text-base text-white">
+      <li><a href="{{ lang_prefix }}#proyectos" class="block py-2 hover:text-primary" style="text-shadow: 0 0 4px var(--color-primary);">{{ nav_t.proyectos|default:"Proyectos" }}</a></li>
+      <li><a href="{{ lang_prefix }}#servicios" class="block py-2 hover:text-primary" style="text-shadow: 0 0 4px var(--color-primary);">{{ nav_t.servicios|default:"Servicios" }}</a></li>
+      <li><a href="{{ lang_prefix }}#stack"     class="block py-2 hover:text-primary" style="text-shadow: 0 0 4px var(--color-primary);">{{ nav_t.tecnologia|default:"Tecnología" }}</a></li>
+      <li><a href="{{ lang_prefix }}#contacto"  class="block py-2 hover:text-primary" style="text-shadow: 0 0 4px var(--color-primary);">{{ nav_t.contacto|default:"Contacto" }}</a></li>
+      {% if multilingual %}{% if all_available_langs|length > 1 or additional_latin_langs %}
+      <li class="pt-1 border-t border-primary/10 mt-1">
+        {% language_selector "mobile" %}
+      </li>
+      {% endif %}{% endif %}
+      <li class="pt-2">
+        {% if siteconfig.calendar_url %}
+          <a href="{{ siteconfig.calendar_url }}"
+             class="btn btn-primary btn-block font-semibold">{{ nav_t.agendar|default:"Agendar llamada" }}</a>
+        {% else %}
+          <a href="{{ lang_prefix }}#contacto"
+             class="btn btn-primary btn-block font-semibold">{{ nav_t.agendar|default:"Agendar llamada" }}</a>
+        {% endif %}
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  (function () {
+    const nav = document.getElementById('site-nav');
+    const SCROLLED = ['bg-base-100/85', 'backdrop-blur-md', 'shadow-lg', 'shadow-black/20',
+                      'border-b', 'border-white/5'];
+    const apply = () => {
+      const on = window.scrollY > 10;
+      SCROLLED.forEach(c => nav.classList.toggle(c, on));
+    };
+    apply();
+    window.addEventListener('scroll', apply, { passive: true });
+
+    const burger = document.getElementById('nav-burger');
+    const menu   = document.getElementById('nav-mobile');
+    let open = false;
+    burger.addEventListener('click', () => {
+      open = !open;
+      burger.setAttribute('aria-expanded', String(open));
+      menu.style.maxHeight = open ? menu.scrollHeight + 'px' : '0px';
+    });
+    menu.addEventListener('click', e => {
+      if (e.target.tagName === 'A') {
+        open = false;
+        burger.setAttribute('aria-expanded', 'false');
+        menu.style.maxHeight = '0px';
+      }
+    });
+  })();
+</script>

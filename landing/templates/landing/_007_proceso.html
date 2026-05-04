@@ -1,0 +1,135 @@
+{% load static %}
+
+<section class="relative py-12 lg:py-20 border-t border-primary/10">
+  {% include "landing/_section_header.html" with num="007" label="Método · 6 fases" %}
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-3xl mb-14 reveal">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-white leading-relaxed">
+        Cómo implementamos <span class="text-automatizacion">automatización</span> con <span class="text-gradient-ia">inteligencia artificial</span> en tu empresa
+      </h2>
+      <p class="mt-4 text-lg text-base-content leading-relaxed">
+        6 fases con entregables claros, plazos definidos y precio fijo desde el día uno.
+        Sin sorpresas en la factura.
+      </p>
+    </div>
+
+    {# ── Timeline horizontal (desktop) / vertical (mobile) ─── #}
+    <ol class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+
+      <li class="reveal timeline-step tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 group hover:border-primary/50 hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-start gap-4">
+          <span class="relative z-10 flex-shrink-0 w-10 h-10 rounded-lg bg-primary/15 text-primary font-mono font-bold text-lg flex items-center justify-center">01</span>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-white">Kickoff</h3>
+            <p class="tron-meta mt-1">½ día</p>
+            <p class="text-sm text-base-content/70 leading-relaxed mt-3">
+              <span class="text-accent font-medium">→</span> Plan de trabajo + requerimientos validados + accesos
+            </p>
+          </div>
+        </div>
+      </li>
+
+      <li class="reveal timeline-step tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 group hover:border-primary/50 hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-start gap-4">
+          <span class="relative z-10 flex-shrink-0 w-10 h-10 rounded-lg bg-primary/15 text-primary font-mono font-bold text-lg flex items-center justify-center">02</span>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-white">Arquitectura</h3>
+            <p class="tron-meta mt-1">1–3 días</p>
+            <p class="text-sm text-base-content/70 leading-relaxed mt-3">
+              <span class="text-accent font-medium">→</span> Diagrama técnico + modelo de datos + stack confirmado
+            </p>
+          </div>
+        </div>
+      </li>
+
+      <li class="reveal timeline-step tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 group hover:border-primary/50 hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-start gap-4">
+          <span class="relative z-10 flex-shrink-0 w-10 h-10 rounded-lg bg-primary/15 text-primary font-mono font-bold text-lg flex items-center justify-center">03</span>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-white">Desarrollo</h3>
+            <p class="tron-meta mt-1">2–8 semanas según alcance</p>
+            <p class="text-sm text-base-content/70 leading-relaxed mt-3">
+              <span class="text-accent font-medium">→</span> Iteraciones incrementales con demos al cliente
+            </p>
+          </div>
+        </div>
+      </li>
+
+      <li class="reveal timeline-step tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 group hover:border-primary/50 hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-start gap-4">
+          <span class="relative z-10 flex-shrink-0 w-10 h-10 rounded-lg bg-primary/15 text-primary font-mono font-bold text-lg flex items-center justify-center">04</span>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-white">Integración y pruebas</h3>
+            <p class="tron-meta mt-1">1–2 semanas</p>
+            <p class="text-sm text-base-content/70 leading-relaxed mt-3">
+              <span class="text-accent font-medium">→</span> QA con datos reales + ajustes + aprobación del cliente
+            </p>
+          </div>
+        </div>
+      </li>
+
+      <li class="reveal timeline-step tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 group hover:border-primary/50 hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-start gap-4">
+          <span class="relative z-10 flex-shrink-0 w-10 h-10 rounded-lg bg-primary/15 text-primary font-mono font-bold text-lg flex items-center justify-center">05</span>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-white">Deploy</h3>
+            <p class="tron-meta mt-1">1–3 días</p>
+            <p class="text-sm text-base-content/70 leading-relaxed mt-3">
+              <span class="text-accent font-medium">→</span> Producción estable + SSL + monitoreo activo
+            </p>
+          </div>
+        </div>
+      </li>
+
+      <li class="reveal timeline-step tron-hud-frame-corners relative rounded-xl border border-primary/10 bg-base-200/40 p-5 lg:p-6 group hover:border-primary/50 hover:border-glow-cyan transition-colors">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="flex items-start gap-4">
+          <span class="relative z-10 flex-shrink-0 w-10 h-10 rounded-lg bg-primary/15 text-primary font-mono font-bold text-lg flex items-center justify-center">06</span>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-white">Handoff</h3>
+            <p class="tron-meta mt-1">½–1 día</p>
+            <p class="text-sm text-base-content/70 leading-relaxed mt-3">
+              <span class="text-accent font-medium">→</span> Equipo capacitado + documentación + soporte post-entrega iniciado
+            </p>
+          </div>
+        </div>
+      </li>
+
+    </ol>
+
+    <div class="mt-10 space-y-1 max-w-2xl">
+      <p class="text-sm text-base-content/50">
+        Duración típica total: <span class="text-white font-semibold">4–12 semanas</span> para proyectos de software a medida.
+        Incluye 30 días de soporte post-entrega + capacitación al equipo.
+      </p>
+      <p class="text-xs text-base-content/30 leading-relaxed">
+        Los plazos son semanas hábiles de trabajo técnico — el tiempo calendario varía según disponibilidad del cliente y ciclos de aprobación.
+        Para servicios de infraestructura pura (VPS + Docker + plataformas self-hosted): 3,5–6 días.
+      </p>
+    </div>
+
+  </div>
+</section>

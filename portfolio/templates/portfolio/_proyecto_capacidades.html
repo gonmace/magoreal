@@ -1,0 +1,62 @@
+{% load portfolio_tags %}
+{% if proyecto.capacidades %}
+<section class="py-20 border-t border-cyan-500/10">
+  <div class="max-w-5xl mx-auto px-5 md:px-8">
+    <div class="tron-section-header mb-3">
+      <span class="tron-section-header__bracket">[</span>
+      <span class="tron-section-header__num">{{ proyecto.capacidades.items|length|stringformat:"02d" }}</span>
+      <span>Capacidades</span>
+      <span class="tron-section-header__line"></span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-10">
+      Todo lo que hace el producto.
+    </h2>
+
+    <div class="space-y-2">
+      {% for key, items in proyecto.capacidades.items %}
+        <details class="tron-accordion"{% if forloop.first %} open{% endif %}>
+          <summary class="tron-accordion__toggle text-base font-semibold text-white capitalize">
+            {{ key|label_key }}
+          </summary>
+          <div class="tron-accordion__sep"></div>
+          <div class="tron-accordion__content">
+            <ul class="space-y-2 pl-0">
+              {% if items.items %}
+                {# Sub-dict (ej: motor_precio con variables/factores) #}
+                {% for subkey, subitems in items.items %}
+                  <li class="mt-3 first:mt-0">
+                    <p class="text-xs uppercase tracking-wider text-base-content/50 mb-1.5">
+                      {{ subkey|label_key }}
+                    </p>
+                    <ul class="space-y-1 pl-4">
+                      {% for sub in subitems %}
+                        <li class="flex gap-2 text-sm text-base-content/70">
+                          <span class="text-primary">·</span>{{ sub }}
+                        </li>
+                      {% empty %}
+                        <li class="text-sm text-base-content/70">{{ subitems }}</li>
+                      {% endfor %}
+                    </ul>
+                  </li>
+                {% endfor %}
+              {% else %}
+                {% for item in items %}
+                  <li class="flex gap-2 text-sm text-base-content/80 py-1">
+                    <span class="flex-shrink-0 mt-1 text-accent">
+                      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"
+                           stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </span>
+                    {{ item }}
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
+        </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

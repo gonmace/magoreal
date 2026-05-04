@@ -1,0 +1,210 @@
+{
+    "name": "Magoreal - Traduccion por secciones (OpenAI + callback)",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "traducir-magoreal",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "235b845a-0153-4bf9-952b-995c9bb72d6f",
+            "name": "Webhook Traduccion",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                -208,
+                -208
+            ],
+            "webhookId": "b61f340e-673e-478f-86fd-65583168f0aa"
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ JSON.stringify({ status: \"generating\" }) }}",
+                "options": {}
+            },
+            "id": "bbcc0b84-3ba8-4510-a9f2-57b0823c8a05",
+            "name": "202 Accepted",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                16,
+                -16
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "const body = $input.first().json.body ?? $input.first().json;\n\nif (!body.page_key || !body.lang || !body.sections) {\n  throw new Error('Faltan campos requeridos: page_key, lang, sections');\n}\n\nconst LANG_NAMES = {\n  es: 'Spanish', en: 'English',\n  pt: 'Portuguese',\n  fr: 'French', de: 'German', it: 'Italian',\n  nl: 'Dutch', pl: 'Polish', tr: 'Turkish',\n  sv: 'Swedish', cs: 'Czech', ro: 'Romanian',\n  id: 'Indonesian', hu: 'Hungarian', da: 'Danish',\n  fi: 'Finnish', ca: 'Catalan', no: 'Norwegian',\n  sk: 'Slovak', hr: 'Croatian', vi: 'Vietnamese',\n  ms: 'Malay', af: 'Afrikaans', eu: 'Basque',\n  gl: 'Galician', sw: 'Swahili',\n};\nconst target = LANG_NAMES[body.lang] || body.lang;\n\nconst entries = Object.entries(body.sections);\nconst output = [];\n\nfor (const [key, sectionData] of entries) {\n  const texts = sectionData.texts;\n  if (!Array.isArray(texts)) {\n    throw new Error(`Section ${key} must contain a 'texts' array`);\n  }\n  const n = texts.length;\n  const system = `You are a professional localizer, not a word-for-word translator. Localize the provided Spanish texts to ${target}.\n\nRules (STRICTLY follow ALL of these):\n1. Return ONLY a JSON array of localized strings in the EXACT SAME order as input\n2. CRITICAL: The input has EXACTLY ${n} items. Your output MUST have EXACTLY ${n} items â€” no more, no less. Do NOT split one item into two, do NOT merge two items into one.\n3. Use natural, idiomatic ${target} â€” prefer the standard industry term or common expression over a literal translation when one exists. Examples:\n   - \"Preguntas frecuentes\" â†’ \"FAQ\" (short label context)\n   - \"Preguntas Â· lo que siempre consultan\" â†’ \"FAQ Â· What You Always Ask\"\n   - \"Inicio\" â†’ \"Home\", \"Sobre nosotros\" â†’ \"About Us\", \"Contacto\" â†’ \"Contact\"\n   - \"Pliegos\" â†’ \"Tenders\", \"Presupuesto\" â†’ \"Quote\"\n4. SPLIT PHRASES: HTML often splits a sentence across multiple elements. When consecutive items clearly form a single known phrase, translate each part so the whole reads naturally. Examples:\n   - [\"Preguntas\", \"frecuentes.\"] â†’ [\"Frequently Asked\", \"Questions.\"] (NOT [\"FAQ\", \"frequently.\"])\n   - [\"MÃ¡s de\", \"15 sistemas\"] â†’ [\"More than\", \"15 systems\"]\n5. Preserve all placeholders, variables, and formatting exactly (e.g., {name}, {{ variable }}, %s)\n6. Do NOT translate: brand names (Magoreal), technical terms (Django, Python, OpenAI, GPT, PostgreSQL, Redis, Docker, Nginx, Flutter, WhatsApp, FastAPI, Tailwind, Alpine.js, etc.)\n7. COUNT INTEGRITY: The HTML source uses inline <span> tags with color classes to highlight key terms. Each text fragment between tags counts as a separate item. You MUST preserve the EXACT same number of items so these color highlights align correctly. Never merge adjacent items even if they form a phrase.\n8. Short UI labels used as standalone headings or nav items MUST use their standard ${target} equivalent\n9. Q&A CONTEXT: Items starting with \"Â¿\" or ending with \"?\" are questions; the items that follow are their answers. When translating an answer, use the context of its preceding question so terminology and register are consistent between question and answer. Example: if the question asks about \"Â¿CuÃ¡nto tarda?\", the answer should use the same time-related vocabulary as the translated question.\n10. Output NOTHING else: no markdown, no explanation, no code fences, no extra text`;\n\n  output.push({\n    json: {\n      page_key: body.page_key,\n      lang: body.lang,\n      section_key: key,\n      expected_count: n,\n      total_sections: entries.length,\n      system,\n      user: JSON.stringify(texts),\n    }\n  });\n}\n\nreturn output;"
+            },
+            "id": "d5af1d97-9591-4d9a-97cb-beea5fac914a",
+            "name": "Build batches",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                16,
+                -320
+            ]
+        },
+        {
+            "parameters": {
+                "resource": "chat",
+                "chatModel": "gpt-4.1-mini",
+                "prompt": {
+                    "messages": [
+                        {
+                            "role": "system",
+                            "content": "={{ $json.system }}"
+                        },
+                        {
+                            "content": "={{ $json.user }}"
+                        }
+                    ]
+                },
+                "simplifyOutput": false,
+                "options": {
+                    "maxTokens": 16000,
+                    "temperature": 0.1
+                },
+                "requestOptions": {}
+            },
+            "id": "efd13739-6e9d-4dc4-9b79-a9021d2cf030",
+            "name": "OpenAI Translate",
+            "type": "n8n-nodes-base.openAi",
+            "typeVersion": 1.1,
+            "position": [
+                240,
+                -320
+            ],
+            "credentials": {
+                "openAiApi": {
+                    "id": "HffcRdOg5EoW5L3g",
+                    "name": "OpenAI account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "// Code node v2 corre runOnceForAllItems por defecto.\n// Usamos Ã­ndice para emparejar OpenAI responses con su contexto de Build batches.\nconst openaiItems = $input.all();\nconst buildItems = $('Build batches').all();\n\nif (openaiItems.length !== buildItems.length) {\n  throw new Error(`Mismatch de items: ${openaiItems.length} OpenAI vs ${buildItems.length} Build batches`);\n}\n\nconst output = [];\n\nfor (let i = 0; i < openaiItems.length; i++) {\n  const openaiResp = openaiItems[i].json;\n  const context = buildItems[i].json;\n\n  const raw = openaiResp.choices?.[0]?.message?.content ?? '';\n  if (!raw) {\n    throw new Error(`OpenAI no devolvio texto para ${context.section_key}. Respuesta: ` + JSON.stringify(openaiResp).substring(0, 200));\n  }\n\n  let cleaned = raw.trim();\n  if (cleaned.startsWith('```')) {\n    cleaned = cleaned.replace(/```(?:json)?\\n?/g, '').trim();\n    if (cleaned.endsWith('```')) {\n      cleaned = cleaned.slice(0, -3).trim();\n    }\n  }\n\n  let translated;\n  try {\n    translated = JSON.parse(cleaned);\n  } catch (e) {\n    throw new Error(`JSON invalido para ${context.section_key}. Raw: ` + cleaned.substring(0, 300));\n  }\n\n  if (!Array.isArray(translated)) {\n    throw new Error(`OpenAI no devolvio un array para ${context.section_key}. Tipo: ` + typeof translated);\n  }\n\n  const expected = context.expected_count;\n\n  // Si OpenAI devolvio mas items que la fuente, fusionar consecutivos hasta igualar el conteo\n  if (translated.length > expected) {\n    const excess = translated.length - expected;\n    for (let j = 0; j < excess; j++) {\n      // Encontrar el par consecutivo con menor longitud total (el mÃ¡s probable de ser un split)\n      let bestIdx = 0;\n      let bestLen = Infinity;\n      for (let k = 0; k < translated.length - 1; k++) {\n        const combined = translated[k].length + translated[k + 1].length;\n        if (combined < bestLen) { bestLen = combined; bestIdx = k; }\n      }\n      translated.splice(bestIdx, 2, (translated[bestIdx] + ' ' + translated[bestIdx + 1]).trim());\n    }\n  }\n\n  // Si OpenAI devolvio menos, repetir el ultimo texto hasta igualar el conteo\n  if (translated.length < expected) {\n    const last = translated.length > 0 ? translated[translated.length - 1] : '';\n    while (translated.length < expected) translated.push(last);\n  }\n\n  output.push({\n    json: {\n      page_key: context.page_key,\n      lang: context.lang,\n      section_key: context.section_key,\n      translated_texts: translated,\n    }\n  });\n}\n\nreturn output;"
+            },
+            "id": "9d7ce389-202d-4571-91c1-11e45d9cfc7f",
+            "name": "Parse batch",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                464,
+                -320
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "// Recibe arrays de textos traducidos (uno por seccion) y los fusiona.\nconst allItems = $input.all();\nif (!allItems.length) throw new Error('Aggregate: no hay secciones traducidas');\n\nconst first = allItems[0].json;\nconst content = {};\n\nfor (const item of allItems) {\n  content[item.json.section_key] = item.json.translated_texts;\n}\n\nreturn [{\n  json: {\n    page_key: first.page_key,\n    lang: first.lang,\n    content,\n    sections_count: Object.keys(content).length,\n  }\n}];"
+            },
+            "id": "b0073688-9950-4aa1-b432-aeffa765db31",
+            "name": "Aggregate sections",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                688,
+                -320
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "={{ $env.DJANGO_CALLBACK_URL }}",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "value": "=Bearer {{ $env.TRANSLATIONS_CALLBACK_TOKEN }}"
+                        },
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={{ JSON.stringify({ page_key: $json.page_key, lang: $json.lang, content: $json.content }) }}",
+                "options": {}
+            },
+            "id": "296c1884-de89-4228-b0a0-25d45e80eea6",
+            "name": "Django callback",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4,
+            "position": [
+                896,
+                -320
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook Traduccion": {
+            "main": [
+                [
+                    {
+                        "node": "202 Accepted",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Build batches",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Build batches": {
+            "main": [
+                [
+                    {
+                        "node": "OpenAI Translate",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "OpenAI Translate": {
+            "main": [
+                [
+                    {
+                        "node": "Parse batch",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Parse batch": {
+            "main": [
+                [
+                    {
+                        "node": "Aggregate sections",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Aggregate sections": {
+            "main": [
+                [
+                    {
+                        "node": "Django callback",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null
+}

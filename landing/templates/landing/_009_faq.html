@@ -1,0 +1,278 @@
+
+<section class="relative py-12 lg:py-20 border-t border-primary/10">
+  {% include "landing/_section_header.html" with num="009" label="Preguntas · lo que siempre consultan" %}
+  <div class="max-w-4xl mx-auto px-5 md:px-8">
+    <div class="mb-14 reveal">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-white leading-relaxed">
+        Preguntas frecuentes sobre <span class="text-automatizacion">automatización</span> e <span class="text-gradient-ia">inteligencia artificial</span>
+      </h2>
+    </div>
+
+    <div class="space-y-2 reveal">
+
+      {# ── Anti-objeción IA (agregadas en Sprint 8) ─────────────── #}
+      <details class="tron-accordion tron-accordion--accent tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q01</span>
+          <span class="tron-accordion__header-status">IA · Data Integrity</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿La IA inventa datos técnicos o cita fuentes?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Cada afirmación técnica queda linkeada al documento origen —
+          pliego anterior, norma, catálogo, informe. Nada inventado, todo
+          trazable. Es el modo <em class="text-ia not-italic font-semibold">grounded RAG</em>
+          con citación inline: si el modelo no tiene fuente para algo, lo
+          marca como punto a revisar en vez de improvisar.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-accordion--accent tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q02</span>
+          <span class="tron-accordion__header-status">Seguridad · Self-hosted</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Se queda con mis pliegos, normas o datos de clientes?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Todo corre en tu servidor (self-hosted). Los modelos
+          <em class="text-ia not-italic font-semibold">consultan pero no reentrenan</em>
+          con tu información. Si usás un modelo en cloud, se envía solo el
+          fragmento mínimo necesario y queda log auditado de cada request.
+          Cero cesión de datos a terceros, sin excepciones.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-accordion--accent tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q03</span>
+          <span class="tron-accordion__header-status">Legal · Aprobación</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Y si el pliego tiene cláusulas legales o condiciones sensibles?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          El output es siempre borrador. Tu equipo legal/técnico revisa y
+          firma. La IA acelera, no reemplaza el criterio humano. El workflow
+          exige <em class="text-ia not-italic font-semibold">aprobación explícita</em>
+          antes de exportar el PDF final — no hay forma de que algo se envíe
+          al comprador sin pasar por vos.
+        </div>
+      </details>
+
+      {# ── FAQs previas ─────────────────────────────────────────── #}
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q04</span>
+          <span class="tron-accordion__header-status">Tiempo · Alcance</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Cuánto tarda un proyecto como estos?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          <p>Depende del alcance. Como referencia:</p>
+          <ul class="mt-2 space-y-1">
+            <li><span aria-hidden="true">· </span><span class="text-white font-semibold">Solo sistemas en nube privada:</span> 3 a 6 días.</li>
+            <li><span aria-hidden="true">· </span><span class="text-white font-semibold">Aplicación a medida simple:</span> 2 a 4 semanas.</li>
+            <li><span aria-hidden="true">· </span><span class="text-white font-semibold">Plataforma completa:</span> 2 a 4 meses.</li>
+            <li><span aria-hidden="true">· </span><span class="text-white font-semibold">Chatbot con IA sobre tus documentos:</span> 3 a 6 semanas.</li>
+          </ul>
+          <p class="mt-3">Siempre entregamos algo funcional en la primera quincena, aunque sea chico.</p>
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q05</span>
+          <span class="tron-accordion__header-status">Demo · NDA</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Puedo ver un proyecto funcionando?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Sí. Mostramos en vivo los 2 proyectos que tienen autorización pública.
+          Los otros 13+ corren en clientes bajo acuerdo de confidencialidad —
+          en esos casos hacemos demo grabada o sesión en vivo bajo NDA firmado.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q06</span>
+          <span class="tron-accordion__header-status">Producción · NDA</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Cuántos proyectos tienen en producción?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Más de 15 sistemas andando con clientes reales. Los 7 que ves acá son los
+          más representativos por industria y tipo de solución. El resto está bajo
+          NDA — nombres y detalles solo bajo acuerdo de confidencialidad.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q07</span>
+          <span class="tron-accordion__header-status">Propiedad · Open Source</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Qué pasa si me migro a otro proveedor dentro de 2 años?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Vos seguís dueño del código, la base de datos y el VPS. Todo corre con herramientas open source. Te llevás todo con <code class="text-primary">git clone</code><span aria-hidden="true"> / </span><code class="text-primary">pg_dump</code>. Sin vendor lock-in.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q08</span>
+          <span class="tron-accordion__header-status">Soporte · Post-entrega</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Ofrecen soporte después de entregar?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Sí. Incluidos 30 días de soporte post-entrega en todo proyecto. Después tenés
+          opción de plan mensual (mantenimiento + updates + nuevos módulos a pedido) o
+          bolsas de horas sin vencimiento.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q09</span>
+          <span class="tron-accordion__header-status">Ubicación · Remoto</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Dónde trabajan? ¿Solo Latinoamérica?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Toda Latinoamérica, y también clientes en Estados Unidos y Europa.
+          Trabajamos 100% remoto. Facturación en USD, criptomonedas estables
+          o moneda local según el caso.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q10</span>
+          <span class="tron-accordion__header-status">Legal · Confidencialidad</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Firman NDA?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Siempre. Es estándar antes de empezar cualquier conversación con data sensible.
+          Si tenés una plantilla de NDA, la revisamos y firmamos.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q11</span>
+          <span class="tron-accordion__header-status">Infra · Hosting</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Incluye el hosting o lo tengo que contratar yo?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          El VPS lo contratás vos a tu nombre (Hetzner, DigitalOcean, Contabo, etc.) — así
+          siempre tenés control. Te recomendamos la opción más rentable según tu carga.
+          Setup, instalación, configuración y doc sí van de nuestro lado.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q12</span>
+          <span class="tron-accordion__header-status">Equipo · Capacitación</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Qué pasa si mi equipo no tiene gente técnica?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Lo manejamos igual. Incluye capacitación al equipo + runbook (backup, restore, upgrade)
+          + plan mensual opcional donde el soporte está incluido. No necesitás un SysAdmin
+          contratado.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q13</span>
+          <span class="tron-accordion__header-status">Mantenimiento · Auditoría</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Hacen mantenimiento de sistemas hechos por otros?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          Sí, si el stack es compatible (Django, Python, n8n, Docker). Primero auditoría para
+          ver en qué estado está. Después plan de estabilización y pasaje a nuestro stack
+          estándar si aplica.
+        </div>
+      </details>
+
+      <details class="tron-accordion tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+        <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+        <div class="tron-accordion__header">
+          <span class="tron-accordion__header-num">Q14</span>
+          <span class="tron-accordion__header-status">Pagos · Facturación</span>
+        </div>
+        <summary class="tron-accordion__toggle">¿Cómo se paga?</summary>
+        <div class="tron-accordion__sep"></div>
+        <div class="tron-accordion__content">
+          USD (factura internacional con impuestos), criptomonedas estables
+          (USDT / USDC) o moneda local cuando corresponde. 50% al arranque,
+          50% a la entrega para proyectos cerrados. Planes mensuales se
+          pagan al final de cada mes.
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>

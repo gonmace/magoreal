@@ -1,0 +1,16 @@
+<div class="max-w-7xl mx-auto px-5 md:px-8 mb-2 relative z-10">
+  <div class="section-header flex items-center gap-4 text-sm sm:text-base uppercase tracking-[0.2em] font-mono reveal"
+       data-num="{{ num }}">
+    <span class="h-px w-14 sm:w-20 bg-primary/30 shrink-0"></span>
+    <span class="text-accent flex items-center gap-0.5 whitespace-nowrap" aria-label="Sección {{ num }}">
+      <span aria-hidden="true">[&nbsp;</span>
+      <span class="digit-group inline-flex items-center" aria-hidden="true">
+        {% for d in num|make_list %}
+          <span class="digit-slot inline-block text-center" data-target="{{ d }}" data-pos="{{ forloop.counter0 }}" style="width: 0.65em;">{{ d }}</span>
+        {% endfor %}
+      </span>
+      <span aria-hidden="true">&nbsp;]</span>
+    </span>
+    <span class="text-primary/85">{{ label }}</span>
+  </div>
+</div>

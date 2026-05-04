@@ -1,0 +1,900 @@
+{# Hero con canvas network animado + terminal animada + line-rise en H1 #}
+<section class="hero-bg relative flex flex-col overflow-hidden pt-24 pb-12 bg-base-100 bg-grid-pattern">
+
+  {# ── Fondo: canvas network (nodos + conexiones + packets) ────────────── #}
+  <canvas id="hero-net" aria-hidden="true"></canvas>
+
+  {# ── Orb gradient secundario (profundidad) ───────────────────────────── #}
+  <div class="orb-primary" style="top: -120px; left: -140px;" aria-hidden="true"></div>
+  <div class="orb-secondary" style="bottom: -140px; right: -160px;" aria-hidden="true"></div>
+
+  {# ── Section header [ 000 ] al tope, sobre el fondo ──────────────── #}
+  <div class="relative z-10">
+    {% include "landing/_section_header.html" with num="000" label="WhatsApp AI · Logística · Documentos Técnicos con IA" %}
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8 grid md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] gap-6 md:gap-8 lg:gap-12 items-start w-full">
+
+    {# ── Columna izquierda ─────────────────────────────────────── #}
+    <div class="min-w-0">
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-base-content/70 mb-6 backdrop-blur-sm text-accent">
+        <span class="tron-status-dot"></span>
+        <span class="text-base-content/80">+10.000 mensajes/mes automatizados · respuesta &lt;30s</span>
+      </div>
+
+      {# ── Eyebrow: 3 pilares comerciales ───────────────────────── #}
+
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight text-white leading-snug">
+        {% for linea in siteconfig.hero_title.splitlines %}
+          <span class="hero-line {% if not forloop.last %}mb-2{% endif %}"><span class="inner">{{ linea }}</span></span>
+        {% endfor %}
+      </h1>
+
+      <div class="mt-6 max-w-2xl reveal">
+        {% for parrafo in siteconfig.hero_subtitle.splitlines %}
+          {% if parrafo.strip %}
+            <p class="text-lg sm:text-xl text-base-content leading-relaxed
+                      {% if not forloop.first %}mt-3{% endif %}">
+              {{ parrafo }}
+            </p>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-3 reveal">
+        {% if siteconfig.whatsapp_number %}
+          <a href="{{ siteconfig.whatsapp_link }}?text=Quiero%20ver%20la%20demo"
+             target="_blank" rel="noopener"
+             data-analytics="hero_cta_whatsapp_demo_click"
+             class="btn btn-whatsapp btn-lg font-semibold gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M20.52 3.48A11.94 11.94 0 0 0 12.01 0C5.4 0 .03 5.37.03 11.97c0 2.11.55 4.17 1.6 5.99L0 24l6.2-1.62a11.96 11.96 0 0 0 5.81 1.48h.01c6.6 0 11.97-5.37 11.97-11.97 0-3.2-1.24-6.2-3.47-8.41Zm-8.5 18.41h-.01a9.92 9.92 0 0 1-5.06-1.39l-.36-.22-3.68.97.98-3.58-.23-.37A9.94 9.94 0 1 1 21.96 11.97a9.93 9.93 0 0 1-9.94 9.92Zm5.44-7.43c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15s-.77.97-.94 1.17c-.17.2-.35.22-.65.07-.3-.15-1.26-.47-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.22 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.22 1.36.19 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
+            </svg>
+            Probá el bot en vivo →
+          </a>
+        {% endif %}
+        <a href="#proyectos"
+           data-analytics="hero_cta_proyectos_click"
+           class="btn btn-primary btn-lg font-semibold">
+          Ver proyectos en producción
+        </a>
+        {% if siteconfig.calendar_url %}
+          <a href="{{ siteconfig.calendar_url }}" target="_blank" rel="noopener"
+             data-analytics="hero_cta_agendar_click"
+             class="btn btn-ghost btn-lg font-semibold text-white hover:bg-white/10">
+            Agendar llamada →
+          </a>
+        {% else %}
+          <a href="#contacto"
+             data-analytics="hero_cta_agendar_click"
+             class="btn btn-ghost btn-lg font-semibold text-white hover:bg-white/10">
+            Hablemos →
+          </a>
+        {% endif %}
+      </div>
+
+    </div>
+
+    {# ── Columna derecha: stack rotativo de 4 demos ─────────────── #}
+    <div class="relative reveal hero-demos lg:pt-24 min-w-0" id="hero-demos" aria-roledescription="carousel">
+
+      {# ── Slide 0 · Chat WhatsApp (pilar principal) ─────────────── #}
+      <div class="hero-demo is-active" data-demo="chat" aria-hidden="false" aria-label="Demo: chatbot WhatsApp">
+        <div class="hero-demo-card hero-demo-card--wa tron-hud-frame-corners rounded-2xl ring-accent/10 shadow-2xl shadow-accent/10 overflow-hidden">
+          <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+          {# ── Header auténtico WhatsApp Business dark ────────── #}
+          <div class="wa-header flex items-center gap-2.5 px-3 py-2.5">
+            <svg class="w-5 h-5 text-white/60 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+            </svg>
+            <div class="w-9 h-9 rounded-full bg-whatsapp flex items-center justify-center text-[#1F2C33] font-bold text-sm flex-shrink-0">M</div>
+            <div class="leading-tight min-w-0 flex-1">
+              <div class="text-[13px] text-white font-semibold truncate">MG</div>
+              <div class="text-[11px] text-[#8696A0] flex items-center gap-1">
+                <span class="wa-dot"></span>en línea
+              </div>
+            </div>
+            <svg class="w-4 h-4 text-white/40 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="12" cy="5"  r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/>
+            </svg>
+          </div>
+          <div class="wa-chat relative">
+            <div id="chat-body" class="chat-body flex flex-col gap-1.5 px-3 py-3 h-[360px] overflow-hidden"></div>
+          </div>
+        </div>
+        <div class="hidden lg:flex tron-hud-badge tron-hud-badge--accent">
+          <span class="tron-status-dot"></span>respuesta 24/7
+        </div>
+      </div>
+
+      {# ── Slide 1 · Pliego generándose (DaisyUI mockup-window) ── #}
+      <div class="hero-demo" data-demo="pliego" role="img" aria-label="Demo: pliego con IA">
+        <div class="hero-demo-card mockup-window tron-hud-frame-corners bg-base-200/80 backdrop-blur-sm ring-1 ring-white/10 shadow-2xl shadow-primary/10">
+          <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+          <div class="px-4 text-[11px] text-base-content/40 font-mono select-none -mt-2 mb-1">~ pliego · compulsa-cable-2026.docx</div>
+          <div class="h-[360px] p-5 relative flex flex-col border-t border-white/5">
+            <div class="flex items-center justify-between text-xs font-mono mb-2">
+              <span class="text-white/60">Generando pliego...</span>
+              <span class="text-warning font-semibold" id="pliego-pct">0%</span>
+            </div>
+            <div class="h-1.5 w-full rounded-full bg-white/10 overflow-hidden mb-4">
+              <div id="pliego-bar" class="h-full bg-linear-to-r from-warning to-accent transition-[width] duration-500 ease-out" style="width:0%"></div>
+            </div>
+            <ul id="pliego-list" class="space-y-1.5 text-sm font-mono text-white/70 grow"></ul>
+            <div id="pliego-final" class="mt-3 rounded-xl border border-warning/30 bg-warning/5 p-3 opacity-0 transition-opacity duration-500">
+              <div class="flex items-center gap-2 text-[11px] text-warning font-semibold uppercase tracking-widest">
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                borrador listo
+              </div>
+              <div class="text-white/80 text-sm mt-1 leading-tight">Pliego de especificaciones — Servicio de mantenimiento preventivo</div>
+              <div class="text-[11px] text-white/40 font-mono mt-1">47 páginas · 6 min · 12 documentos fuente</div>
+            </div>
+          </div>
+        </div>
+        <div class="hidden lg:flex tron-hud-badge tron-hud-badge--warning">
+          <span class="tron-status-dot"></span>grounded RAG
+        </div>
+      </div>
+
+      {# ── Slide 2 · Terminal de deploy (DaisyUI mockup-window) ── #}
+      <div class="hero-demo" data-demo="terminal" role="img" aria-label="Demo: deploy en terminal">
+        <div class="hero-demo-card mockup-window tron-hud-frame-corners bg-base-200/80 backdrop-blur-sm ring-1 ring-white/10 shadow-2xl shadow-primary/10">
+          <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+          <div class="px-4 text-[11px] text-base-content/40 font-mono select-none -mt-2 mb-1">~ deploy · magoreal</div>
+          <div id="term-body" class="font-mono text-sm leading-relaxed p-5 h-[360px] overflow-hidden border-t border-white/5 text-base-content/80"></div>
+        </div>
+        <div class="hidden lg:flex tron-hud-badge">
+          <span class="tron-status-dot"></span>deploy real
+        </div>
+      </div>
+
+      {# ── Dots de navegación ──────────────────────────────────── #}
+      <div class="hero-demo-dots" role="tablist" aria-label="Navegación de demos">
+        <button type="button" role="tab" data-target="0" aria-selected="true"  aria-label="Demo 1: chatbot WhatsApp"><span></span></button>
+        <button type="button" role="tab" data-target="1" aria-selected="false" aria-label="Demo 2: pliego con IA"><span></span></button>
+        <button type="button" role="tab" data-target="2" aria-selected="false" aria-label="Demo 3: deploy en terminal"><span></span></button>
+      </div>
+    </div>
+
+  </div>
+
+
+</section>
+
+{# ── Estilos del stack de demos (reveal y canvas viven en styles.css) ─── #}
+<style>
+  /* Terminal cursor */
+  .term-cursor::after {
+    content: '▋';
+    color: var(--color-primary);
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+  }
+  @keyframes blink {
+    0%, 50%  { opacity: 1; }
+    51%, 100%{ opacity: 0; }
+  }
+
+  /* Stack de demos (4 slides apiladas en la misma celda de grid) */
+  .hero-demos {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding-bottom: 2.5rem; /* espacio para los dots */
+    min-width: 0;           /* permite que el grid comprima esta columna */
+  }
+  .hero-demo-card {
+    overflow: hidden;
+  }
+  .hero-demo {
+    grid-area: 1 / 1;
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 500ms ease;
+  }
+  .hero-demo.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  /* Badges flotantes por slide */
+  .hero-demo-badge {
+    position: absolute;
+    top: -0.75rem;
+    right: -0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+  }
+  .hero-demo-badge--accent    { color: var(--color-accent);    background: color-mix(in oklab, var(--color-accent) 12%, transparent); border: 1px solid color-mix(in oklab, var(--color-accent) 30%, transparent); }
+  .hero-demo-badge--primary   { color: var(--color-primary);   background: color-mix(in oklab, var(--color-primary) 12%, transparent); border: 1px solid color-mix(in oklab, var(--color-primary) 30%, transparent); }
+  .hero-demo-badge--secondary { color: var(--color-secondary); background: color-mix(in oklab, var(--color-secondary) 14%, transparent); border: 1px solid color-mix(in oklab, var(--color-secondary) 32%, transparent); }
+  .hero-demo-badge--warning   { color: var(--color-warning);   background: color-mix(in oklab, var(--color-warning) 14%, transparent); border: 1px solid color-mix(in oklab, var(--color-warning) 32%, transparent); }
+
+  /* Dots de navegación */
+  .hero-demo-dots {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.45rem;
+    z-index: 3;
+  }
+  .hero-demo-dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.18);
+    cursor: pointer;
+    transition: background 250ms ease, width 250ms ease;
+  }
+  .hero-demo-dots button[aria-selected="true"] {
+    background: var(--color-primary);
+    width: 24px;
+  }
+  .hero-demo-dots button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  /* ── DaisyUI mockup-window: colorear los 3 dots estilo macOS ────
+     Por default DaisyUI los pinta con currentColor + opacity:.3 y los
+     pega contra el borde izquierdo. Los pisamos solo en los cards del
+     hero para no afectar usos de mockup-window en otras secciones. */
+  .hero-demo-card.mockup-window::before {
+    background: #FF5F57;                        /* close (rojo) */
+    box-shadow:
+      1.4em 0 0 #FEBC2E,                        /* minimize (amarillo) */
+      2.8em 0 0 #28C840;                        /* maximize (verde) */
+    opacity: 1;
+    margin-left: 1rem;                          /* aire respecto al borde izq */
+  }
+
+  /* ── Slide WhatsApp: estilo auténtico dark mode ──────────── */
+  .hero-demo-card--wa {
+    background: #0B141A;           /* chat bg WhatsApp dark */
+  }
+  .wa-header {
+    background: #1F2C33;           /* header WhatsApp dark */
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+  }
+  .wa-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #25D366;
+    box-shadow: 0 0 0 2px rgba(37,211,102,0.25);
+    animation: wa-dot-pulse 2s ease-in-out infinite;
+  }
+  @keyframes wa-dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(37,211,102,0.25); }
+    50%      { box-shadow: 0 0 0 4px rgba(37,211,102,0.10); }
+  }
+  /* Chat bg: doodle pattern muy sutil — acentúa el aire WhatsApp */
+  .wa-chat {
+    background-color: #0B141A;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><g fill='none' stroke='%23182229' stroke-width='1' stroke-linecap='round'><circle cx='10' cy='10' r='3'/><path d='M30 20 l8 -4'/><path d='M44 42 q4 -6 8 0'/><circle cx='50' cy='12' r='2'/><path d='M12 42 l6 6'/></g></svg>");
+    background-size: 90px 90px;
+    background-repeat: repeat;
+    background-blend-mode: lighten;
+  }
+
+  /* Bubbles */
+  .chat-bubble {
+    max-width: 85%;
+    padding: 0.4rem 0.55rem 0.25rem 0.55rem;
+    border-radius: 8px;
+    font-size: 0.86rem;
+    line-height: 1.32;
+    position: relative;
+    animation: chat-in 260ms ease both;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    flex-shrink: 0;                /* no se deforma cuando el chat-body se llena */
+  }
+  @keyframes chat-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .chat-bubble--user {
+    background: #005C4B;
+    color: #E9EDEF;
+    margin-left: auto;
+    border-top-right-radius: 2px;
+  }
+  .chat-bubble--bot {
+    background: #202C33;
+    color: #E9EDEF;
+    margin-right: auto;
+    border-top-left-radius: 2px;
+  }
+  .chat-bubble p { margin: 0; }
+  .chat-bubble .chat-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+    margin-top: 2px;
+    font-size: 0.62rem;
+    color: rgba(233,237,239,0.55);
+    /* hereda font-family del hero (Inter) — antes forzaba ui-monospace */
+  }
+  .chat-bubble--user .chat-meta {
+    color: rgba(233,237,239,0.65);
+  }
+  .chat-check {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    color: #53BDEB;                /* azul WhatsApp de leído */
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .chat-cta {
+    display: inline-block;
+    margin-top: 0.35rem;
+    padding: 0.22rem 0.5rem;
+    border-radius: 6px;
+    background: rgba(83,189,235,0.12);
+    color: #53BDEB;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  /* Location thumbnail — estilo WhatsApp: solo la mini-mapa y el pin,
+     sin dirección escrita. Stack vertical: [forwarded] → [map] → [meta]. */
+  .chat-bubble--location {
+    padding: 4px;
+    max-width: 210px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;              /* asegura que el SVG no sangre hacia abajo */
+  }
+  .chat-bubble--location .chat-map {
+    display: block;
+    width: 100%;
+    height: 132px;                 /* fijo — el SVG (viewBox 160x110) se escala adentro */
+    min-height: 132px;
+    max-height: 132px;             /* no lo expanda nada */
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    flex: 0 0 132px;               /* flex-grow 0, flex-shrink 0, flex-basis 132px */
+    overflow: hidden;              /* clipea cualquier animación fuera del viewBox */
+  }
+  .chat-bubble--location .chat-meta {
+    padding: 4px 4px 2px 0;
+    margin-top: 4px;
+    width: 100%;   /* fuerza al meta a ocupar toda la línea debajo de la imagen */
+  }
+  /* Etiqueta "Reenviado muchas veces" (forwarded-many-times) */
+  .chat-forwarded {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px 4px 2px;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: rgba(233,237,239,0.55);
+    width: 100%;   /* ocupa toda la fila, por encima de la imagen */
+  }
+  .chat-forwarded svg {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+  }
+  @keyframes chat-pin-drop {
+    0%   { transform: translateY(-12px); opacity: 0; }
+    60%  { transform: translateY(2px);   opacity: 1; }
+    100% { transform: translateY(0);     opacity: 1; }
+  }
+  .chat-map__pin { animation: chat-pin-drop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: 50% 100%; }
+  .chat-map__pulse { transform-origin: 80px 55px; }
+  .chat-typing {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.55rem 0.75rem;
+    border-radius: 8px;
+    background: #202C33;
+    margin-right: auto;
+    animation: chat-in 180ms ease both;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    flex-shrink: 0;                /* no se aplasta cuando el chat se llena */
+  }
+  .chat-typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: rgba(233,237,239,0.55);
+    animation: chat-dot 1.1s infinite;
+  }
+  .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.30s; }
+  @keyframes chat-dot {
+    0%, 70%, 100% { opacity: 0.35; transform: translateY(0); }
+    35%           { opacity: 1;    transform: translateY(-3px); }
+  }
+
+  /* Pliego — secciones */
+  .pliego-item {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.85rem;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 250ms ease, transform 250ms ease;
+  }
+  .pliego-item.visible { opacity: 1; transform: translateY(0); }
+  .pliego-item .mark {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: transparent;
+  }
+  .pliego-item.working .mark {
+    border-color: var(--color-warning);
+    background: color-mix(in oklab, var(--color-warning) 20%, transparent);
+    animation: pliego-spin 1.2s linear infinite;
+  }
+  .pliego-item.done .mark {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-accent-content);
+  }
+  .pliego-item.working .text { color: var(--color-warning); }
+  .pliego-item.done    .text { color: rgba(255,255,255,0.85); }
+  @keyframes pliego-spin {
+    from { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-warning) 45%, transparent); }
+    to   { box-shadow: 0 0 0 6px transparent; }
+  }
+
+  /* Reduced motion: mostrar solo la primera demo, sin rotación */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-demo { transition: none; }
+    .hero-demo:not(.is-active) { display: none; }
+    .hero-demo-dots { display: none; }
+    .chat-bubble, .chat-typing, .pliego-item { animation: none !important; transition: none !important; }
+    .chat-typing span { animation: none !important; opacity: 0.7; }
+  }
+</style>
+
+{# ── Hero demos: rotación + animaciones por slide ────────────────── #}
+<script>
+  (function () {
+    const stack = document.getElementById('hero-demos');
+    if (!stack) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const slides  = Array.from(stack.querySelectorAll('.hero-demo'));
+    const dots    = Array.from(stack.querySelectorAll('.hero-demo-dots button'));
+    const wait    = (ms) => new Promise(r => setTimeout(r, ms));
+
+    // Tokens para cancelar animaciones en curso al cambiar de slide
+    const tokens = { terminal: 0, chat: 0, pliego: 0 };
+    const bump   = (k) => ++tokens[k];
+    const alive  = (k, t) => tokens[k] === t;
+
+    // ─── Slide: terminal (conserva el contenido original) ────────
+    const TERM_LINES = [
+      { t: '$ make setup',                                   k: 'cmd' },
+      { t: '> generating SECRET_KEY...          ✓',          k: 'out' },
+      { t: '> generating N8N_ENCRYPTION_KEY...  ✓',          k: 'out' },
+      { t: '> .env created                      ✓',          k: 'out' },
+      { t: '',                                               k: 'gap' },
+      { t: '$ make nginx',                                   k: 'cmd' },
+      { t: '> nginx config written              ✓',          k: 'out' },
+      { t: '> nginx reloaded                    ✓',          k: 'out' },
+      { t: '',                                               k: 'gap' },
+      { t: '$ certbot --nginx -d app.tuempresa.com',         k: 'cmd' },
+      { t: '> certificate issued by Let\u0027s Encrypt  ✓',  k: 'out' },
+      { t: '',                                               k: 'gap' },
+      { t: '$ make deploy',                                  k: 'cmd' },
+      { t: '> build complete · 3 workers up     ✓',          k: 'ok'  },
+      { t: '> https://app.tuempresa.com is live ✓',          k: 'ok'  },
+    ];
+    const TERM_COLORS = { cmd: 'text-primary', out: 'text-base-content/70', ok: 'text-accent', gap: '' };
+    const TERM_KEYWORDS = new Set(['make', 'certbot', 'deploy', 'setup', 'nginx']);
+
+    function termHighlight(text) {
+      const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return escaped.replace(/\b([A-Za-z][A-Za-z0-9-]*)\b/g, (_m, w) => {
+        return TERM_KEYWORDS.has(w.toLowerCase())
+          ? `<strong class="text-primary font-bold">${w}</strong>`
+          : w;
+      });
+    }
+
+    async function runTerminal(token) {
+      const body = document.getElementById('term-body');
+      if (!body) return;
+      const TYPE_MS = reduced ? 0 : 18;
+      const LINE_MS = reduced ? 0 : 220;
+      const LOOP_PAUSE = 4200;
+      while (alive('terminal', token)) {
+        body.innerHTML = '';
+        for (const line of TERM_LINES) {
+          if (!alive('terminal', token)) return;
+          const el = document.createElement('div');
+          el.className = (TERM_COLORS[line.k] || '') + ' term-line';
+          body.appendChild(el);
+          if (line.k === 'gap') { el.innerHTML = '&nbsp;'; continue; }
+          el.classList.add('term-cursor');
+          if (reduced) {
+            el.innerHTML = termHighlight(line.t);
+            el.classList.remove('term-cursor');
+          } else {
+            for (let i = 0; i < line.t.length; i++) {
+              if (!alive('terminal', token)) return;
+              el.innerHTML = termHighlight(line.t.slice(0, i + 1));
+              await wait(TYPE_MS);
+            }
+            el.classList.remove('term-cursor');
+          }
+          await wait(LINE_MS);
+        }
+        await wait(LOOP_PAUSE);
+      }
+    }
+
+    // ─── Slide: chat WhatsApp ────────────────────────────────────
+    // Conversación REAL de un cliente en Santa Cruz — copiada verbatim de
+    // la captura original. El contraste con el badge "respuesta <30s" del
+    // hero es el pitch: 45 minutos de idas y vueltas que un bot resuelve
+    // al instante parseando la dirección.
+    const CHAT_SCRIPT = [...document.querySelectorAll('#chat-hero-messages li')].map(el => {
+      const msg = { side: el.dataset.side, time: el.dataset.time };
+      const text = el.textContent.trim();
+      if (text) msg.text = text;
+      if (el.dataset.typing)    msg.typing    = +el.dataset.typing;
+      if (el.dataset.wait)      msg.wait      = +el.dataset.wait;
+      if (el.dataset.location)  msg.location  = true;
+      if (el.dataset.forwarded) msg.forwarded = true;
+      return msg;
+    });
+
+    const CHECK_SVG = '<svg class="chat-check" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.91 3.316 6.067 8.159 4.18 6.272l-.707.707 2.594 2.594 5.55-5.55-.707-.707zM15.09 3.316l-4.843 4.843-.94-.94-.707.707 1.647 1.647 5.55-5.55-.707-.707z" fill="currentColor"/></svg>';
+
+    // Thumbnail de mapa estilo WhatsApp: calles estilizadas + pin rojo animado,
+    // sin texto de dirección (solo la imagen, como el chat real).
+    const LOCATION_SVG =
+      '<svg class="chat-map" viewBox="0 0 160 110" width="160" height="110" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-label="Ubicación compartida">' +
+        '<defs>' +
+          '<linearGradient id="chatmap-bg" x1="0" y1="0" x2="1" y2="1">' +
+            '<stop offset="0%" stop-color="#263843"/>' +
+            '<stop offset="100%" stop-color="#1a2830"/>' +
+          '</linearGradient>' +
+        '</defs>' +
+        '<rect width="160" height="110" fill="url(#chatmap-bg)" rx="4"/>' +
+        // calles principales
+        '<path d="M 0 36 L 160 44" stroke="rgba(255,255,255,0.10)" stroke-width="7" stroke-linecap="round"/>' +
+        '<path d="M 0 78 L 160 68" stroke="rgba(255,255,255,0.07)" stroke-width="6" stroke-linecap="round"/>' +
+        '<path d="M 50 0 L 68 110" stroke="rgba(255,255,255,0.08)" stroke-width="5" stroke-linecap="round"/>' +
+        '<path d="M 112 0 L 102 110" stroke="rgba(255,255,255,0.06)" stroke-width="4" stroke-linecap="round"/>' +
+        // manzanas (rects sutiles)
+        '<rect x="8"  y="10" width="30" height="18" fill="rgba(255,255,255,0.04)" rx="1"/>' +
+        '<rect x="72" y="14" width="32" height="18" fill="rgba(255,255,255,0.04)" rx="1"/>' +
+        '<rect x="120" y="8"  width="32" height="22" fill="rgba(255,255,255,0.04)" rx="1"/>' +
+        '<rect x="10" y="52" width="32" height="18" fill="rgba(255,255,255,0.035)" rx="1"/>' +
+        '<rect x="76" y="54" width="24" height="14" fill="rgba(255,255,255,0.05)" rx="1"/>' +
+        '<rect x="118" y="50" width="34" height="16" fill="rgba(255,255,255,0.035)" rx="1"/>' +
+        '<rect x="10" y="86" width="40" height="16" fill="rgba(255,255,255,0.035)" rx="1"/>' +
+        '<rect x="112" y="84" width="38" height="18" fill="rgba(255,255,255,0.04)" rx="1"/>' +
+        // halo pulsante bajo el pin (centro exacto del mapa)
+        '<circle class="chat-map__pulse" cx="80" cy="55" r="9" fill="rgba(239,68,68,0.25)">' +
+          '<animate attributeName="r" values="9;18;9" dur="1.8s" repeatCount="indefinite"/>' +
+          '<animate attributeName="opacity" values="0.35;0;0.35" dur="1.8s" repeatCount="indefinite"/>' +
+        '</circle>' +
+        // Pin: <g> exterior para posicionar, <g> interior para animar.
+        // (CSS transform en el mismo elemento reemplaza el atributo
+        //  transform en Chromium — por eso separamos en dos capas.)
+        '<g transform="translate(80 55)">' +
+          '<g class="chat-map__pin">' +
+            '<path d="M 0 -11 C -8 -11 -8 -2 0 11 C 8 -2 8 -11 0 -11 Z" fill="#EF4444" stroke="#B91C1C" stroke-width="0.5"/>' +
+            '<circle cx="0" cy="-4" r="2.6" fill="#ffffff"/>' +
+          '</g>' +
+        '</g>' +
+      '</svg>';
+
+    function chatBubble(msg) {
+      const el = document.createElement('div');
+      el.className = 'chat-bubble chat-bubble--' + msg.side + (msg.location ? ' chat-bubble--location' : '');
+      if (msg.forwarded) {
+        const fwd = document.createElement('div');
+        fwd.className = 'chat-forwarded';
+        fwd.innerHTML =
+          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+            '<polyline points="8 2 14 7 8 12"/><path d="M14 7H5a3 3 0 0 0-3 3v3"/>' +
+          '</svg>' +
+          '<span>Reenviado muchas veces</span>';
+        el.appendChild(fwd);
+      }
+      if (msg.location) {
+        el.insertAdjacentHTML('beforeend', LOCATION_SVG);
+      }
+      if (msg.text) {
+        const p = document.createElement('p');
+        p.textContent = msg.text;
+        el.appendChild(p);
+      }
+      if (msg.cta) {
+        const c = document.createElement('span');
+        c.className = 'chat-cta';
+        c.textContent = msg.cta;
+        el.appendChild(c);
+      }
+      if (msg.time || msg.side === 'user') {
+        const meta = document.createElement('span');
+        meta.className = 'chat-meta';
+        if (msg.time) {
+          const t = document.createElement('time');
+          t.textContent = msg.time;
+          meta.appendChild(t);
+        }
+        if (msg.side === 'user' && msg.read !== false) {
+          const wrap = document.createElement('span');
+          wrap.innerHTML = CHECK_SVG;
+          meta.appendChild(wrap.firstChild);
+        }
+        el.appendChild(meta);
+      }
+      return el;
+    }
+
+    function chatTyping() {
+      const el = document.createElement('div');
+      el.className = 'chat-typing';
+      el.innerHTML = '<span></span><span></span><span></span>';
+      return el;
+    }
+
+    function chatScroll(body) {
+      // overflow:hidden permite scroll programático sin mostrar scrollbar.
+      body.scrollTop = body.scrollHeight;
+    }
+
+    async function runChat(token) {
+      const body = document.getElementById('chat-body');
+      if (!body) return;
+      while (alive('chat', token)) {
+        body.innerHTML = '';
+        body.scrollTop = 0;
+        for (const msg of CHAT_SCRIPT) {
+          if (!alive('chat', token)) return;
+          if (msg.wait && !reduced) await wait(msg.wait);
+          if (!alive('chat', token)) return;
+          if (msg.typing && !reduced) {
+            const typ = chatTyping();
+            body.appendChild(typ);
+            chatScroll(body);
+            await wait(msg.typing);
+            if (!alive('chat', token)) { typ.remove(); return; }
+            typ.remove();
+          }
+          body.appendChild(chatBubble(msg));
+          chatScroll(body);
+          await wait(reduced ? 0 : 280);
+        }
+        if (reduced) return;
+        // Hold grande: queremos que la rotación del slide (12.5s) ocurra
+        // ANTES de que el while reinicie. Así el usuario nunca ve el
+        // "body cleared" mid-slide — ve el cierre de la conversación
+        // hasta que rota, y la próxima vez que vuelve arranca desde cero.
+        await wait(15000);
+      }
+    }
+
+    // ─── Slide: pliego generándose ───────────────────────────────
+    const PLIEGO_SECTIONS = [...document.querySelectorAll('#pliego-sections-data li')].map(el => el.textContent.trim());
+
+    async function runPliego(token) {
+      const list = document.getElementById('pliego-list');
+      const bar  = document.getElementById('pliego-bar');
+      const pct  = document.getElementById('pliego-pct');
+      const fin  = document.getElementById('pliego-final');
+      if (!list || !bar || !pct || !fin) return;
+
+      while (alive('pliego', token)) {
+        list.innerHTML = '';
+        bar.style.width = '0%';
+        pct.textContent = '0%';
+        fin.style.opacity = '0';
+
+        // pre-render con los ítems pendientes
+        const items = PLIEGO_SECTIONS.map((label) => {
+          const li = document.createElement('li');
+          li.className = 'pliego-item';
+          li.innerHTML = '<span class="mark"></span><span class="text">' + label + '</span>';
+          list.appendChild(li);
+          return li;
+        });
+        // hacerlos visibles (fade-in)
+        await wait(50);
+        items.forEach(li => li.classList.add('visible'));
+
+        for (let i = 0; i < items.length; i++) {
+          if (!alive('pliego', token)) return;
+          const li = items[i];
+          li.classList.add('working');
+          await wait(reduced ? 0 : 550);
+          if (!alive('pliego', token)) return;
+          li.classList.remove('working');
+          li.classList.add('done');
+          li.querySelector('.mark').textContent = '✓';
+          const p = Math.round(((i + 1) / items.length) * 100);
+          bar.style.width = p + '%';
+          pct.textContent = p + '%';
+          await wait(reduced ? 0 : 250);
+        }
+        fin.style.opacity = '1';
+        if (reduced) return;
+        await wait(4200);
+      }
+    }
+
+    // ─── Activación / desactivación de slides ────────────────────
+    // La terminal corre continua en background (secuencia larga ~10s);
+    // chat y pliego se reinician en cada activación (narrativa corta).
+    // Chat y pliego se reinician desde cero en cada activación (narrativas cortas).
+    const started = { terminal: false };
+    function activate(name) {
+      if (name === 'terminal') {
+        if (!started.terminal) { started.terminal = true; runTerminal(bump('terminal')); }
+      } else if (name === 'chat') {
+        runChat(bump('chat'));
+      } else if (name === 'pliego') {
+        runPliego(bump('pliego'));
+      }
+    }
+    function deactivateAll(except) {
+      if (except !== 'chat')   bump('chat');
+      if (except !== 'pliego') bump('pliego');
+      // terminal intencionalmente no se cancela: corre continuo
+    }
+
+    // ─── Rotación ────────────────────────────────────────────────
+    // Per-slide timing: el chat tiene más peso (leer la conversación
+    // completa toma más) y la terminal es ambient (ciclo corto basta).
+    const SLIDE_MS = {
+      chat:     15000,  // 11 msgs reales + hold largo para leer el cierre (USD.53)
+      pliego:   6800,
+      terminal: 5200,
+    };
+    let current = 0;
+    let timer = null;
+
+    function setActive(idx) {
+      current = (idx + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        const on = i === current;
+        s.classList.toggle('is-active', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+      dots.forEach((d, i) => d.setAttribute('aria-selected', i === current ? 'true' : 'false'));
+      const name = slides[current].dataset.demo;
+      deactivateAll(name);
+      activate(name);
+      if (window.magAnalytics && window.magAnalytics.trackOnce) {
+        window.magAnalytics.trackOnce('slide_' + name, 'hero_demo_slide_viewed', { slide: name });
+      }
+    }
+
+    function startTimer() {
+      if (reduced) return;
+      stopTimer();
+      const name = slides[current].dataset.demo;
+      const ms = SLIDE_MS[name] || 6500;
+      timer = setTimeout(() => { setActive(current + 1); startTimer(); }, ms);
+    }
+    function stopTimer() {
+      if (timer) { clearTimeout(timer); timer = null; }
+    }
+
+    // Hover: pausa (solo desktop con puntero fino)
+    if (window.matchMedia('(hover: hover)').matches) {
+      stack.addEventListener('mouseenter', stopTimer);
+      stack.addEventListener('mouseleave', startTimer);
+    }
+
+    // Dots: clic para navegar + reset del timer
+    dots.forEach((b, i) => {
+      b.addEventListener('click', () => { setActive(i); startTimer(); });
+    });
+
+    // Swipe horizontal (mobile / touch)
+    let touchX = null;
+    stack.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+    stack.addEventListener('touchend', (e) => {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) {
+        setActive(current + (dx < 0 ? 1 : -1));
+        startTimer();
+      }
+      touchX = null;
+    }, { passive: true });
+
+    // Pausa cuando la pestaña queda oculta
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopTimer(); else startTimer();
+    });
+
+    // Init
+    setActive(0);
+    if (!reduced) startTimer();
+  })();
+
+  // Colorear palabras-clave del H1 — regexes cubren todos los idiomas traducidos.
+  // - "WhatsApp"  → .text-whatsapp (verde oficial, no cambia entre idiomas)
+  // - "automat*"  → .text-automatizacion (cubre automatizá/r, automate, automatiser, automatisieren…)
+  // - IA/AI/KI    → .text-gradient-ia (IA en es/fr/it/pt, AI en en, KI en de/nl)
+  // - "Inteligencia Artificial" y equivalentes → .text-gradient-ia
+  (function colorHeroHeadline() {
+    const HIGHLIGHTS = [
+      { re: /WhatsApp/g,                    wrap: '<span class="text-whatsapp">$&</span>' },
+      { re: /\b(automat[\p{L}\p{N}]*)/giu,  wrap: '<span class="text-automatizacion">$&</span>' },
+      { re: /\b(IA|AI|KI)\b/gi,             wrap: '<span class="text-gradient-ia font-black">$&</span>' },
+      { re: /(Inteligencia Artificial|Inteligência Artificial|Artificial Intelligence|Intelligence Artificielle|Künstliche Intelligenz|Intelligenza Artificiale|Kunstmatige Intelligentie|Sztuczna Inteligencja|Yapay Zeka|Artificiell Intelligens|Umělá Inteligence|Inteligență Artificială|Kecerdasan Buatan|Mesterséges Intelligens|Kunstig Intelligens|Tekoäly|Intel·ligència Artificial|Umjetna Inteligencija|Trí Tuệ Nhân Tạo|Kunstmatige Intelligensie|Adimen Artifiziala|Intelixencia Artificial|Akili Bandia)/gi,    wrap: '<span class="text-gradient-ia font-black">$&</span>' },
+    ];
+    function esc(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    document.querySelectorAll('h1 .inner').forEach(function (el) {
+      let html = esc(el.textContent);
+      HIGHLIGHTS.forEach(function (h) {
+        html = html.replace(h.re, function (m) {
+          return h.wrap.replace('$&', m);
+        });
+      });
+      el.innerHTML = html;
+    });
+  })();
+
+  // Colorear palabras-clave en párrafos del hero
+  (function colorHeroParagraphs() {
+    const HIGHLIGHTS = [
+      { re: /WhatsApp/g,                    wrap: '<span class="text-whatsapp">$&</span>' },
+      { re: /\b(automat[\p{L}\p{N}]*)/giu,  wrap: '<span class="text-automatizacion">$&</span>' },
+      { re: /\b(IA|AI|KI)\b/gi,             wrap: '<span class="text-gradient-ia">$&</span>' },
+      { re: /(Inteligencia Artificial|Inteligência Artificial|Artificial Intelligence|Intelligence Artificielle|Künstliche Intelligenz|Intelligenza Artificiale|Kunstmatige Intelligentie|Sztuczna Inteligencja|Yapay Zeka|Artificiell Intelligens|Umělá Inteligence|Inteligență Artificială|Kecerdasan Buatan|Mesterséges Intelligens|Kunstig Intelligens|Tekoäly|Intel·ligència Artificial|Umjetna Inteligencija|Trí Tuệ Nhân Tạo|Kunstmatige Intelligensie|Adimen Artifiziala|Intelixencia Artificial|Akili Bandia)/gi,    wrap: '<span class="text-gradient-ia">$&</span>' },
+    ];
+    function esc(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    document.querySelectorAll('#main-content p').forEach(function (el) {
+      let html = esc(el.textContent);
+      HIGHLIGHTS.forEach(function (h) {
+        html = html.replace(h.re, function (m) {
+          return h.wrap.replace('$&', m);
+        });
+      });
+      el.innerHTML = html;
+    });
+  })();
+</script>

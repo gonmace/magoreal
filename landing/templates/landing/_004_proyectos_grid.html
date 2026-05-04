@@ -1,0 +1,203 @@
+{% load static portfolio_tags %}
+
+<section id="proyectos-grid" class="relative py-12 lg:py-20">
+  {% include "landing/_section_header.html" with num="004" label="Portfolio · casos referenciales" %}
+  <div class="max-w-7xl mx-auto px-5 md:px-8"
+       x-data="{ filtro: 'Todos' }">
+
+    <div class="max-w-3xl reveal">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-white leading-relaxed">
+        Casos reales de <span class="text-automatizacion">automatización</span> e <span class="text-gradient-ia">inteligencia artificial</span> en distintas industrias
+      </h2>
+      <p class="mt-4 text-lg text-base-content leading-relaxed">
+        Cada uno con su historia, su tecnología y sus números. El resto corre bajo
+        acuerdo de confidencialidad — mostramos demos en vivo bajo NDA firmado.
+      </p>
+    </div>
+
+    {# ── Filtros pill ────────────────────────────────────────────── #}
+    <div class="mt-10 flex flex-wrap gap-2 text-sm reveal">
+      <button type="button"
+              x-on:click="filtro = 'Todos'"
+              x-bind:class="filtro === 'Todos' ? 'bg-primary text-primary-content border-primary' : 'bg-white/5 text-base-content/70 border-white/10 hover:border-white/20 hover:text-white'"
+              class="pill-click h-11 px-5 rounded-full border transition-colors font-medium">Todos</button>
+      <button type="button"
+              x-on:click="filtro = 'Con IA'"
+              x-bind:class="filtro === 'Con IA' ? 'bg-primary text-primary-content border-primary' : 'bg-white/5 text-base-content/70 border-white/10 hover:border-white/20 hover:text-white'"
+              class="pill-click h-11 px-5 rounded-full border transition-colors font-medium">Con IA</button>
+      <button type="button"
+              x-on:click="filtro = 'A medida'"
+              x-bind:class="filtro === 'A medida' ? 'bg-primary text-primary-content border-primary' : 'bg-white/5 text-base-content/70 border-white/10 hover:border-white/20 hover:text-white'"
+              class="pill-click h-11 px-5 rounded-full border transition-colors font-medium">A medida</button>
+      <button type="button"
+              x-on:click="filtro = 'Infraestructura'"
+              x-bind:class="filtro === 'Infraestructura' ? 'bg-primary text-primary-content border-primary' : 'bg-white/5 text-base-content/70 border-white/10 hover:border-white/20 hover:text-white'"
+              class="pill-click h-11 px-5 rounded-full border transition-colors font-medium">Infraestructura</button>
+      <button type="button"
+              x-on:click="filtro = 'Servicio'"
+              x-bind:class="filtro === 'Servicio' ? 'bg-primary text-primary-content border-primary' : 'bg-white/5 text-base-content/70 border-white/10 hover:border-white/20 hover:text-white'"
+              class="pill-click h-11 px-5 rounded-full border transition-colors font-medium">Servicio</button>
+    </div>
+
+    {# ── Grid de cards ───────────────────────────────────────────── #}
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {% for p in proyectos %}
+        <article x-show="filtro === 'Todos' || filtro === '{{ p.categoria_principal }}'"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                   class="group tron-card tron-hud-frame-corners flex flex-col">
+          <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+          <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+
+          {# ── Tron Card Header ───────────────────────────────────── #}
+          <div class="tron-card__header">
+            <span class="tron-meta"><strong>ID:</strong> {{ p.num|stringformat:"02d" }}</span>
+            <span class="tron-status-bar">
+              <span class="tron-status-bar__label">Status</span>
+              <span class="tron-status-bar__sep">·</span>
+              <span class="tron-status-bar__value">{{ p.estado|default:"Active" }}</span>
+              <span class="tron-status-dot"></span>
+            </span>
+          </div>
+
+          {# ── Screenshot / mockup window ─────────────────────────── #}
+          <a href="{{ lang_prefix }}proyectos/{{ p.slug }}/"
+             aria-label="Ver detalle: {{ p.titulo_card|default:p.titulo|truncatechars:80 }}"
+             class="block relative overflow-hidden bg-base-300/60 aspect-[16/10]">
+            <div class="absolute top-0 inset-x-0 h-7 bg-base-300/80 backdrop-blur-sm z-10
+                        flex items-center gap-1.5 px-3 border-b border-white/5">
+              <span class="w-2 h-2 rounded-full bg-red-500/70"></span>
+              <span class="w-2 h-2 rounded-full bg-yellow-500/70"></span>
+              <span class="w-2 h-2 rounded-full bg-green-500/70"></span>
+            </div>
+
+            {% if p.screenshot_main %}
+              {% picture p.screenshot_main alt=p.titulo|truncatechars:80 css_class="absolute inset-0 w-full h-full object-cover object-top pt-7 transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 100vw, 33vw" %}
+            {% else %}
+              <div class="absolute inset-0 flex items-center justify-center text-base-content/40 font-mono text-sm">
+                [{{ p.slug }}]
+              </div>
+            {% endif %}
+
+            <div class="absolute inset-0 bg-gradient-to-t from-base-100/80 via-transparent
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </a>
+
+          {# ── Contenido del card ─────────────────────────────────── #}
+          <div class="tron-card__body flex-1 flex flex-col">
+            <div class="flex items-center gap-2 text-xs mb-3">
+              <span class="tron-status-bar">
+                <span class="tron-status-bar__label">{{ p.categoria_principal }}</span>
+              </span>
+              {% if p.has_workflows %}
+                <span class="tron-status-bar" style="border-color: color-mix(in srgb, var(--color-secondary) 18%, transparent);">
+                  <span class="tron-status-bar__label" style="color: var(--color-secondary);">n8n</span>
+                </span>
+              {% endif %}
+            </div>
+
+            <h3 class="text-base sm:text-lg font-bold text-white leading-snug mb-2">
+              <a href="{{ lang_prefix }}proyectos/{{ p.slug }}/"
+                 class="hover:text-primary transition-colors">
+                {{ p.titulo_card|default:p.titulo }}
+              </a>
+            </h3>
+
+            <div class="mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-sm">
+              <span class="tron-meta">
+                <strong>Deploy:</strong> Production
+              </span>
+              <a href="{{ lang_prefix }}proyectos/{{ p.slug }}/"
+                 class="tron-btn text-xs">
+                Ver caso
+                <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5"
+                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  // §9 hover tilt 3D — solo para .tilt-card-soft (servicios)
+  (function () {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    document.querySelectorAll('.tilt-card-soft').forEach(card => {
+      card.addEventListener('mousemove', (ev) => {
+        const rect = card.getBoundingClientRect();
+        const x = (ev.clientX - rect.left) / rect.width;
+        const y = (ev.clientY - rect.top) / rect.height;
+        card.style.setProperty('--tilt-x', ((0.5 - y) * 4 * 2).toFixed(2) + 'deg');
+        card.style.setProperty('--tilt-y', ((x - 0.5) * 4 * 2).toFixed(2) + 'deg');
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--tilt-x', '0deg');
+        card.style.setProperty('--tilt-y', '0deg');
+      });
+    });
+  })();
+
+  // Colorea palabras clave en los títulos de las cards de proyectos
+  (function colorProjectTitles() {
+    const HIGHLIGHTS = [
+      // AI/ML — IA (es/fr/it/pt), AI (en), KI (de/nl) + tech terms que no cambian
+      { re: /\b(IA|AI|KI|GPT|Claude|Chatbot|RAG)\b/gi,       wrap: '<span class="text-ia">$&</span>' },
+      { re: /(Inteligencia Artificial|Inteligência Artificial|Artificial Intelligence|Intelligence Artificielle|Künstliche Intelligenz|Intelligenza Artificiale|Kunstmatige Intelligentie|Sztuczna Inteligencja|Yapay Zeka|Artificiell Intelligens|Umělá Inteligence|Inteligență Artificială|Kecerdasan Buatan|Mesterséges Intelligens|Kunstig Intelligens|Tekoäly|Intel·ligència Artificial|Umjetna Inteligencija|Trí Tuệ Nhân Tạo|Kunstmatige Intelligensie|Adimen Artifiziala|Intelixencia Artificial|Akili Bandia)/gi,                      wrap: '<span class="text-ia">$&</span>' },
+      // Marcas que no se traducen (Rule 6 del prompt n8n)
+      { re: /\b(WhatsApp|WhatsApp\sBusiness|n8n)\b/gi,        wrap: '<span class="text-whatsapp">$&</span>' },
+      // Infraestructura (es) / Infrastructure (en/fr) / Infrastruktur (de)
+      { re: /\b(Self-hosted|Infraestructura|Infrastructure|Infrastruktur|VPS|Cloud)\b/gi, wrap: '<span class="text-accent">$&</span>' },
+      // Licitaciones/documentos + equivalentes en otros idiomas
+      { re: /\b(Pliego|Pliegos|Licitaci[oó]n|Licitaciones|Documento|Documentos|Especificaci[oó]n|Tender|Tenders|Bid|Bids|Procurement|Document|Documents|Specification|Specifications|RFP|Appel|Ausschreibung)\b/gi, wrap: '<span class="text-primary">$&</span>' },
+      // Geo/mapas (es) + equivalentes
+      { re: /\b(Geo|GIS|Mapa|Maps?|Rastreo|Tracking|GPS)\b/gi, wrap: '<span class="text-primary">$&</span>' },
+    ];
+    function esc(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    document.querySelectorAll('#proyectos-grid h3 a').forEach(function (el) {
+      let html = esc(el.textContent);
+      HIGHLIGHTS.forEach(function (h) {
+        html = html.replace(h.re, function (m) {
+          return h.wrap.replace('$&', m);
+        });
+      });
+      el.innerHTML = html;
+    });
+  })();
+
+  // Colorear palabras-clave en párrafos de proyectos
+  (function colorProjectParagraphs() {
+    const HIGHLIGHTS = [
+      { re: /\b(IA|AI|KI|GPT|Claude|Chatbot|RAG)\b/gi,       wrap: '<span class="text-ia">$&</span>' },
+      { re: /(Inteligencia Artificial|Inteligência Artificial|Artificial Intelligence|Intelligence Artificielle|Künstliche Intelligenz|Intelligenza Artificiale|Kunstmatige Intelligentie|Sztuczna Inteligencja|Yapay Zeka|Artificiell Intelligens|Umělá Inteligence|Inteligență Artificială|Kecerdasan Buatan|Mesterséges Intelligens|Kunstig Intelligens|Tekoäly|Intel·ligència Artificial|Umjetna Inteligencija|Trí Tuệ Nhân Tạo|Kunstmatige Intelligensie|Adimen Artifiziala|Intelixencia Artificial|Akili Bandia)/gi,                      wrap: '<span class="text-ia">$&</span>' },
+      { re: /\b(WhatsApp|WhatsApp\sBusiness|n8n)\b/gi,        wrap: '<span class="text-whatsapp">$&</span>' },
+    ];
+    function esc(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    document.querySelectorAll('#proyectos-grid p').forEach(function (el) {
+      let html = esc(el.textContent);
+      HIGHLIGHTS.forEach(function (h) {
+        html = html.replace(h.re, function (m) {
+          return h.wrap.replace('$&', m);
+        });
+      });
+      el.innerHTML = html;
+    });
+  })();
+</script>

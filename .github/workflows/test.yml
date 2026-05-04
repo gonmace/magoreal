@@ -1,0 +1,80 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          pip install pytest-django pytest-cov
+
+      - name: Django system check
+        env:
+          DEBUG: 'True'
+          SECRET_KEY: 'ci-test-key-do-not-use-in-prod'
+          ALLOWED_HOSTS: 'testserver,localhost,127.0.0.1'
+          DJANGO_SETTINGS_MODULE: core.test_settings
+        run: python manage.py check
+
+      - name: Check for missing migrations
+        env:
+          DEBUG: 'True'
+          SECRET_KEY: 'ci-test-key-do-not-use-in-prod'
+          DJANGO_SETTINGS_MODULE: core.test_settings
+        run: python manage.py makemigrations --check --dry-run
+
+      - name: Run tests with coverage
+        env:
+          DEBUG: 'True'
+          SECRET_KEY: 'ci-test-key-do-not-use-in-prod'
+          ALLOWED_HOSTS: 'testserver,localhost,127.0.0.1'
+          DJANGO_SETTINGS_MODULE: core.test_settings
+        run: |
+          pytest --cov=landing --cov=portfolio --cov=site_config --cov=translations \
+                 --cov-report=term-missing --cov-report=xml
+
+      - name: Upload coverage to artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 7
+
+  css-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: theme/static_src/package-lock.json
+
+      - name: Install + build Tailwind
+        run: |
+          cd theme/static_src
+          npm ci
+          npm run build
+
+      - name: Verify CSS output exists
+        run: test -s static/css/dist/styles.css

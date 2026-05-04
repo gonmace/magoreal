@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /{{ ADMIN_URL }}
+Disallow: /health/
+Disallow: /translations/
+
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap.xml

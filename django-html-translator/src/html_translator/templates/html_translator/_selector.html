@@ -1,0 +1,84 @@
+{% if variant == 'desktop' %}
+<div x-data="langSelector({pageKey: '{{ page_key }}'})">
+  <div class="relative" x-data="{ open: false, showMore: false }" x-on:click.outside="open = false; showMore = false">
+    <button type="button" x-on:click="open = !open"
+            class="inline-flex items-center gap-1 h-11 px-3 rounded-lg text-sm text-base-content/70
+                   hover:text-white hover:bg-white/5 transition-colors font-mono uppercase">
+      <span x-text="langLabel(currentLang)"></span>
+      <svg class="w-3 h-3 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+    <div x-show="open" x-cloak x-transition.duration.150ms
+         class="absolute top-full right-0 mt-2 min-w-[150px] rounded-lg border border-white/10 bg-base-200 shadow-xl overflow-hidden">
+      {% for lang_code, lang_label in all_available_langs_labeled %}
+      <button type="button" x-on:click="choose('{{ lang_code }}'); open = false"
+              x-bind:class="currentLang === '{{ lang_code }}' ? 'bg-primary/10 text-primary' : 'text-base-content/70 hover:bg-white/5'"
+              class="block w-full text-left px-4 py-2.5 text-sm font-mono transition-colors">
+        <span translate="no">{{ lang_label }}</span>
+        <span x-show="loading && targetLang === '{{ lang_code }}'" x-cloak class="ml-2 inline-block">
+          <span class="loading loading-spinner loading-xs align-middle"></span>
+        </span>
+      </button>
+      {% endfor %}
+      {% if additional_latin_langs %}
+      <div class="border-t border-white/5">
+        <button type="button" x-on:click="showMore = !showMore"
+                class="flex w-full items-center justify-between px-4 py-2 text-xs text-base-content/40 hover:text-base-content/60 transition-colors font-mono tracking-wide">
+          <span>{{ ui_labels.otro_idioma|default:"+ otro idioma" }}</span>
+          <svg class="w-3 h-3 transition-transform duration-150" :class="showMore ? 'rotate-180' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div x-show="showMore" x-cloak class="px-2 pb-2">
+          <select x-on:change="if($event.target.value){choose($event.target.value);open=false;showMore=false;$event.target.value=''}"
+                  class="select select-xs w-full bg-base-300 border-white/10 text-xs font-mono text-base-content/70">
+            <option value="">{{ ui_labels.seleccionar|default:"— seleccionar —" }}</option>
+            {% for code, name in additional_latin_langs %}
+            <option value="{{ code }}" translate="no">{{ name }} · {{ code|upper }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div x-show="loading" x-cloak x-transition
+         class="fixed top-20 right-5 z-[60] bg-base-200 border border-primary/30 text-base-content
+                rounded-lg shadow-2xl px-4 py-3 flex items-center gap-3 text-sm max-w-xs">
+      <span class="loading loading-spinner loading-sm text-primary"></span>
+      <span>{{ ui_labels.traduciendo|default:"Traduciendo…" }} <span class="text-base-content/50">{{ ui_labels.primer_vez|default:"~60-90s primera vez" }}</span></span>
+    </div>
+    <div x-show="error" x-cloak x-transition
+         class="fixed top-20 right-5 z-[60] bg-base-200 border border-error/40 text-error
+                rounded-lg shadow-2xl px-4 py-3 flex items-center gap-3 text-sm max-w-xs">
+      <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+      </svg>
+      <div class="flex-1">
+        <div>{{ ui_labels.fallo|default:"Falló la traducción." }}</div>
+        <button x-on:click="retry()" class="text-primary underline text-xs mt-1">{{ ui_labels.reintentar|default:"Reintentar" }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% elif variant == 'mobile' %}
+<div x-data="langSelector({pageKey: '{{ page_key }}'})" class="flex flex-wrap items-center gap-2">
+  <span class="text-xs text-base-content/40 uppercase tracking-wider w-full">{{ ui_labels.idioma|default:"Idioma" }}</span>
+  {% for lang_code, lang_label in all_available_langs_labeled %}
+  <button type="button" x-on:click="choose('{{ lang_code }}')"
+          x-bind:class="currentLang === '{{ lang_code }}' ? 'btn-primary' : 'btn-ghost'"
+          class="btn btn-xs font-mono" translate="no">
+    {{ lang_label }}
+  </button>
+  {% endfor %}
+  {% if additional_latin_langs %}
+  <select x-on:change="if($event.target.value){choose($event.target.value);$event.target.value=''}"
+          class="select select-xs bg-base-300 border-white/10 text-xs font-mono text-base-content/70">
+    <option value="">{{ ui_labels.otro|default:"+ otro" }}</option>
+    {% for code, name in additional_latin_langs %}
+    <option value="{{ code }}" translate="no">{{ name }}</option>
+    {% endfor %}
+  </select>
+  {% endif %}
+</div>
+{% endif %}

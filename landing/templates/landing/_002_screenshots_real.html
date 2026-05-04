@@ -1,0 +1,230 @@
+{% load static %}
+
+<section class="relative py-12 lg:py-20 border-t border-primary/10 overflow-hidden">
+
+  <div class="absolute inset-0 pointer-events-none opacity-30 bg-orb-theme-soft"></div>
+
+  {% include "landing/_section_header.html" with num="002" label="Producto real · capturas en vivo" %}
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8">
+
+    <div class="max-w-3xl reveal">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-white leading-relaxed">
+        Sistemas de <span class="text-automatizacion">automatización</span> en producción: ejemplos reales sin simulaciones
+        <span class="live-dot align-middle ml-2 text-accent" aria-hidden="true"></span>
+      </h2>
+      <ul class="mt-4 space-y-2">
+        <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Backoffice operativo con monitoreo y rastreo en tiempo real</h3></li>
+        <li><h3 class="text-lg leading-relaxed" style="color: var(--color-base-content); font-family: var(--font-mono)">Generación de documentos técnicos con inteligencia artificial paso a paso</h3></li>
+      </ul>
+    </div>
+
+    {# ── Pozos SCZ · mockup desktop + mobile con DaisyUI ─────────── #}
+    <div class="my-16 grid lg:grid-cols-[1.6fr_1fr] gap-8 lg:gap-12 items-start reveal">
+
+      {# Mockup desktop (GIF animado) #}
+      {# Mockup desktop con badge flotante #}
+      <div class="relative">
+        <div class="mockup-browser border border-white/10 bg-base-200 shadow-2xl shadow-primary/20">
+          <div class="mockup-browser-toolbar">
+            <span class="flex items-center gap-2.5 absolute left-[1.6rem]">
+              <span class="w-3 h-3 rounded-full bg-red-500"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+              <span class="w-3 h-3 rounded-full bg-green-500"></span>
+            </span>
+            <div class="input border border-white/10 text-base-content/40 font-mono text-xs">
+              pozos-scz.app · Backoffice
+            </div>
+          </div>
+          <div class="bg-base-300">
+            <img src="{% static 'img/pozosscz2.gif' %}"
+                 alt="Backoffice con mapa operativo, clusters de clientes y zonas poligonales"
+                 loading="lazy" decoding="async"
+                 class="w-full h-auto block">
+          </div>
+        </div>
+        <div class="hidden lg:flex hero-demo-badge hero-demo-badge--primary">
+          Mapa GIS con clusters dinámicos
+        </div>
+      </div>
+
+      {# Mockup móvil con badge flotante #}
+      <div class="relative flex justify-center lg:justify-start">
+        <div class="relative mockup-phone border-primary shadow-2xl shadow-primary/20 overflow-visible" style="zoom:0.7">
+          <div class="mockup-phone-camera"></div>
+          <div class="mockup-phone-display">
+            <img src="{% static 'img/movil-app.jpeg' %}"
+                 alt="App móvil del operador con sus tareas del día"
+                 loading="lazy" decoding="async"
+                 class="w-full h-full object-contain object-center">
+          </div>
+          <div class="hidden sm:flex hero-demo-badge hero-demo-badge--accent" style="top:-0.75rem; left:auto; right:-0.75rem; z-index:10; background: color-mix(in oklab, var(--color-accent) 25%, var(--color-base-100) 90%); transform: scale(1.43); transform-origin: top right;">
+            <span class="live-dot"></span>
+            Rastreo GPS
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% for p in proyectos %}{% if p.slug == "01-pozos-scz" %}
+      <div class="w-full">
+        <p class="text-sm text-base-content/60">
+          <span class="text-white font-semibold">{{ p.titulo|truncatechars:90 }}</span> —
+          backoffice con mapa operativo y app móvil para los operadores de campo.
+        </p>
+        <a href="{{ lang_prefix }}proyectos/{{ p.slug }}/"
+           class="btn btn-sm btn-primary mt-4">
+          Ver el caso completo →
+        </a>
+      </div>
+    {% endif %}{% endfor %}
+
+    {# ── Generador de documentos IA · carousel ────────────────────── #}
+    {% for p in proyectos %}{% if p.slug == "02-generador-documentos-ia" %}
+      <div class="mt-24 lg:mt-32 reveal">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+          <div class="flex-1">
+            <h3 class="text-lg sm:text-xl lg:text-2xl font-extrabold text-white leading-tight">
+              El wizard que redacta documentos técnicos con IA,
+              <span class="text-secondary">paso por paso.</span>
+            </h3>
+            <p class="mt-3 text-base text-base-content/60">
+              8 pantallas reales del producto en uso. Scrolleá horizontalmente para ver el flujo completo.
+            </p>
+          </div>
+        <a href="{{ lang_prefix }}proyectos/{{ p.slug }}/"
+             class="btn btn-sm btn-outline btn-secondary shrink-0">
+            Ver los 8 pasos →
+          </a>
+        </div>
+      </div>
+
+      <div class="tron-carousel relative"
+           x-data="carousel({ total: {{ p.gallery|length }}, autoPlay: true })"
+           x-init="init()">
+
+        {# ── Carousel Track ──────────────────────────────────────── #}
+        <div class="tron-carousel__track flex gap-6 overflow-x-auto pb-6 scroll-smooth"
+             x-ref="track"
+             @mouseenter="pause()"
+             @mouseleave="resume()"
+             @touchstart="pause()">
+          {% for shot in p.gallery %}
+            <div class="tron-carousel__slide flex-shrink-0 w-[85vw] sm:w-[580px] lg:w-[680px]"
+                 :class="{ 'is-active': current === {{ forloop.counter0 }} }"
+                 data-index="{{ forloop.counter0 }}">
+              <div class="tron-card tron-hud-frame-corners group relative">
+                <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+                <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+                <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+                <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+
+                {# ── Tron Card Header ─────────────────────────────── #}
+                <div class="tron-card__header">
+                  <span class="tron-meta">
+                    <strong>STEP {{ forloop.counter|stringformat:"02d" }}</strong>
+                  </span>
+                  <span class="tron-status-bar">
+                    <span class="tron-status-bar__label">Screen</span>
+                    <span class="tron-status-bar__sep">·</span>
+                    <span class="tron-status-bar__value">{{ forloop.counter }} / {{ p.gallery|length }}</span>
+                  </span>
+                </div>
+
+                <figure class="relative overflow-hidden">
+                  <img src="{% get_media_prefix %}{{ shot.url }}"
+                       alt="{{ shot.descripcion|default:p.titulo|truncatechars:80 }}"
+                       loading="lazy" decoding="async"
+                       class="w-full h-auto aspect-16/10 object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]">
+                  <div class="absolute inset-0 bg-gradient-to-t from-base-100/60 via-transparent to-transparent
+                              opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </figure>
+
+                {% if shot.descripcion %}
+                  <div class="tron-card__body py-3 px-4">
+                    <p class="text-sm text-white leading-relaxed font-medium">{{ shot.descripcion|truncatechars:140 }}</p>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        {# ── Dots ────────────────────────────────────────────────── #}
+        <div class="tron-carousel__dots flex items-center justify-center gap-2 mt-4">
+          {% for shot in p.gallery %}
+            <button type="button"
+                    @click="goTo({{ forloop.counter0 }})"
+                    class="w-2 h-2 rounded-full border border-primary/40 transition-all duration-300"
+                    :class="current === {{ forloop.counter0 }} ? 'bg-primary w-6' : 'bg-transparent hover:border-primary/70'"
+                    aria-label="Ir al slide {{ forloop.counter }}"></button>
+          {% endfor %}
+        </div>
+
+      </div>
+    {% endif %}{% endfor %}
+
+  </div>
+</section>
+
+<script>
+  /* Tron Carousel — Alpine.js component */
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('carousel', ({ total, autoPlay = true }) => ({
+      current: 0,
+      total,
+      timer: null,
+      track: null,
+
+      init() {
+        this.track = this.$refs.track;
+        if (autoPlay) this.startAutoPlay();
+      },
+
+      goTo(index) {
+        if (index < 0) index = this.total - 1;
+        if (index >= this.total) index = 0;
+        this.current = index;
+
+        const slide = this.track.querySelector(`[data-index="${index}"]`);
+        if (slide) {
+          const scrollLeft = slide.offsetLeft - this.track.offsetLeft - (this.track.clientWidth - slide.clientWidth) / 2;
+          this.track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+        }
+      },
+
+      next() {
+        this.goTo(this.current + 1);
+        this.resetAutoPlay();
+      },
+
+      prev() {
+        this.goTo(this.current - 1);
+        this.resetAutoPlay();
+      },
+
+      startAutoPlay() {
+        if (!autoPlay) return;
+        this.timer = setInterval(() => {
+          this.next();
+        }, 4000);
+      },
+
+      pause() {
+        if (this.timer) {
+          clearInterval(this.timer);
+          this.timer = null;
+        }
+      },
+
+      resume() {
+        this.startAutoPlay();
+      },
+
+      resetAutoPlay() {
+        this.pause();
+        this.startAutoPlay();
+      },
+    }));
+  });
+</script>

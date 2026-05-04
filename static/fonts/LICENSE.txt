@@ -1,0 +1,12 @@
+Inter and JetBrains Mono are licensed under the SIL Open Font License 1.1.
+
+Inter:
+  Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
+  Source: https://github.com/rsms/inter
+
+JetBrains Mono:
+  Copyright 2020 The JetBrains Mono Project Authors
+  (https://github.com/JetBrains/JetBrainsMono)
+  Source: https://github.com/JetBrains/JetBrainsMono
+
+Full license: https://scripts.sil.org/OFL

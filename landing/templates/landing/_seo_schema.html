@@ -1,0 +1,73 @@
+{# Schema.org JSON-LD — Organization + WebSite + Service #}
+{% load static %}
+<script type="application/ld+json" data-translate="true">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization",
+      "name": "{{ siteconfig.site_name }}",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/",
+      "email": "{{ siteconfig.email }}",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Santa Cruz de la Sierra",
+        "addressRegion": "Santa Cruz",
+        "addressCountry": "BO"
+      },
+      "sameAs": [
+        {% if siteconfig.github_url %}"{{ siteconfig.github_url }}"{% if siteconfig.linkedin_url or siteconfig.twitter_url %},{% endif %}{% endif %}
+        {% if siteconfig.linkedin_url %}"{{ siteconfig.linkedin_url }}"{% if siteconfig.twitter_url %},{% endif %}{% endif %}
+        {% if siteconfig.twitter_url %}"{{ siteconfig.twitter_url }}"{% endif %}
+      ],
+      "description": "{{ siteconfig.tagline }}"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ request.scheme }}://{{ request.get_host }}/#website",
+      "url": "{{ request.scheme }}://{{ request.get_host }}{{ lang_prefix }}",
+      "name": "{{ siteconfig.site_name }}",
+      "description": "{{ siteconfig.tagline }}",
+      "publisher": { "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization" },
+      "inLanguage": "{{ request.LANGUAGE_CODE|default:'es' }}"
+    },
+    {
+      "@type": "Service",
+      "serviceType": "Desarrollo web a medida con Django",
+      "provider": { "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization" },
+      "areaServed": [
+        { "@type": "Country", "name": "Bolivia" },
+        { "@type": "Place", "name": "South America" },
+        { "@type": "Place", "name": "Worldwide" }
+      ],
+      "description": "Apps Django + DRF + Tailwind, integradas, desplegadas en VPS propio.",
+      "inLanguage": "{{ request.LANGUAGE_CODE|default:'es' }}"
+    },
+    {
+      "@type": "Service",
+      "serviceType": "Automatización con IA y n8n self-hosted",
+      "provider": { "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization" },
+      "areaServed": [
+        { "@type": "Country", "name": "Bolivia" },
+        { "@type": "Place", "name": "South America" },
+        { "@type": "Place", "name": "Worldwide" }
+      ],
+      "description": "n8n self-hosted + OpenAI orquestado, agentes multi-especialistas, RAG sobre data propia.",
+      "inLanguage": "{{ request.LANGUAGE_CODE|default:'es' }}"
+    },
+    {
+      "@type": "Service",
+      "serviceType": "Infraestructura self-hosted (Nextcloud, n8n, web stack)",
+      "provider": { "@id": "{{ request.scheme }}://{{ request.get_host }}/#organization" },
+      "areaServed": [
+        { "@type": "Country", "name": "Bolivia" },
+        { "@type": "Place", "name": "South America" },
+        { "@type": "Place", "name": "Worldwide" }
+      ],
+      "description": "Setup llave en mano de VPS endurecido, Nextcloud, n8n, Nginx + SSL, Docker Compose.",
+      "inLanguage": "{{ request.LANGUAGE_CODE|default:'es' }}"
+    }
+  ]
+}
+</script>

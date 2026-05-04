@@ -1,0 +1,229 @@
+{% if proyecto.show_wa_demo %}
+<section class="py-20 border-t border-cyan-500/10">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="tron-section-header mb-3">
+      <span class="tron-section-header__bracket">[</span>
+      <span class="tron-status-dot mr-1"></span>
+      <span>Demo en vivo</span>
+      <span class="tron-section-header__line"></span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-4 leading-[1.1]">
+      <span class="text-white">45 minutos de espera.</span><br>
+      <span style="background: linear-gradient(90deg, #25D366 0%, #53BDEB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">El bot lo resuelve en pocos minutos.</span>
+    </h2>
+    <p class="text-base text-base-content/60 mb-12 max-w-xl">
+      Copiado verbatim de un chat real en Santa Cruz. El cliente tarda 45 minutos — el bot cotiza al instante, pide ubicación, espera y cierra el precio.
+    </p>
+
+    <div class="max-w-2xl space-y-4">
+      <div class="tron-card tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl"></span>
+        <span class="hud-corner hud-corner--tr"></span>
+        <span class="hud-corner hud-corner--bl"></span>
+        <span class="hud-corner hud-corner--br"></span>
+        <div class="tron-card__body flex gap-4 items-start">
+          <div class="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center flex-shrink-0 mt-0.5 font-bold text-sm font-mono" translate="no">01</div>
+          <div>
+            <h3 class="text-white font-semibold mb-1">El cliente escribe a cualquier hora</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">No importa si son las 21:33. El bot responde en segundos, con indicador "escribiendo…" y tiempos naturales — como si fuera una persona en línea.</p>
+          </div>
+        </div>
+      </div>
+      <div class="tron-card tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl"></span>
+        <span class="hud-corner hud-corner--tr"></span>
+        <span class="hud-corner hud-corner--bl"></span>
+        <span class="hud-corner hud-corner--br"></span>
+        <div class="tron-card__body flex gap-4 items-start">
+          <div class="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center flex-shrink-0 mt-0.5 font-bold text-sm font-mono" translate="no">02</div>
+          <div>
+            <h3 class="text-white font-semibold mb-1">El agente cotizador entra en acción</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">El router clasifica la intención y deriva al agente especializado. Este identifica que necesita la ubicación para calcular la tarifa y la pide.</p>
+          </div>
+        </div>
+      </div>
+      <div class="tron-card tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl"></span>
+        <span class="hud-corner hud-corner--tr"></span>
+        <span class="hud-corner hud-corner--bl"></span>
+        <span class="hud-corner hud-corner--br"></span>
+        <div class="tron-card__body flex gap-4 items-start">
+          <div class="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center flex-shrink-0 mt-0.5 font-bold text-sm font-mono" translate="no">03</div>
+          <div>
+            <h3 class="text-white font-semibold mb-1">Cierra el precio — solo</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">Con la ubicación recibida, el bot consulta el motor de precios y responde con el valor final. Sin intervención humana, en el mismo chat.</p>
+          </div>
+        </div>
+      </div>
+      <div class="tron-card tron-hud-frame-corners">
+        <span class="hud-corner hud-corner--tl"></span>
+        <span class="hud-corner hud-corner--tr"></span>
+        <span class="hud-corner hud-corner--bl"></span>
+        <span class="hud-corner hud-corner--br"></span>
+        <div class="tron-card__body flex items-center gap-4">
+          <svg class="w-8 h-8 text-accent flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          <p class="text-sm text-base-content/70 leading-relaxed">
+            Este intercambio tomó <strong class="text-white">45 minutos</strong> con un humano respondiendo manualmente.<br>
+            El bot lo resuelve en <strong class="text-accent">pocos minutos</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-demo-card--wa { background: #0B141A; }
+  .wa-header { background: #1F2C33; border-bottom: 1px solid rgba(0,0,0,0.25); }
+  .wa-dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 9999px; background: #25D366;
+    box-shadow: 0 0 0 2px rgba(37,211,102,0.25);
+    animation: wa-dot-pulse 2s ease-in-out infinite;
+  }
+  @keyframes wa-dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(37,211,102,0.25); }
+    50%      { box-shadow: 0 0 0 4px rgba(37,211,102,0.10); }
+  }
+  .wa-chat {
+    background-color: #0B141A;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><g fill='none' stroke='%23182229' stroke-width='1' stroke-linecap='round'><circle cx='10' cy='10' r='3'/><path d='M30 20 l8 -4'/><path d='M44 42 q4 -6 8 0'/><circle cx='50' cy='12' r='2'/><path d='M12 42 l6 6'/></g></svg>");
+    background-size: 90px 90px; background-repeat: repeat; background-blend-mode: lighten;
+  }
+  .chat-bubble { max-width: 85%; padding: 0.4rem 0.55rem 0.25rem 0.55rem; border-radius: 8px; font-size: 0.86rem; line-height: 1.32; position: relative; animation: chat-in 260ms ease both; box-shadow: 0 1px 0.5px rgba(0,0,0,0.13); flex-shrink: 0; }
+  @keyframes chat-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .chat-bubble--user { background: #005C4B; color: #E9EDEF; margin-left: auto; border-top-right-radius: 2px; }
+  .chat-bubble--bot  { background: #202C33; color: #E9EDEF; margin-right: auto; border-top-left-radius: 2px; }
+  .chat-bubble p { margin: 0; }
+  .chat-bubble .chat-meta { display: flex; align-items: center; justify-content: flex-end; gap: 3px; margin-top: 2px; font-size: 0.62rem; color: rgba(233,237,239,0.55); }
+  .chat-bubble--user .chat-meta { color: rgba(233,237,239,0.65); }
+  .chat-check { display: inline-block; width: 14px; height: 14px; color: #53BDEB; vertical-align: middle; flex-shrink: 0; }
+  .chat-bubble--location { padding: 4px; max-width: 210px; display: flex; flex-direction: column; overflow: hidden; }
+  .chat-bubble--location .chat-map { display: block; width: 100%; height: 132px; min-height: 132px; max-height: 132px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.10); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); flex: 0 0 132px; overflow: hidden; }
+  .chat-bubble--location .chat-meta { padding: 4px 4px 2px 0; margin-top: 4px; width: 100%; }
+  .chat-forwarded { display: flex; align-items: center; gap: 4px; padding: 2px 4px 4px 2px; font-size: 0.7rem; font-style: italic; color: rgba(233,237,239,0.55); width: 100%; }
+  .chat-forwarded svg { width: 11px; height: 11px; flex-shrink: 0; }
+  @keyframes chat-pin-drop { 0% { transform: translateY(-12px); opacity: 0; } 60% { transform: translateY(2px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
+  .chat-map__pin   { animation: chat-pin-drop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: 50% 100%; }
+  .chat-map__pulse { transform-origin: 80px 55px; }
+  .chat-typing { display: inline-flex; align-items: center; gap: 4px; padding: 0.55rem 0.75rem; border-radius: 8px; background: #202C33; margin-right: auto; animation: chat-in 180ms ease both; box-shadow: 0 1px 0.5px rgba(0,0,0,0.13); flex-shrink: 0; }
+  .chat-typing span { width: 6px; height: 6px; border-radius: 9999px; background: rgba(233,237,239,0.55); animation: chat-dot 1.1s infinite; }
+  .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .chat-typing span:nth-child(3) { animation-delay: 0.30s; }
+  @keyframes chat-dot { 0%, 70%, 100% { opacity: 0.35; transform: translateY(0); } 35% { opacity: 1; transform: translateY(-3px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .chat-bubble, .chat-typing { animation: none !important; }
+    .chat-typing span { animation: none !important; opacity: 0.7; }
+  }
+</style>
+
+<script>
+(function () {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  const CHAT_SCRIPT = [...document.querySelectorAll('#chat-demo-messages li')].map(el => {
+    const msg = { side: el.dataset.side, time: el.dataset.time };
+    const text = el.textContent.trim();
+    if (text) msg.text = text;
+    if (el.dataset.typing)   msg.typing    = +el.dataset.typing;
+    if (el.dataset.wait)     msg.wait      = +el.dataset.wait;
+    if (el.dataset.location) msg.location  = true;
+    if (el.dataset.forwarded) msg.forwarded = true;
+    return msg;
+  });
+
+  const CHECK_SVG = '<svg class="chat-check" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.91 3.316 6.067 8.159 4.18 6.272l-.707.707 2.594 2.594 5.55-5.55-.707-.707zM15.09 3.316l-4.843 4.843-.94-.94-.707.707 1.647 1.647 5.55-5.55-.707-.707z" fill="currentColor"/></svg>';
+
+  const LOCATION_SVG =
+    '<svg class="chat-map" viewBox="0 0 160 110" width="160" height="110" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-label="Ubicación compartida">' +
+      '<defs><linearGradient id="chatmap-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#263843"/><stop offset="100%" stop-color="#1a2830"/></linearGradient></defs>' +
+      '<rect width="160" height="110" fill="url(#chatmap-bg)" rx="4"/>' +
+      '<path d="M 0 36 L 160 44" stroke="rgba(255,255,255,0.10)" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M 0 78 L 160 68" stroke="rgba(255,255,255,0.07)" stroke-width="6" stroke-linecap="round"/>' +
+      '<path d="M 50 0 L 68 110" stroke="rgba(255,255,255,0.08)" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M 112 0 L 102 110" stroke="rgba(255,255,255,0.06)" stroke-width="4" stroke-linecap="round"/>' +
+      '<rect x="8"  y="10" width="30" height="18" fill="rgba(255,255,255,0.04)" rx="1"/>' +
+      '<rect x="72" y="14" width="32" height="18" fill="rgba(255,255,255,0.04)" rx="1"/>' +
+      '<rect x="120" y="8"  width="32" height="22" fill="rgba(255,255,255,0.04)" rx="1"/>' +
+      '<rect x="10" y="52" width="32" height="18" fill="rgba(255,255,255,0.035)" rx="1"/>' +
+      '<rect x="76" y="54" width="24" height="14" fill="rgba(255,255,255,0.05)" rx="1"/>' +
+      '<rect x="118" y="50" width="34" height="16" fill="rgba(255,255,255,0.035)" rx="1"/>' +
+      '<rect x="10" y="86" width="40" height="16" fill="rgba(255,255,255,0.035)" rx="1"/>' +
+      '<rect x="112" y="84" width="38" height="18" fill="rgba(255,255,255,0.04)" rx="1"/>' +
+      '<circle class="chat-map__pulse" cx="80" cy="55" r="9" fill="rgba(239,68,68,0.25)">' +
+        '<animate attributeName="r" values="9;18;9" dur="1.8s" repeatCount="indefinite"/>' +
+        '<animate attributeName="opacity" values="0.35;0;0.35" dur="1.8s" repeatCount="indefinite"/>' +
+      '</circle>' +
+      '<g transform="translate(80 55)"><g class="chat-map__pin">' +
+        '<path d="M 0 -11 C -8 -11 -8 -2 0 11 C 8 -2 8 -11 0 -11 Z" fill="#EF4444" stroke="#B91C1C" stroke-width="0.5"/>' +
+        '<circle cx="0" cy="-4" r="2.6" fill="#ffffff"/>' +
+      '</g></g>' +
+    '</svg>';
+
+  function chatBubble(msg) {
+    const el = document.createElement('div');
+    el.className = 'chat-bubble chat-bubble--' + msg.side + (msg.location ? ' chat-bubble--location' : '');
+    if (msg.forwarded) {
+      const fwd = document.createElement('div');
+      fwd.className = 'chat-forwarded';
+      fwd.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="8 2 14 7 8 12"/><path d="M14 7H5a3 3 0 0 0-3 3v3"/></svg><span>Reenviado muchas veces</span>';
+      el.appendChild(fwd);
+    }
+    if (msg.location) el.insertAdjacentHTML('beforeend', LOCATION_SVG);
+    if (msg.text) {
+      const p = document.createElement('p');
+      p.textContent = msg.text;
+      el.appendChild(p);
+    }
+    if (msg.time || msg.side === 'user') {
+      const meta = document.createElement('span');
+      meta.className = 'chat-meta';
+      if (msg.time) { const t = document.createElement('time'); t.textContent = msg.time; meta.appendChild(t); }
+      if (msg.side === 'user') { const wrap = document.createElement('span'); wrap.innerHTML = CHECK_SVG; meta.appendChild(wrap.firstChild); }
+      el.appendChild(meta);
+    }
+    return el;
+  }
+
+  function chatTyping() {
+    const el = document.createElement('div');
+    el.className = 'chat-typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    return el;
+  }
+
+  async function runChat() {
+    const body = document.getElementById('chat-body');
+    if (!body) return;
+    while (true) {
+      body.innerHTML = '';
+      body.scrollTop = 0;
+      for (const msg of CHAT_SCRIPT) {
+        if (msg.wait && !reduced) await wait(msg.wait);
+        if (msg.typing && !reduced) {
+          const typ = chatTyping();
+          body.appendChild(typ);
+          body.scrollTop = body.scrollHeight;
+          await wait(msg.typing);
+          typ.remove();
+        }
+        body.appendChild(chatBubble(msg));
+        body.scrollTop = body.scrollHeight;
+        await wait(reduced ? 0 : 600);
+      }
+      if (reduced) return;
+      await wait(20000);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runChat);
+  } else {
+    runChat();
+  }
+})();
+</script>
+{% endif %}

@@ -1,0 +1,92 @@
+{% load static %}
+
+<section class="relative py-12 lg:py-20 border-t border-primary/10 bg-base-200/30">
+  {% include "landing/_section_header.html" with num="008" label="Economía · self-hosted vs SaaS" %}
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-3xl mb-14 reveal">
+      <h2 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-white leading-relaxed">
+        <span class="text-success">Infraestructura propia</span> vs <span class="text-error">SaaS</span> en automatización: reduce costos y mantén el control
+      </h2>
+      <p class="mt-4 text-lg text-base-content leading-relaxed">
+        Estimaciones conservadoras basadas en casos reales. El costo self-hosted incluye VPS + servicio mensual con nosotros.
+      </p>
+    </div>
+
+    {% for p in proyectos %}{% if p.slug == "07-infraestructura-self-hosted" and p.casos_uso_con_numeros %}
+      <div class="grid md:grid-cols-2 gap-5 lg:gap-6">
+        {% for caso in p.casos_uso_con_numeros %}
+          <article class="reveal tron-card tron-hud-frame-corners flex flex-col gap-5">
+            <span class="hud-corner hud-corner--tl" aria-hidden="true"></span>
+            <span class="hud-corner hud-corner--tr" aria-hidden="true"></span>
+            <span class="hud-corner hud-corner--bl" aria-hidden="true"></span>
+            <span class="hud-corner hud-corner--br" aria-hidden="true"></span>
+
+            {# Tron Card Header #}
+            <div class="tron-card__header">
+              <span class="tron-meta"><strong>Caso:</strong> {{ caso.caso }}</span>
+              <span class="tron-status-bar">
+                <span class="tron-status-bar__label">Análisis</span>
+                <span class="tron-status-bar__sep">·</span>
+                <span class="tron-status-bar__value">Completado</span>
+              </span>
+            </div>
+
+            <div class="tron-card__body flex flex-col gap-5 flex-1">
+              {# Header: nombre del caso + contexto #}
+              <div>
+                <h3 class="text-base font-bold text-white leading-snug">{{ caso.caso }}</h3>
+                <p class="text-sm text-base-content/55 mt-0.5">{{ caso.contexto }}</p>
+              </div>
+
+              {# Comparativa mensual — números grandes #}
+              <div class="grid grid-cols-2 gap-3">
+                <div class="rounded-xl bg-error/10 border border-error/20 p-4">
+                  <p class="tron-data-label mb-1.5"><strong class="text-error">SaaS</strong></p>
+                  <p class="text-2xl sm:text-3xl font-extrabold text-error leading-none">{{ caso.costo_saas_mensual }}</p>
+                </div>
+                <div class="rounded-xl bg-success/10 border border-success/20 p-4">
+                  <p class="tron-data-label mb-1.5"><strong class="text-success">Self-hosted</strong></p>
+                  <p class="text-2xl sm:text-3xl font-extrabold text-success leading-none">{{ caso.costo_self_mensual }}</p>
+                </div>
+              </div>
+
+              {# Savings badge #}
+              <div class="flex items-center gap-2 flex-wrap">
+                {% if caso.ahorro_mensual_pct %}
+                  <span class="tron-status-bar">
+                    <span class="tron-status-bar__label">Ahorro</span>
+                    <span class="tron-status-bar__sep">·</span>
+                    <span class="tron-status-bar__value">{{ caso.ahorro_mensual_pct }}</span>
+                  </span>
+                {% endif %}
+                <span class="text-sm font-semibold text-success">{{ caso.ahorro_mensual_usd }}</span>
+              </div>
+
+              {# Footer: detalle y equivalente anual #}
+              <dl class="grid grid-cols-2 gap-3 pt-4 border-t border-primary/10 text-xs text-base-content/45 mt-auto">
+                <div>
+                  <dt class="tron-data-label mb-0.5"><strong class="text-error">SaaS</strong></dt>
+                  <dd class="leading-snug">{{ caso.saas_equivalente }}</dd>
+                  <dd class="text-base-content/35 mt-1">{{ caso.costo_saas_anual }}</dd>
+                </div>
+                <div>
+                  <dt class="tron-data-label mb-0.5"><strong class="!text-success">Self-hosted</strong></dt>
+                  <dd class="leading-snug">{{ caso.self_mensual_detalle }}</dd>
+                  <dd class="text-base-content/35 mt-1">{{ caso.costo_self_anual }}</dd>
+                </div>
+              </dl>
+            </div>
+
+          </article>
+        {% endfor %}
+      </div>
+
+      <p class="mt-10 text-xs text-base-content/40 max-w-3xl italic">
+        Precios en USD. El costo self-hosted incluye VPS (~$15-20/mes) + servicio mensual con nosotros (gestión, actualizaciones e IA según el caso).
+        Comparación con planes de Google Workspace, Zapier, Make, Heroku/Render a abril 2026.
+        El ahorro real depende del tamaño del equipo y uso.
+      </p>
+    {% endif %}{% endfor %}
+
+  </div>
+</section>

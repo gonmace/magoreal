@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Letter Paths Preview — Quadrillion</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #f0f0f0; color: #333; padding: 24px; }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  .subtitle { font-size: .85rem; color: #666; margin-bottom: 24px; }
+  .section { background: #fff; border-radius: 10px; padding: 20px; margin-bottom: 24px;
+             box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+  .section h2 { font-size: 1rem; margin-bottom: 12px; color: #555; border-bottom: 1px solid #e5e5e5; padding-bottom: 6px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .item { text-align: center; width: 72px; background: #fafafa; border: 1px solid #ddd;
+          border-radius: 6px; padding: 8px 4px 6px; }
+  .item svg { display: block; margin: 0 auto; }
+  .label { font-size: 12px; font-weight: 700; margin-top: 5px; color: #222; }
+  .meta  { font-size: 9px; color: #aaa; margin-top: 1px; }
+  .badge-keyhole { display: inline-block; font-size: 8px; background: #dbeafe; color: #1d4ed8;
+                   border-radius: 3px; padding: 0 3px; margin-top: 2px; }
+  .badge-two     { display: inline-block; font-size: 8px; background: #fee2e2; color: #b91c1c;
+                   border-radius: 3px; padding: 0 3px; margin-top: 2px; }
+  footer { font-size: .75rem; color: #aaa; margin-top: 8px; }
+</style>
+</head>
+<body>
+<h1>Letter Paths Preview — Quadrillion SB</h1>
+<p class="subtitle">{{ total }} caracteres · normalizados a ~95 pts para KUTE.js · <span class="badge-keyhole">keyhole</span> = un solo subpath · <span class="badge-two">2-sub</span> = dos subpaths separados</p>
+
+{% for section_name, items in sections %}
+<div class="section">
+  <h2>{{ section_name }}</h2>
+  <div class="grid">
+    {% for it in items %}
+    <div class="item">
+      <svg viewBox="{{ it.vb }}" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+        <path d="{{ it.outer_path }}" fill="#111" fill-rule="evenodd"/>
+      </svg>
+      <div class="label">{{ it.char }}</div>
+      <div class="meta">{{ it.pts }} pts</div>
+      {% if it.keyhole %}<span class="badge-keyhole">keyhole</span>{% endif %}
+      {% if it.two_sub %}<span class="badge-two">2-sub</span>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+
+<footer>Generado desde morph_banner/letter_paths.py · {{ now }}</footer>
+</body>
+</html>

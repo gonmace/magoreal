@@ -1,0 +1,120 @@
+services:
+  postgres:
+    profiles: [postgres]
+    image: postgres:17-alpine
+    container_name: ${PROJECT_NAME:-dev}_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - dev_postgres_data:/var/lib/postgresql/data/
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    ports:
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5432}:5432"
+    networks:
+      - dev_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ${PROJECT_NAME:-dev}_redis
+    ports:
+      - "127.0.0.1:${REDIS_HOST_PORT:-6379}:6379"
+    networks:
+      - dev_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  n8n-db-init:
+    profiles: [n8n]
+    image: postgres:17-alpine
+    container_name: ${PROJECT_NAME:-dev}_n8n_db_init
+    # Cargar .env tal cual (evita que Compose expanda ${POSTGRES_PASSWORD} en el host
+    # y rompa claves con $, #, etc.).
+    env_file:
+      - .env
+    volumes:
+      - ./docker/n8n-init-db.sh:/n8n-init-db.sh:ro
+    entrypoint: ["/bin/sh", "/n8n-init-db.sh"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - dev_network
+    restart: "no"
+
+  n8n:
+    profiles: [n8n]
+    image: n8nio/n8n:latest
+    container_name: ${PROJECT_NAME:-dev}_n8n
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${N8N_PORT:-8001}:5678"
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: ${POSTGRES_PORT:-5432}
+      DB_POSTGRESDB_DATABASE: n8n
+      DB_POSTGRESDB_USER: ${POSTGRES_USER}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:-dev-encryption-key-change-in-prod}
+      GENERIC_TIMEZONE: ${TIME_ZONE:-America/La_Paz}
+      N8N_HOST: localhost
+      N8N_PORT: 5678
+      N8N_PROTOCOL: http
+      DJANGO_CALLBACK_URL: http://host.docker.internal:${APP_PORT:-8001}/translations/callback/
+      TRANSLATIONS_CALLBACK_TOKEN: ${TRANSLATIONS_CALLBACK_TOKEN:-}
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+    volumes:
+      - ./volumes/n8n:/home/node/.n8n
+    depends_on:
+      postgres:
+        condition: service_healthy
+      n8n-db-init:
+        condition: service_completed_successfully
+    networks:
+      - dev_network
+    healthcheck:
+      # n8nio/n8n no incluye wget/curl; Node sí está en la imagen
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:5678/healthz',(r)=>{r.on('data',()=>{});r.on('end',()=>process.exit(r.statusCode===200?0:1));}).on('error',()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 10s
+      retries: 12
+      start_period: 60s
+
+  n8n-mcp:
+    profiles: [n8n-mcp]
+    image: ghcr.io/czlonkowski/n8n-mcp:latest
+    container_name: ${PROJECT_NAME:-dev}_n8n_mcp
+    environment:
+      N8N_BASE_URL: http://n8n:5678
+      N8N_API_KEY: ${N8N_API_KEY:-}
+      AUTH_TOKEN: ${N8N_MCP_AUTH_TOKEN:-dev-mcp-token}
+      MCP_MODE: http
+    ports:
+      - "127.0.0.1:${N8N_MCP_PORT:-8002}:3000"
+    depends_on:
+      n8n:
+        condition: service_healthy
+    networks:
+      - dev_network
+
+networks:
+  dev_network:
+
+volumes:
+  dev_postgres_data:

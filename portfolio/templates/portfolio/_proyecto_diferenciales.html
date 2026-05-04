@@ -1,0 +1,34 @@
+{% if proyecto.diferenciales %}
+<section class="py-20 border-t border-cyan-500/10">
+  <div class="max-w-5xl mx-auto px-5 md:px-8">
+    <div class="tron-section-header mb-3">
+      <span class="tron-section-header__bracket">[</span>
+      <span class="tron-section-header__num">{{ proyecto.diferenciales|length|stringformat:"02d" }}</span>
+      <span>Diferenciales</span>
+      <span class="tron-section-header__line"></span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-10">
+      Por qué esto y no otra cosa.
+    </h2>
+    <ul class="grid sm:grid-cols-2 gap-3">
+      {% for dif in proyecto.diferenciales %}
+        <li class="tron-card tron-hud-frame-corners">
+          <span class="hud-corner hud-corner--tl"></span>
+          <span class="hud-corner hud-corner--tr"></span>
+          <span class="hud-corner hud-corner--bl"></span>
+          <span class="hud-corner hud-corner--br"></span>
+          <div class="tron-card__body flex gap-3">
+            <span class="flex-shrink-0 mt-0.5 text-accent">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <span class="text-sm text-base-content/80 leading-relaxed">{{ dif }}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}

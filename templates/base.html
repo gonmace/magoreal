@@ -1,0 +1,108 @@
+{% load static tailwind_tags translations %}<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE|default:'es' }}"
+      data-theme="{% if sitepage %}{{ sitepage.theme }}{% else %}tron{% endif %}"
+      data-primary-rgb="{% if sitepage %}{{ sitepage.primary_rgb }}{% else %}0,212,255{% endif %}"
+      data-accent-rgb="{% if sitepage %}{{ sitepage.accent_rgb }}{% else %}0,255,136{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="{% if sitepage %}{{ sitepage.theme_color }}{% else %}#050A14{% endif %}">
+
+    <title>{% block title %}{{ siteconfig.site_name }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ siteconfig.tagline }}{% endblock %}">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+    <meta property="og:site_name" content="{{ siteconfig.site_name }}">
+    <meta property="og:locale" content="{{ og_locale }}">
+    {% for alt_locale in og_locale_alternates %}<meta property="og:locale:alternate" content="{{ alt_locale }}">
+    {% endfor %}<meta property="og:title" content="{% block og_title %}{{ siteconfig.site_name }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ siteconfig.tagline }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% if sitepage and sitepage.og_image %}{{ sitepage.og_image.url }}{% else %}{% static 'og/og-home.png' %}{% endif %}{% endblock %}">
+    <meta property="og:image:secure_url" content="{% block og_image_secure %}https://{{ request.get_host }}{% if sitepage and sitepage.og_image %}{{ sitepage.og_image.url }}{% else %}{% static 'og/og-home.png' %}{% endif %}{% endblock %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{% block og_image_alt %}{{ siteconfig.site_name }}{% endblock %}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    {% if siteconfig.twitter_url %}<meta name="twitter:site" content="@{{ siteconfig.twitter_url|cut:'https://twitter.com/'|cut:'https://x.com/'|cut:'/' }}">
+    {% endif %}<meta name="twitter:title" content="{% block twitter_title %}{{ siteconfig.site_name }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ siteconfig.tagline }}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% if sitepage and sitepage.og_image %}{{ sitepage.og_image.url }}{% else %}{% static 'og/og-home.png' %}{% endif %}{% endblock %}">
+    <meta name="twitter:image:alt" content="{% block twitter_image_alt %}{{ siteconfig.site_name }}{% endblock %}">
+
+    <!-- Self-hosted fonts: preload solo el peso crítico del hero (Inter 800) -->
+    <link rel="preload" href="{% static 'fonts/Inter-ExtraBold.woff2' %}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{% static 'fonts/Inter-Regular.woff2' %}" as="font" type="font/woff2" crossorigin>
+
+    {# Geist para títulos — matchea estilo de index_1.html #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="{% if sitepage and sitepage.favicon %}{{ sitepage.favicon.url }}{% elif siteconfig.favicon %}{{ siteconfig.favicon.url }}{% else %}{% static 'img/favicon.svg' %}{% endif %}">
+    {% tailwind_css %}
+
+    {# Alpine.js — interactividad del lado cliente (filtros, modales, etc.) #}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    {% html_translator_assets %}
+
+    {# Scripts inyectables desde el admin (Search Console, meta verificación, etc.) #}
+    {% block scripts_head %}{% if sitepage and sitepage.scripts_head %}{{ sitepage.scripts_head|safe }}{% else %}{{ siteconfig.scripts_head|safe }}{% endif %}{% endblock %}
+
+    <!-- hreflang: idiomas disponibles para SEO (dinámico por traducciones en DB) -->
+    {% hreflang_tags %}
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="antialiased bg-base-100 text-base-content min-h-screen">
+    {# Scripts inyectables al inicio del body (GTM, etc.) #}
+    {% block scripts_body_start %}{% if sitepage and sitepage.scripts_body_start %}{{ sitepage.scripts_body_start|safe }}{% else %}{{ siteconfig.scripts_body_start|safe }}{% endif %}{% endblock %}
+
+    {# §10 · Overlays globales de modernización #}
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+
+    {# Skip link WCAG 2.4.1 — visible solo en focus por keyboard #}
+    <a href="#main-content"
+       class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-100
+              focus:bg-primary focus:text-primary-content focus:px-4 focus:py-2
+              focus:rounded-lg focus:font-semibold focus:shadow-2xl">
+      {{ nav_t.saltar|default:"Saltar al contenido principal" }}
+    </a>
+
+    {% block content %}{% endblock %}
+
+    {# Widget flotante de WhatsApp · visible en todas las páginas (si hay número) #}
+    {% include "landing/_whatsapp_widget.html" %}
+
+    {% block extra_scripts %}{% endblock %}
+
+    {# §10 · Script de modernización (reveal, progress, cursor, canvas hero) #}
+    <script src="{% static 'js/modern.js' %}" defer></script>
+
+    {# §11 · KUTE.js (UMD incluye morph SVG) — páginas con [data-morph] #}
+    {% block kute_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/dist/kute.min.js" defer></script>
+    <script src="{% static 'js/morph.js' %}" defer></script>
+    {% endblock %}
+    <script src="{% static 'js/section-counter.js' %}" defer></script>
+
+    {# Scripts inyectables al final del body (Plausible, FB Pixel, AdSense, etc.) #}
+    {% block scripts_body_end %}{% if sitepage and sitepage.scripts_body_end %}{{ sitepage.scripts_body_end|safe }}{% else %}{{ siteconfig.scripts_body_end|safe }}{% endif %}{% endblock %}
+
+    {% comment %}Analytics shim: se ejecuta DESPUÉS del snippet de Plausible/Umami
+    inyectado arriba para que window.plausible ya esté definido.{% endcomment %}
+    <script src="{% static 'js/analytics.js' %}" defer></script>
+
+    {% if debug %}
+        {% url 'django_browser_reload:reload' as reload_url %}
+        <script src="{{ reload_url }}" defer></script>
+    {% endif %}
+</body>
+</html>

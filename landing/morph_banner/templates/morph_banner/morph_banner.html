@@ -1,0 +1,176 @@
+<style>
+  /* ── reveal ── */
+  .morph-reveal-ghost {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  [data-effect="reveal"].morph-revealed .morph-reveal-ghost {
+    opacity: 1;
+  }
+
+  /* ── cascade ── */
+  .morph-cascade-ghost {
+    opacity: 0;
+  }
+  [data-effect="cascade"].morph-in-view .morph-cascade-ghost {
+    animation: morph-cascade-in 0.4s ease forwards;
+    animation-delay: calc(var(--cascade-i, 0) * 0.2s);
+  }
+  @keyframes morph-cascade-in { to { opacity: 1; } }
+
+  /* ── always (Sin desaparecer): inicio vacío; la forma activa aparece al entrar al viewport,
+        las fantasmas van sumándose conforme morph.js avanza una sola vuelta; al terminar sólo restan fantasmas ── */
+  [data-effect="always"]:not(.morph-in-view) .morph-shape.letter-active {
+    opacity: 0;
+  }
+  [data-effect="always"].morph-in-view .morph-shape.letter-active {
+    opacity: 1;
+    transition: opacity 0.35s ease;
+  }
+  [data-effect="always"] .letter-ghost {
+    opacity: 0;
+    filter: none;
+    transition: opacity 0.45s ease;
+  }
+  [data-morph][data-effect="always"] .letter-ghost.is-visible {
+    opacity: 1;
+  }
+  [data-effect="always"].morph-revealed .morph-shape.letter-active {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  /* ── spotlight: ghosts a media luz, shape activa al 100% "brilla" ── */
+  [data-effect="spotlight"] .letter-ghost {
+    opacity: 0.5;
+    filter: none;
+  }
+
+  /* ── reveal: tras el reveal, ghosts nítidos y active shape se oculta ── */
+  [data-effect="reveal"].morph-revealed .morph-reveal-ghost {
+    filter: none;
+  }
+  [data-effect="reveal"].morph-revealed .morph-shape.letter-active {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  /* ── cascade: sin blur (la palabra aparece nítida) ── */
+  [data-effect="cascade"].morph-in-view .letter-ghost {
+    filter: none;
+  }
+
+  /* ── active shape: color sigue el morpheo ── */
+  .morph-shape.letter-active {
+    transition: fill 900ms ease-in-out, stroke 900ms ease-in-out;
+  }
+
+  /* ── reduced motion: mostrar todo directamente ── */
+  @media (prefers-reduced-motion: reduce) {
+    .morph-cascade-ghost,
+    .morph-reveal-ghost {
+      opacity: 1 !important;
+      animation: none !important;
+      transition: none !important;
+    }
+    [data-effect="always"] .letter-ghost {
+      opacity: 1 !important;
+    }
+    [data-effect="always"] .morph-shape.letter-active {
+      opacity: 0 !important;
+    }
+    .morph-shape.letter-active {
+      transition: none;
+    }
+  }
+
+  {% if neon %}
+  /*
+   Neón · halo coherente con el fill (feMerge desde SourceGraphic).
+   Reglas tardías para anular los `filter: none` de algunos efectos y el blur global del tema.
+ */
+  [data-morph].morph-neon .letter-ghost,
+  [data-morph].morph-neon .morph-shape.letter-active {
+    filter: url(#{{ neon_filter_id }});
+  }
+  [data-morph].morph-neon[data-effect="always"] .letter-ghost,
+  [data-morph].morph-neon[data-effect="spotlight"] .letter-ghost,
+  [data-morph].morph-neon[data-effect="reveal"].morph-revealed .morph-reveal-ghost {
+    filter: url(#{{ neon_filter_id }});
+  }
+  [data-morph].morph-neon[data-effect="cascade"].morph-in-view .letter-ghost {
+    filter: url(#{{ neon_filter_id }});
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-morph].morph-neon .letter-ghost,
+    [data-morph].morph-neon .morph-shape.letter-active {
+      filter: url(#{{ neon_filter_id }});
+    }
+    [data-morph].morph-neon[data-effect="cascade"] .letter-ghost {
+      filter: url(#{{ neon_filter_id }});
+    }
+  }
+  {% endif %}
+</style>
+
+<svg class="block mx-auto w-full max-w-4xl text-primary py-3{% if neon %} morph-neon{% endif %}"
+         style="isolation: isolate; transform: translateX(2px);"
+         viewBox="0 0 {{ viewbox_width }} {{ viewbox_height }}"
+         preserveAspectRatio="xMidYMid meet"
+         shape-rendering="geometricPrecision"
+         data-morph
+         data-effect="{{ effect }}"
+         data-morph-duration="900"
+         data-morph-hold="400"
+         data-morph-easing="easingCubicInOut"
+         role="img"
+         aria-label="{{ word }}">
+
+      {% if neon %}
+      <defs>
+        <filter id="{{ neon_filter_id }}" x="-30%" y="-30%" width="160%" height="160%"
+                filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+          <!-- Neón muy sutil (σ bajos, poca zona de filtro). -->
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0.38" result="nb_soft"/>
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.05" result="nb_glow"/>
+          <feMerge>
+            <feMergeNode in="nb_glow"/>
+            <feMergeNode in="nb_soft"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      {% endif %}
+
+      {# ── Ghosts estáticos ── #}
+      {% for letter in letters %}
+      <path id="ghost-{{ letter.id }}"
+            class="letter-ghost{% if effect == 'reveal' %} morph-reveal-ghost{% endif %}{% if effect == 'cascade' %} morph-cascade-ghost{% endif %}"
+            d="{{ letter.abs_path }}"
+            fill-rule="evenodd"
+            style="fill: {{ letter.color }}{% if effect == 'cascade' %}; --cascade-i: {{ forloop.counter0 }}{% endif %}" />
+      {% endfor %}
+
+      {# ── Shape activa (omitida en cascade) ── #}
+      {% if effect != 'cascade' %}
+      <path class="morph-shape letter-active"
+            d="{{ letters.0.abs_path }}"
+            fill-rule="evenodd"
+            style="fill: {{ letters.0.color }}"
+            data-morph-to="{{ morph_to }}"
+            {% if effect == 'yoyo' or effect == 'always' %}data-morph-leave="{{ ghost_leave }}"{% endif %}
+            data-morph-home="#target-{{ letters.0.id }}"
+            {% if effect != 'reveal' and effect != 'always' %}data-morph-loop="yoyo"{% endif %}
+            data-morph-delay="0" />
+      {% endif %}
+
+      {# ── Targets ocultos ── #}
+      {% for letter in letters %}
+      <path id="target-{{ letter.id }}"
+            class="invisible"
+            fill-rule="evenodd"
+            d="{{ letter.abs_path }}"
+            style="fill: {{ letter.color }}" />
+      {% endfor %}
+
+</svg>

@@ -1,0 +1,35 @@
+{% load portfolio_tags %}
+{% if proyecto.stack %}
+<section class="py-20 border-t border-cyan-500/10 bg-base-200/30">
+  <div class="max-w-5xl mx-auto px-5 md:px-8">
+    <div class="tron-section-header mb-3">
+      <span class="tron-section-header__bracket">[</span>
+      <span class="tron-section-header__num">{{ proyecto.stack.items|length|stringformat:"02d" }}</span>
+      <span>Stack</span>
+      <span class="tron-section-header__line"></span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-10">
+      Con qué está construido.
+    </h2>
+
+    <div class="space-y-5">
+      {% for categoria, tecnologias in proyecto.stack.items %}
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-6 py-3">
+          <div class="w-full sm:w-40 flex-shrink-0">
+            <span class="tron-data-label">
+              {{ categoria|label_key }}
+            </span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {% for tech in tecnologias %}
+              <span class="tron-status-bar">
+                <span class="tron-status-bar__value">{{ tech }}</span>
+              </span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
