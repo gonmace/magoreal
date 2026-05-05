@@ -116,6 +116,23 @@ class TranslationCache(models.Model):
             return True
         return self.source_hash != current_hash
 
+    def stale_sections(self, current_sections_html: dict) -> list[str]:
+        """
+        Devuelve lista de claves de sección cuyo HTML ha cambiado.
+        Compara el hash SHA-256 de cada sección individual.
+        """
+        stale = []
+        for section_key, html in current_sections_html.items():
+            old_html = self.source_html.get(section_key, '')
+            if not old_html:
+                stale.append(section_key)
+                continue
+            current_hash = self.compute_hash({section_key: html})
+            old_hash = self.compute_hash({section_key: old_html})
+            if current_hash != old_hash:
+                stale.append(section_key)
+        return stale
+
     @staticmethod
     def compute_hash(source: dict) -> str:
         """SHA-256 canónico del HTML/textos fuente para detectar cambios de template."""

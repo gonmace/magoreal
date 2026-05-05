@@ -188,6 +188,8 @@ def callback(request):
             status=409,
         )
 
+    # Fusionar traducciones nuevas con contenido existente
+    existing_content = tc.content.copy() if tc.content else {}
     translated_html: dict[str, str] = {}
     for section_key, translated_texts in content.items():
         original_html = tc.source_html.get(section_key)
@@ -199,8 +201,10 @@ def callback(request):
         except ValueError as exc:
             logger.error('Callback: error reconstruyendo %s: %s', section_key, exc)
             translated_html[section_key] = original_html
-
-    tc.content = translated_html
+    
+    # Fusionar: contenido existente + nuevas traducciones
+    merged_content = {**existing_content, **translated_html}
+    tc.content = merged_content
     tc.save(update_fields=['content', 'updated_at'])
     _invalidate_cache(page_key)
     cache.delete(f'tr_pending:{page_key}:{lang}')
@@ -283,27 +287,35 @@ def request_translation(request):
         )
 
     _prerendered = None
+    sections_to_translate = None  # None significa todas las secciones
 
     try:
         tc = TranslationCache.objects.get(page_key=page_key, lang=lang)
 
         sections_html, sections_texts, current_hash = _render_for_page(request, page_key)
-        _prerendered = (sections_html, sections_texts, current_hash)
+        # Si no está obsoleto, no hay secciones obsoletas (lista vacía)
+        _prerendered = (sections_html, sections_texts, current_hash, [])
 
         if not tc.is_stale(current_hash):
             if tc.content:
                 cache.set(_fresh_key, True, 300)  # válido 5 min
                 return JsonResponse({'status': 'cached'})
-            # Sin contenido y hash vigente: caer al flujo de _pending / nuevo thread
+            # Sin contenido y hash vigente: todas las secciones son nuevas
+            sections_to_translate = list(sections_html.keys())
+            _prerendered = (sections_html, sections_texts, current_hash, sections_to_translate)
         else:
             logger.info(
                 'Traducción obsoleta para %s/%s, regenerando...',
                 page_key, lang,
             )
             cache.delete(_fresh_key)
+            # Determinar secciones obsoletas
+            sections_to_translate = tc.stale_sections(sections_html)
             tc.source_html = sections_html
             tc.source_hash = current_hash
             tc.save(update_fields=['source_html', 'source_hash', 'updated_at'])
+            # Guardar secciones obsoletas para usar después
+            _prerendered = (sections_html, sections_texts, current_hash, sections_to_translate)
     except TranslationCache.DoesNotExist:
         pass
     except Exception as exc:
@@ -315,10 +327,12 @@ def request_translation(request):
         return JsonResponse({'status': 'error', 'reason': 'preparation failed'}, status=500)
 
     if _prerendered:
-        sections_html, sections_texts, current_hash = _prerendered
+        sections_html, sections_texts, current_hash, sections_to_translate = _prerendered
     else:
         try:
             sections_html, sections_texts, current_hash = _render_for_page(request, page_key)
+            # Primera vez o traducción fallida: todas las secciones son nuevas
+            sections_to_translate = list(sections_html.keys())
         except Exception as exc:
             logger.error(
                 'request_translation: error en renderizado para %s/%s: %s',
@@ -349,7 +363,7 @@ def request_translation(request):
     from .translator import translate_page
     threading.Thread(
         target=translate_page,
-        args=(page_key, lang, sections_html, sections_texts),
+        args=(page_key, lang, sections_html, sections_texts, sections_to_translate),
         daemon=True,
     ).start()
 

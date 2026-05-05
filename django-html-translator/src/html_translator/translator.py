@@ -54,9 +54,11 @@ def translate_page(
     lang: str,
     sections_html: dict[str, str],
     sections_texts: dict[str, list[str]],
+    sections_to_translate: list[str] | None = None,
 ) -> None:
     """
-    Traduce todas las secciones de una página y guarda el resultado en TranslationCache.
+    Traduce las secciones especificadas de una página y guarda el resultado en TranslationCache.
+    Si sections_to_translate es None, traduce todas las secciones.
     Ejecutar siempre en background thread — no retorna valor útil.
     """
     api_key = conf.get_openai_api_key()
@@ -70,9 +72,18 @@ def translate_page(
 
     client = OpenAI(api_key=api_key)
     translated_html: dict[str, str] = {}
-
+    # Si no se especifica, traducir todas las secciones
+    if sections_to_translate is None:
+        sections_to_translate = list(sections_texts.keys())
+    
     for section_key, texts in sections_texts.items():
+        # Si la sección no está en la lista de traducción, usar HTML original
+        if section_key not in sections_to_translate:
+            translated_html[section_key] = sections_html[section_key]
+            continue
         if not texts:
+            # Si no hay textos, usar HTML original
+            translated_html[section_key] = sections_html[section_key]
             continue
         try:
             t_texts = _translate_section(client, model, texts, lang)
@@ -91,11 +102,25 @@ def translate_page(
 
     try:
         tc = TranslationCache.objects.get(page_key=page_key, lang=lang)
-        tc.content = translated_html
+        # Fusionar traducciones nuevas con contenido existente
+        existing_content = tc.content.copy() if tc.content else {}
+        merged_content = {}
+        # Para cada sección en source_html, decidir qué contenido usar
+        for section_key in tc.source_html.keys():
+            if section_key in translated_html:
+                # Sección traducida o con HTML original (nueva)
+                merged_content[section_key] = translated_html[section_key]
+            elif section_key in existing_content:
+                # Sección existente no obsoleta
+                merged_content[section_key] = existing_content[section_key]
+            else:
+                # No debería pasar, pero por seguridad usar HTML original
+                merged_content[section_key] = tc.source_html.get(section_key, '')
+        tc.content = merged_content
         tc.save(update_fields=['content', 'updated_at'])
         logger.info(
             'translate_page: COMPLETADO %s/%s — %d secciones',
-            page_key, lang, len(translated_html),
+            page_key, lang, len(merged_content),
         )
     except TranslationCache.DoesNotExist:
         logger.error(
