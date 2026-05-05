@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load static translations %}
 
-{% block title %}{{ siteconfig.site_name }} — {{ siteconfig.tagline }}{% endblock %}
+{% block title %}{{ nav_t.site_name|default:siteconfig.site_name }} — {{ nav_t.tagline|default:siteconfig.tagline }}{% endblock %}
 {% block meta_description %}{{ siteconfig.hero_subtitle|truncatewords:30 }}{% endblock %}
-{% block og_title %}{{ siteconfig.site_name }}{% endblock %}
-{% block og_description %}{{ siteconfig.tagline }}{% endblock %}
+{% block og_title %}{{ nav_t.site_name|default:siteconfig.site_name }}{% endblock %}
+{% block og_description %}{{ nav_t.tagline|default:siteconfig.tagline }}{% endblock %}
 
 {% block extra_head %}
   {% section "seo_schema" "landing/_seo_schema.html" %}

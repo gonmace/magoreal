@@ -63,6 +63,8 @@ _NAV_TRANSLATIONS: dict[str, dict[str, str]] = {
         'traduciendo': 'Translating…', 'primer_vez': '~60-90s first time',
         'fallo': 'Translation failed.', 'reintentar': 'Retry',
         'saltar': 'Skip to main content', 'abrir_menu': 'Open menu',
+        'site_name': 'Magoreal | Automation and Artificial Intelligence Agency',
+        'tagline': 'We automate your processes with AI. In your own system.',
     },
     'fr': {
         'proyectos': 'Projets', 'servicios': 'Services',
@@ -73,6 +75,8 @@ _NAV_TRANSLATIONS: dict[str, dict[str, str]] = {
         'traduciendo': 'Traduction…', 'primer_vez': '~60-90s première fois',
         'fallo': 'Échec de la traduction.', 'reintentar': 'Réessayer',
         'saltar': 'Aller au contenu principal', 'abrir_menu': 'Ouvrir le menu',
+        'site_name': 'Magoreal | Agence d\'Automatisation et d\'Intelligence Artificielle',
+        'tagline': 'Nous automatisons vos processus avec l\'IA. Dans votre propre système.',
     },
     'de': {
         'proyectos': 'Projekte', 'servicios': 'Leistungen',
@@ -83,6 +87,8 @@ _NAV_TRANSLATIONS: dict[str, dict[str, str]] = {
         'traduciendo': 'Übersetzung…', 'primer_vez': '~60-90s erstes Mal',
         'fallo': 'Übersetzung fehlgeschlagen.', 'reintentar': 'Erneut versuchen',
         'saltar': 'Zum Hauptinhalt springen', 'abrir_menu': 'Menü öffnen',
+        'site_name': 'Magoreal | Automatisierung und Künstliche Intelligenz Agentur',
+        'tagline': 'Wir automatisieren Ihre Prozesse mit KI. In Ihrem eigenen System.',
     },
     'it': {
         'proyectos': 'Progetti', 'servicios': 'Servizi',
@@ -93,6 +99,8 @@ _NAV_TRANSLATIONS: dict[str, dict[str, str]] = {
         'traduciendo': 'Traduzione…', 'primer_vez': '~60-90s prima volta',
         'fallo': 'Traduzione non riuscita.', 'reintentar': 'Riprova',
         'saltar': 'Vai al contenuto principale', 'abrir_menu': 'Apri il menu',
+        'site_name': 'Magoreal | Agenzia di Automazione e Intelligenza Artificiale',
+        'tagline': 'Automatizziamo i tuoi processi con l\'IA. Nel tuo stesso sistema.',
     },
     'pt': {
         'proyectos': 'Projetos', 'servicios': 'Serviços',
@@ -103,6 +111,8 @@ _NAV_TRANSLATIONS: dict[str, dict[str, str]] = {
         'traduciendo': 'Traduzindo…', 'primer_vez': '~60-90s primeira vez',
         'fallo': 'Falha na tradução.', 'reintentar': 'Tentar novamente',
         'saltar': 'Ir para o conteúdo principal', 'abrir_menu': 'Abrir menu',
+        'site_name': 'Magoreal | Agência de Automação e Inteligência Artificial',
+        'tagline': 'Automatizamos seus processos com IA. No seu próprio sistema.',
     },
     'nl': {
         'proyectos': 'Projecten', 'servicios': 'Diensten',
