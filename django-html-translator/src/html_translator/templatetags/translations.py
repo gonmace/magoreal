@@ -52,34 +52,59 @@ def _cache_key(page_key: str, lang: str) -> str:
 
 def _load_translations(page_key: str, lang: str) -> dict:
     key = _cache_key(page_key, lang)
-    data = cache.get(key)
+    
+    try:
+        data = cache.get(key)
+        cache_status = 'HIT' if data is not None else 'MISS'
+        logger.debug('_load_translations [%s]: key=%s', cache_status, key)
+    except Exception as exc:
+        logger.error('_load_translations: Redis GET error for %s: %s', key, exc)
+        data = None
+        cache_status = 'ERROR'
     
     # Si cache hit pero datos vacíos, intentar recargar desde BD
     if data is not None and not data:
-        logger.debug('_load_translations: cache HIT but EMPTY for key=%s, reloading from DB', key)
-        cache.delete(key)
+        logger.warning('_load_translations: cache HIT but EMPTY for key=%s, reloading from DB', key)
+        try:
+            cache.delete(key)
+        except:
+            pass
         data = None
+        cache_status = 'EMPTY_RELOAD'
     
     if data is None:
-        logger.debug('_load_translations: cache MISS for key=%s', key)
+        logger.debug('_load_translations: loading from DB for key=%s (reason: %s)', key, cache_status)
         try:
             tc = TranslationCache.objects.get(page_key=page_key, lang=lang)
-            data = tc.content or {}
-            logger.debug('_load_translations: loaded from DB, has %d sections', len(data) if data else 0)
+            logger.debug('_load_translations: found TranslationCache for %s/%s, content type=%s', 
+                        page_key, lang, type(tc.content))
             
-            if not data:
-                logger.warning('_load_translations: TranslationCache exists but content is EMPTY for %s', key)
+            if tc.content is None:
+                logger.warning('_load_translations: tc.content is None for %s/%s', page_key, lang)
+                data = {}
+            elif isinstance(tc.content, dict):
+                data = tc.content
+                logger.debug('_load_translations: loaded from DB, has %d sections', len(data))
+            else:
+                logger.error('_load_translations: tc.content is not dict! type=%s', type(tc.content))
+                data = {}
+            
+            # Guardar en cache solo si hay datos
+            if data:
+                try:
+                    cache.set(key, data, _CACHE_TIMEOUT)
+                    logger.debug('_load_translations: saved to Redis cache for key=%s', key)
+                except Exception as exc:
+                    logger.error('_load_translations: Redis SET error for %s: %s', key, exc)
                 
         except TranslationCache.DoesNotExist:
-            logger.warning('_load_translations: TranslationCache NOT FOUND for %s', key)
+            logger.warning('_load_translations: TranslationCache NOT FOUND for page=%s lang=%s', page_key, lang)
             data = {}
         except Exception as exc:
-            logger.error('_load_translations: ERROR loading %s: %s', key, exc)
+            logger.error('_load_translations: DB ERROR for %s: %s', key, exc, exc_info=True)
             data = {}
-            
-        cache.set(key, data, _CACHE_TIMEOUT)
     else:
-        logger.debug('_load_translations: cache HIT for key=%s, has %d sections', key, len(data) if data else 0)
+        logger.debug('_load_translations: using cached data for key=%s, has %d sections', key, len(data))
     
     return data
 
