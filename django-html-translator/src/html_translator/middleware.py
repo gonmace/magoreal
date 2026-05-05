@@ -62,24 +62,16 @@ class LanguageMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        import logging
-        logger = logging.getLogger(__name__)
-        
         default = conf.get_default_language()
         available = conf.get_available_languages()
 
         path_lang = _lang_from_path(request.path_info)
         cookie_lang = request.COOKIES.get(COOKIE_NAME, '')
-        
-        logger.debug('LanguageMiddleware: path=%s, path_lang=%s, cookie_lang=%s, default=%s',
-                     request.path_info, path_lang, cookie_lang, default)
 
         if path_lang:
             lang = path_lang
-            logger.debug('LanguageMiddleware: using PATH lang=%s', lang)
         elif cookie_lang and (not available or cookie_lang in available):
             lang = cookie_lang
-            logger.debug('LanguageMiddleware: using COOKIE lang=%s', lang)
         else:
             # Accept-Language como fallback antes de servir en default
             accept_header = request.META.get('HTTP_ACCEPT_LANGUAGE', '')
@@ -87,13 +79,10 @@ class LanguageMiddleware:
                 preferred = _parse_accept_language(accept_header)
                 best = _find_best_language(preferred, available, default)
                 if best and best != default:
-                    logger.debug('LanguageMiddleware: redirecting to %s based on Accept-Language', best)
                     return HttpResponseRedirect(f'/{best}/')
             lang = default
-            logger.debug('LanguageMiddleware: using DEFAULT lang=%s', lang)
 
         request.LANGUAGE_CODE = lang
-        logger.debug('LanguageMiddleware: request.LANGUAGE_CODE set to %s', lang)
         response = self.get_response(request)
 
         if path_lang and cookie_lang != path_lang:

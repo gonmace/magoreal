@@ -52,59 +52,25 @@ def _cache_key(page_key: str, lang: str) -> str:
 
 def _load_translations(page_key: str, lang: str) -> dict:
     key = _cache_key(page_key, lang)
+    data = cache.get(key)
     
-    try:
-        data = cache.get(key)
-        cache_status = 'HIT' if data is not None else 'MISS'
-        logger.debug('_load_translations [%s]: key=%s', cache_status, key)
-    except Exception as exc:
-        logger.error('_load_translations: Redis GET error for %s: %s', key, exc)
-        data = None
-        cache_status = 'ERROR'
-    
-    # Si cache hit pero datos vacíos, intentar recargar desde BD
+    # Si cache hit pero datos vacíos, recargar desde BD
     if data is not None and not data:
-        logger.warning('_load_translations: cache HIT but EMPTY for key=%s, reloading from DB', key)
-        try:
-            cache.delete(key)
-        except:
-            pass
+        cache.delete(key)
         data = None
-        cache_status = 'EMPTY_RELOAD'
     
     if data is None:
-        logger.debug('_load_translations: loading from DB for key=%s (reason: %s)', key, cache_status)
         try:
             tc = TranslationCache.objects.get(page_key=page_key, lang=lang)
-            logger.debug('_load_translations: found TranslationCache for %s/%s, content type=%s', 
-                        page_key, lang, type(tc.content))
+            data = tc.content if isinstance(tc.content, dict) else {}
             
-            if tc.content is None:
-                logger.warning('_load_translations: tc.content is None for %s/%s', page_key, lang)
-                data = {}
-            elif isinstance(tc.content, dict):
-                data = tc.content
-                logger.debug('_load_translations: loaded from DB, has %d sections', len(data))
-            else:
-                logger.error('_load_translations: tc.content is not dict! type=%s', type(tc.content))
-                data = {}
-            
-            # Guardar en cache solo si hay datos
             if data:
-                try:
-                    cache.set(key, data, _CACHE_TIMEOUT)
-                    logger.debug('_load_translations: saved to Redis cache for key=%s', key)
-                except Exception as exc:
-                    logger.error('_load_translations: Redis SET error for %s: %s', key, exc)
+                cache.set(key, data, _CACHE_TIMEOUT)
                 
         except TranslationCache.DoesNotExist:
-            logger.warning('_load_translations: TranslationCache NOT FOUND for page=%s lang=%s', page_key, lang)
             data = {}
-        except Exception as exc:
-            logger.error('_load_translations: DB ERROR for %s: %s', key, exc, exc_info=True)
+        except Exception:
             data = {}
-    else:
-        logger.debug('_load_translations: using cached data for key=%s, has %d sections', key, len(data))
     
     return data
 
@@ -140,8 +106,6 @@ def _invalidate_cache(page_key: str = 'home', specific_lang: str = None) -> None
     for lc in langs:
         cache.delete(_cache_key(page_key, lc))
         cache.delete(f'tr_fresh:{page_key}:{lc}')
-
-    logger.debug('tr: caché invalidado para page=%s langs=%s', page_key, langs)
 
 
 def _apply_url_rewrites(html: str, lang: str) -> str:
@@ -209,38 +173,26 @@ def section(context, section_key: str, template_name: str):
 
     from .. import conf
     default_lang = conf.get_default_language()
-    page_key = _detect_page_key(request)
-    
-    logger.debug('section DEBUG: section_key=%s, lang=%s, default_lang=%s, page_key=%s', 
-                 section_key, lang, default_lang, page_key)
 
     if lang != default_lang:
-        content = _load_translations(page_key, lang)
-        logger.debug('section DEBUG: content keys=%s', list(content.keys()) if content else 'empty')
+        content = _load_translations(_detect_page_key(request), lang)
         translated_html = content.get(section_key)
         if translated_html:
             translated_html = _apply_url_rewrites(translated_html, lang)
-            logger.debug(
-                'section: %s lang=%s → translated HTML (%d chars)',
-                section_key, lang, len(translated_html),
-            )
             return mark_safe(translated_html)
-        else:
-            logger.debug('section DEBUG: no translated_html for section_key=%s in lang=%s', section_key, lang)
 
     # Fallback: renderiza el template original
-    logger.debug('section DEBUG: fallback to original template for section_key=%s', section_key)
     from django.template.loader import render_to_string
     ctx = dict(context.flatten())
 
     ctx_provider = conf.get_section_context_provider()
     if ctx_provider:
         try:
-            extra = ctx_provider(request, page_key)
+            extra = ctx_provider(request, _detect_page_key(request))
             for k, v in extra.items():
                 ctx.setdefault(k, v)
-        except Exception as exc:
-            logger.warning('section: SECTION_CONTEXT_PROVIDER falló — %s', exc)
+        except Exception:
+            pass
 
     return mark_safe(render_to_string(template_name, ctx, request=request))
 
