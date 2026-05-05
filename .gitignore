@@ -50,8 +50,6 @@ db/
 # Nginx generado por nginx-deploy.sh (usa PROJECT_NAME como nombre)
 *.conf
 !nginx.conf
-!nginx-n8n.conf
-!nginx-n8n-mcp.conf
 !nginx-sitepage.conf
 
 # Archivos de Claude Code
