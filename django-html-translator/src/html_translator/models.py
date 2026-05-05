@@ -37,7 +37,7 @@ class TranslatorConfig(models.Model):
         help_text='Ej: es. Deja en blanco para usar el valor de settings.py.',
     )
     available_languages = models.JSONField(
-        default=lambda: ['en', 'pt', 'fr', 'de', 'it'],
+        default=['en', 'pt', 'fr', 'de', 'it'],
         blank=True,
         verbose_name='Idiomas disponibles',
         help_text='Lista JSON de códigos ISO de dos letras, ej: ["en", "pt", "fr", "de", "it"]. Idioma base (es) no se incluye aquí.',
