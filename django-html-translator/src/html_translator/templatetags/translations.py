@@ -236,6 +236,8 @@ def hreflang_tags(context):
         return ''
 
     request = context.get('request')
+    if not request:
+        return ''
     page_key = _detect_page_key(request)
     default_lang = conf.get_default_language()
 
