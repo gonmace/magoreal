@@ -4,8 +4,12 @@ from django.dispatch import receiver
 
 @receiver(post_save, sender='site_config.SiteConfig')
 def invalidate_home_translations(sender, **kwargs):
-    """Borra TranslationCache de 'home' cuando cambia SiteConfig."""
-    from html_translator.models import TranslationCache
+    """Invalida el cache en memoria cuando cambia SiteConfig.
+    
+    No borra las traducciones de la BD, solo invalida el cache de memoria.
+    Las traducciones se marcarán como obsoletas y se regenerarán automáticamente.
+    """
     from html_translator.templatetags.translations import _invalidate_cache
-    TranslationCache.objects.filter(page_key='home').delete()
+    # Solo invalidar el cache de memoria, no borrar las traducciones de la BD
+    # Las traducciones se marcarán como obsoletas y se regenerarán cuando sea necesario
     _invalidate_cache('home')
