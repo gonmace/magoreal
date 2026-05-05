@@ -128,20 +128,6 @@ class SiteConfig(models.Model):
         ),
     )
 
-    # ── Traducción / OpenAI ────────────────────────────────────
-    openai_api_key = models.CharField(
-        max_length=200,
-        blank=True,
-        verbose_name='OpenAI API Key',
-        help_text='sk-... Se almacena en la base de datos.',
-    )
-    openai_model = models.CharField(
-        max_length=60,
-        blank=True,
-        default='gpt-4.1-mini',
-        verbose_name='Modelo OpenAI',
-        help_text='Ejemplos: gpt-4.1-mini, gpt-4o, gpt-4o-mini, gpt-4.1',
-    )
     multilingual = models.BooleanField(
         default=True,
         verbose_name='Multilenguaje activo',

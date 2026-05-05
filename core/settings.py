@@ -256,21 +256,10 @@ N8N_URL = config('N8N_URL', default='')
 N8N_API_KEY = config('N8N_API_KEY', default='')
 N8N_WEBHOOK_URL = config('N8N_WEBHOOK_URL', default='')
 
-def _get_openai_api_key():
-    from site_config.models import SiteConfig
-    return SiteConfig.load().openai_api_key or ''
-
-
-def _get_openai_model():
-    from site_config.models import SiteConfig
-    return SiteConfig.load().openai_model or 'gpt-4.1-mini'
-
 
 # ── html_translator: configuración central ───────────────────────────────────
 TRANSLATIONS_CONFIG = {
     # OpenAI — now configured only via TranslatorConfig in admin (html_translator)
-    # 'OPENAI_API_KEY': lambda: _get_openai_api_key(),
-    # 'OPENAI_MODEL':   lambda: _get_openai_model(),
 
     'CALLBACK_TOKEN':   config('TRANSLATIONS_CALLBACK_TOKEN', default=''),
     'DEFAULT_LANGUAGE': 'es',
