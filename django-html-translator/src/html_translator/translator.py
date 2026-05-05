@@ -98,7 +98,9 @@ def translate_page(
                 'translate_page: %s/%s [%s] FALLO — %s',
                 page_key, lang, section_key, exc,
             )
-            translated_html[section_key] = sections_html.get(section_key, '')
+            # NO guardar el HTML original como traducción
+            # Marcar como None para indicar que esta sección falló
+            translated_html[section_key] = None
 
     try:
         tc = TranslationCache.objects.get(page_key=page_key, lang=lang)
@@ -107,21 +109,29 @@ def translate_page(
         merged_content = {}
         # Para cada sección en source_html, decidir qué contenido usar
         for section_key in tc.source_html.keys():
-            if section_key in translated_html:
-                # Sección traducida o con HTML original (nueva)
+            if section_key in translated_html and translated_html[section_key] is not None:
+                # Sección traducida exitosamente
                 merged_content[section_key] = translated_html[section_key]
-            elif section_key in existing_content:
-                # Sección existente no obsoleta
+            elif section_key in existing_content and existing_content[section_key] != tc.source_html.get(section_key, ''):
+                # Sección existente que no es el HTML original (traducción válida)
                 merged_content[section_key] = existing_content[section_key]
-            else:
-                # No debería pasar, pero por seguridad usar HTML original
-                merged_content[section_key] = tc.source_html.get(section_key, '')
-        tc.content = merged_content
-        tc.save(update_fields=['content', 'updated_at'])
-        logger.info(
-            'translate_page: COMPLETADO %s/%s — %d secciones',
-            page_key, lang, len(merged_content),
-        )
+            # Si la sección falló (None) o no hay traducción válida, no incluirla
+            # Esto fuerza al sistema a usar el template original o reintentar
+        
+        # Si no hay ninguna traducción exitosa, marcar como fallido
+        if not merged_content:
+            logger.warning(
+                'translate_page: TODAS las secciones fallaron para %s/%s — manteniendo contenido anterior',
+                page_key, lang,
+            )
+            merged_content = existing_content if existing_content else {}
+        else:
+            tc.content = merged_content
+            tc.save(update_fields=['content', 'updated_at'])
+            logger.info(
+                'translate_page: COMPLETADO %s/%s — %d secciones traducidas',
+                page_key, lang, len(merged_content),
+            )
     except TranslationCache.DoesNotExist:
         logger.error(
             'translate_page: TranslationCache no existe para %s/%s — descartando',
