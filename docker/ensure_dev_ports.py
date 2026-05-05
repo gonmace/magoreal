@@ -107,9 +107,9 @@ def run_check_only(env: dict[str, str]) -> tuple[bool, list[str]]:
     n8n_default_p = as_int(env, "N8N_PORT", app + 1)
     mcp_default_p = as_int(env, "N8N_MCP_PORT", app + 2)
 
+    # Solo APP_PORT es relevante en producción — postgres y redis no exponen
+    # puertos al host en docker-compose.yml (solo red interna app_network).
     specs: list[tuple[str, int]] = [
-        ("POSTGRES_HOST_PORT", as_int(env, "POSTGRES_HOST_PORT", 5432)),
-        ("REDIS_HOST_PORT", as_int(env, "REDIS_HOST_PORT", 6379)),
         ("APP_PORT", app),
     ]
     n8n_on = bool(env.get("N8N_DOMAIN", "").strip())
