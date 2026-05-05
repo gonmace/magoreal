@@ -34,7 +34,11 @@ def check_translations_config(app_configs, **kwargs):
         return errors
 
     api_key = cfg.get('OPENAI_API_KEY')
-    resolved_key = api_key() if callable(api_key) else api_key
+    try:
+        resolved_key = api_key() if callable(api_key) else api_key
+    except Exception:
+        # La DB puede no existir todavía (primera migración). Omitir el check.
+        resolved_key = True
     if not resolved_key:
         # También es válido configurarla desde el panel de administración (TranslatorConfig).
         db_key = ''
