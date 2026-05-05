@@ -4,6 +4,10 @@ import json
 from django.db import models
 
 
+def default_available_languages():
+    return ['en', 'pt', 'fr', 'de', 'it']
+
+
 class TranslatorConfig(models.Model):
     """
     Configuración singleton del traductor, editable desde el panel de administración.
@@ -37,7 +41,7 @@ class TranslatorConfig(models.Model):
         help_text='Ej: es. Deja en blanco para usar el valor de settings.py.',
     )
     available_languages = models.JSONField(
-        default=['en', 'pt', 'fr', 'de', 'it'],
+        default=default_available_languages,
         blank=True,
         verbose_name='Idiomas disponibles',
         help_text='Lista JSON de códigos ISO de dos letras, ej: ["en", "pt", "fr", "de", "it"]. Idioma base (es) no se incluye aquí.',
