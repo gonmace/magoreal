@@ -54,6 +54,12 @@ def _load_translations(page_key: str, lang: str) -> dict:
     key = _cache_key(page_key, lang)
     data = cache.get(key)
     
+    # Si cache hit pero datos vacíos, intentar recargar desde BD
+    if data is not None and not data:
+        logger.debug('_load_translations: cache HIT but EMPTY for key=%s, reloading from DB', key)
+        cache.delete(key)
+        data = None
+    
     if data is None:
         logger.debug('_load_translations: cache MISS for key=%s', key)
         try:
