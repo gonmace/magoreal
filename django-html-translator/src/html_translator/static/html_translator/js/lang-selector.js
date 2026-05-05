@@ -118,8 +118,11 @@ function langSelector(options = {}) {
 
     async choose(lang) {
       if (this.currentLang === lang) return;
+      
+      // Establecer cookie para TODOS los idiomas, no solo el default
+      document.cookie = `lang=${lang}; path=/; max-age=31536000; SameSite=Lax`;
+      
       if (lang === defaultLang) {
-        document.cookie = `lang=${defaultLang}; path=/; max-age=31536000; SameSite=Lax`;
         window.location.href = getUrl(lang);
         return;
       }
