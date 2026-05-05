@@ -38,14 +38,61 @@ with open('nginx.conf') as f:
         'PROJECT_DIR': '${PROJECT_DIR}',
     })
 
+sitepage_template = """
+# --- SitePage: {{SITEPAGE_DOMAIN}} ---
+server {
+    listen 80;
+    server_name {{SITEPAGE_DOMAIN}};
+
+    client_max_body_size 20M;
+
+    gzip on;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css text/xml application/json application/javascript application/xml+rss image/svg+xml;
+
+    location /static/ {
+        alias {{PROJECT_DIR}}/staticfiles/;
+        expires 365d;
+        add_header Cache-Control "public, immutable";
+        gzip_static on;
+    }
+
+    location /media/proyectos/ {
+        alias {{PROJECT_DIR}}/proyectos/;
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
+    location /media/ {
+        alias {{PROJECT_DIR}}/media/;
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:{{APP_PORT}};
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+}
+"""
+
+sitepage_blocks = ''
 sitepage_domains = [d.strip() for d in '${SITEPAGE_DOMAINS}'.split(',') if d.strip()]
 for sp_domain in sitepage_domains:
-    with open('nginx-sitepage.conf') as f:
-        output += substitute(f.read(), {
-            'SITEPAGE_DOMAIN': sp_domain,
-            'APP_PORT': '${APP_PORT}',
-            'PROJECT_DIR': '${PROJECT_DIR}',
-        })
+    sitepage_blocks += substitute(sitepage_template, {
+        'SITEPAGE_DOMAIN': sp_domain,
+        'APP_PORT': '${APP_PORT}',
+        'PROJECT_DIR': '${PROJECT_DIR}',
+    })
+
+# Replace placeholder with generated blocks (or empty)
+output = output.replace('{{SITEPAGE_BLOCKS}}', sitepage_blocks)
 
 with open('${NGINX_OUT}', 'w') as f:
     f.write(output)
