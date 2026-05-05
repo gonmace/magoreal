@@ -95,8 +95,36 @@ def get_default_language() -> str:
 def get_available_languages() -> list[str]:
     db = _get_db_config()
     if db and db.available_languages:
+        # If empty list, try to get from SiteConfig
+        if not db.available_languages:
+            try:
+                from site_config.models import SiteConfig
+                config = SiteConfig.load()
+                if config.available_languages:
+                    langs = [lang.strip() for lang in config.available_languages.split(',') if lang.strip()]
+                    if langs:
+                        return langs
+            except Exception:
+                pass
+            return ['en', 'pt', 'fr', 'de', 'it']
         return db.available_languages
-    return _resolve_setting('AVAILABLE_LANGUAGES', [])
+    # Fallback to settings.py or default
+    from django.conf import settings
+    available = _resolve_setting('AVAILABLE_LANGUAGES', None)
+    if available:
+        return available
+    # Try SiteConfig
+    try:
+        from site_config.models import SiteConfig
+        config = SiteConfig.load()
+        if config.available_languages:
+            langs = [lang.strip() for lang in config.available_languages.split(',') if lang.strip()]
+            if langs:
+                return langs
+    except Exception:
+        pass
+    # Default if not configured anywhere
+    return ['en', 'pt', 'fr', 'de', 'it']
 
 
 def get_sections_config() -> list[tuple[str, str]]:

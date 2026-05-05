@@ -79,7 +79,8 @@ def _invalidate_cache(page_key: str = 'home') -> None:
     if available:
         langs.update(available)
     else:
-        langs.update(['en', 'pt-br', 'pt-pt', 'fr', 'de', 'it', 'zh'])
+        # Default languages if not configured in TranslatorConfig
+        langs.update(['en', 'pt', 'fr', 'de', 'it'])
 
     for lc in langs:
         cache.delete(_cache_key(page_key, lc))
