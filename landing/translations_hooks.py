@@ -33,6 +33,8 @@ def detect_page_key(request) -> str:
     el mismo page_key ('portfolio-{slug}'), aunque tengan resolver_match
     distintos (uno tiene namespace='portfolio', el otro no).
     """
+    if request is None:
+        return 'home'
     rm = getattr(request, 'resolver_match', None)
     if rm is None:
         return 'home'
