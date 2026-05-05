@@ -1,0 +1,257 @@
+{
+  "id": "portal-documental-obras-distribuidas-nextcloud",
+  "orden": 6,
+  "nombre_solucion": "Portal documental de obras distribuidas con integración Nextcloud",
+  "titulo": "Un portal web donde toda la documentación de tus obras vive junto al mapa — sin cambiar las carpetas de Nextcloud",
+  "titulo_card": "Tus obras en el mapa. Tu documentación donde siempre estuvo.",
+  "subtitulo": "Django + n8n + Nextcloud. Cada sitio geolocalizado, con su galería de fotos, sus subcarpetas, sus archivos y sus permisos — sin OAuth, sin migrar archivos, sin pagar por usuario.",
+  "tipo_solucion": "Portal documental georreferenciado con integración Nextcloud vía n8n",
+  "categorias": [
+    "Gestión de obras distribuidas (telecom, energía, agua, infraestructura civil)",
+    "Documentación técnica georreferenciada",
+    "Integración con Nextcloud / nubes privadas",
+    "Portales de colaboración multi-contratista",
+    "Mapas de sitios con estado de avance"
+  ],
+  "estado": "En producción — cliente real, contratista de obras de telecomunicaciones con operaciones multi-país",
+  "industrias_objetivo": [
+    "Telecomunicaciones (torres, antenas, fibra óptica)",
+    "Energía (líneas, postes, subestaciones)",
+    "Agua / saneamiento (redes, pozos, estaciones)",
+    "Minería (accesos, campamentos, plantas satélite)",
+    "Construcción civil con muchas obras simultáneas",
+    "Mantenimiento de infraestructura con dispersión geográfica"
+  ],
+  "problemas_que_resuelve": [
+    "Decenas o centenas de obras, cada una con su carpeta de Nextcloud/Dropbox/Drive, imposibles de encontrar sin contexto",
+    "Documentación técnica separada del sitio físico — no se sabe qué está en qué ubicación",
+    "Fotos de WhatsApp del terreno que nadie consolida con el resto de la documentación",
+    "Permisos confusos: administrador, visitante, ITO, cliente final — todos ven lo mismo o se arman shares a mano",
+    "Múltiples contratistas/empresas con sus propias carpetas y mismos tipos de obra",
+    "Nadie sabe qué sitios están al día y cuáles están atrasados sin abrir cada carpeta",
+    "Docs finales de entrega al cliente mezclados con documentación de trabajo"
+  ],
+  "capacidades": {
+    "portal_multi_empresa": [
+      "Navegación por empresa / contratista — cada una con sus sitios",
+      "Sidebar con conteo de sitios por empresa",
+      "Cambio de empresa con 1 click",
+      "Configuración desde admin Django (no requiere redeploy)"
+    ],
+    "vista_sitios": [
+      "Tabla de sitios con código, nombre, contratista, ITO, estado",
+      "Filtros por estado (asignado / en ejecución / completado)",
+      "Búsqueda por código de sitio",
+      "Flags de avance técnico (p. ej. hormigonado, montado, energizado) configurables"
+    ],
+    "mapa_georreferenciado": [
+      "Leaflet + OpenStreetMap (sin API keys, sin costos)",
+      "Pins coloreados por estado y por empresa",
+      "Clustering automático en zoom bajo",
+      "Popup con datos del sitio + enlace a carpeta",
+      "Filtros de mapa sincronizados con la tabla"
+    ],
+    "integracion_nextcloud_via_n8n": [
+      "n8n es el middleware — Django no habla WebDAV directo",
+      "Workflow nc-tekon: lista items de una ruta",
+      "Workflow nc-tekon-deep: conteo recursivo de archivos por subcarpeta",
+      "Credenciales Nextcloud encapsuladas en n8n — no en settings Django",
+      "Workflows versionados en JSON dentro del repo"
+    ],
+    "cache_postgres": [
+      "EstructuraCache: estructura de carpetas por empresa",
+      "SitioCache: árbol de subcarpetas por sitio con conteo",
+      "ProyectoFinalCache: árbol de docs finales",
+      "TTL configurable, refresh manual desde admin",
+      "Miss → webhook n8n → actualiza caché → render"
+    ],
+    "roles_permisos": [
+      "UserProfile con rol administrador / visitante",
+      "EmpresaLink por empresa con link_admin y link_visitante",
+      "Cada rol recibe una URL de share de Nextcloud distinta",
+      "Sin OAuth — resuelto con shares públicos + contraseña",
+      "Extendible a más roles (ITO, cliente, supervisor)"
+    ],
+    "docs_finales": [
+      "Carpeta unificada de entrega al cliente (p. ej. /20-PTI SP)",
+      "Vista separada — no se mezcla con docs. contratista",
+      "Tree con conteo de archivos por documento final",
+      "Link directo a Nextcloud por rol"
+    ],
+    "galeria_fotos": [
+      "Fotos de WhatsApp sincronizadas a Nextcloud se ven como galería",
+      "Agrupación por fecha",
+      "Por sitio — útil para ITO y cliente",
+      "Sin duplicación de storage (miniatura + link)"
+    ],
+    "auditoria_actividad": [
+      "Última actualización por carpeta (mtime real de Nextcloud)",
+      "Panel de actividad reciente",
+      "Detección de cambios de estado",
+      "Badges visuales por frescura (hoy / esta semana / atrasado)"
+    ],
+    "api_rest_interna": [
+      "/docs/api/sitios/ — lista sitios por empresa",
+      "/docs/api/carpetas/ — estructura o con archivos",
+      "/docs/api/carpetas/archivos/ — subcarpetas con conteo",
+      "/docs/api/final/tree/ — árbol de docs finales",
+      "Consumible por frontend propio o por otros sistemas"
+    ]
+  },
+  "flujo_datos_detallado": [
+    {
+      "paso": 1,
+      "titulo": "Usuario abre sitio",
+      "descripcion": "Vista Django solicita subcarpetas del sitio seleccionado"
+    },
+    {
+      "paso": 2,
+      "titulo": "Consulta a caché",
+      "descripcion": "Hit (SitioCache válida) → responde en <50 ms"
+    },
+    {
+      "paso": 3,
+      "titulo": "Miss → webhook n8n",
+      "descripcion": "GET /webhook/nc-tekon?path=/<empresa>/<sitio>"
+    },
+    {
+      "paso": 4,
+      "titulo": "n8n → Nextcloud",
+      "descripcion": "Node Nextcloud hace PROPFIND vía WebDAV"
+    },
+    {
+      "paso": 5,
+      "titulo": "Response JSON",
+      "descripcion": "n8n devuelve carpetas con conteo y fecha de modificación"
+    },
+    {
+      "paso": 6,
+      "titulo": "Django guarda caché",
+      "descripcion": "Escribe SitioCache con TTL y timestamp"
+    },
+    {
+      "paso": 7,
+      "titulo": "Render al navegador",
+      "descripcion": "Tailwind + DaisyUI muestran los badges de actualización"
+    }
+  ],
+  "stack": {
+    "framework": [
+      "Django 5.2",
+      "Django REST Framework (views ligeras)"
+    ],
+    "database": [
+      "PostgreSQL 17 (prod)",
+      "MariaDB 10.2+ (opción)",
+      "SQLite (dev)"
+    ],
+    "css": [
+      "Tailwind CSS v4.2",
+      "DaisyUI v5.5",
+      "django-browser-reload"
+    ],
+    "mapping": [
+      "Leaflet",
+      "OpenStreetMap tiles"
+    ],
+    "middleware_integracion": [
+      "n8n self-hosted (webhooks + node Nextcloud)"
+    ],
+    "storage_documentos": [
+      "Nextcloud (vía WebDAV a través de n8n)"
+    ],
+    "cache_storage": [
+      "Tablas Postgres — EstructuraCache, SitioCache, ProyectoFinalCache"
+    ],
+    "auth": [
+      "Django auth",
+      "UserProfile con rol",
+      "sin OAuth externo"
+    ],
+    "orchestration": [
+      "Docker Compose (Dockerfile + Dockerfile.mariadb)"
+    ],
+    "web_server": [
+      "Gunicorn",
+      "Nginx reverse proxy",
+      "Let's Encrypt"
+    ]
+  },
+  "diferenciales": [
+    "vs. obligar a usar Nextcloud directo: portal propio con contexto de obra, mapa, estado — sin obligar al usuario a navegar WebDAV",
+    "vs. SharePoint / SaaS documental: sin costo por usuario, sin encierro de datos — Nextcloud queda donde ya estaba",
+    "vs. Drive con permisos a mano: roles generan URLs diferentes automáticamente",
+    "vs. construir con WebDAV directo desde Django: n8n aísla credenciales, agrega reintentos y deja los workflows versionados",
+    "vs. apps genéricas de GIS: enfocado en documentación — cada pin muestra qué falta, qué se entregó y quién lo hizo",
+    "vs. no tener nada: el ITO ya no manda por WhatsApp la carpeta del sitio — manda el link del sitio en el portal"
+  ],
+  "beneficios": [
+    "Tiempo de búsqueda de un documento de obra: de minutos a segundos",
+    "Visión de conjunto: qué sitios están al día y cuáles atrasados, en un mapa",
+    "Cero migración de archivos — Nextcloud sigue siendo la fuente de verdad",
+    "Multi-empresa: se agregan contratistas desde admin sin tocar código",
+    "Auditoría: fecha real de última modificación por carpeta",
+    "Permisos: admin y visitante sin configurar OAuth ni SSO",
+    "Cliente final accede solo a Docs. Finales — sin ver el trabajo en curso"
+  ],
+  "caso_referencia": {
+    "industria": "Contratista de obras de telecomunicaciones con operaciones multi-país",
+    "escala_aproximada": "87 sitios activos, 3 empresas contratistas, 4 roles diferenciados",
+    "valor_aportado": "Unificó la visión de sitios de telecom distribuidos geográficamente — antes cada contratista miraba su propia carpeta de Nextcloud; ahora hay un mapa y un portal por arriba, con permisos por rol.",
+    "publicable": "sí, con cliente anonimizado como 'contratista regional de telecomunicaciones'",
+    "nombre": "Contratista regional de telecomunicaciones",
+    "sector": "Infraestructura de telecomunicaciones",
+    "ubicacion": "Multi-país"
+  },
+  "modelos_contratacion": [
+    "Proyecto llave en mano (portal + workflows n8n + despliegue)",
+    "Licenciamiento a equipos internos de IT con capacitación",
+    "Adaptación a otra industria (energía, agua, minería, construcción)",
+    "Soporte mensual con actualizaciones de capacidades (p. ej. nuevos filtros, nuevos roles, integraciones adicionales)"
+  ],
+  "rutas_codigo": {
+    "repo_privado": "gonmace/tekonmaps",
+    "local_clone": "/sessions/ecstatic-peaceful-bardeen/tekonmaps",
+    "workflows_n8n": "n8n-workflows/ (nc-tekon.json y nc-tekon-deep.json)"
+  },
+  "copy_landing": {
+    "headline": "Toda tu obra en un mapa. Toda tu documentación, donde ya estaba.",
+    "subheadline": "Portal documental con Django + n8n que lee tus carpetas de Nextcloud, las geolocaliza, las filtra por estado y las entrega por rol — sin migrar un solo archivo.",
+    "bullets": [
+      "Mapa con cada sitio coloreado por estado — un click lleva a su carpeta.",
+      "Galería de obra con las fotos de WhatsApp sincronizadas.",
+      "Árbol de carpetas con conteo en vivo y fecha real de última modificación.",
+      "Docs. Finales separados del trabajo en curso — listos para entrega al cliente.",
+      "Admin y visitante con URLs de Nextcloud distintas, automáticas, sin configurar OAuth.",
+      "n8n de middleware: credenciales ocultas, workflows versionados, reintentos y caché.",
+      "Funciona con la estructura de carpetas que ya tenés — cero migración."
+    ],
+    "cta": "Quiero ver mis obras en el mapa"
+  },
+  "roadmap": [
+    "Edición desde el portal (subir / renombrar / mover archivos vía n8n)",
+    "Comentarios y tareas por carpeta (tipo issue tracker ligero)",
+    "Notificaciones cuando un sitio cambia de estado (WhatsApp o mail)",
+    "App móvil PWA para ITO con geolocalización de reporte en campo",
+    "OCR automático de planos y documentos (búsqueda por contenido)",
+    "Panel de cumplimiento SLA por sitio y contratista"
+  ],
+  "screenshots": [
+    {
+      "archivo": "screenshots/01-portal-sitios.png",
+      "descripcion": "Portal principal: sitios por empresa, subcarpetas con conteo de archivos, actividad reciente y Docs. Finales"
+    },
+    {
+      "archivo": "screenshots/02-mapa-sitios.png",
+      "descripcion": "Mapa con sitios coloreados por estado y empresa, filtros laterales, popup con detalle de obra"
+    },
+    {
+      "archivo": "screenshots/03-galeria-nextcloud.png",
+      "descripcion": "Galería de fotos de WhatsApp agrupadas por fecha + árbol de carpetas Nextcloud en vivo"
+    },
+    {
+      "archivo": "screenshots/04-arquitectura.png",
+      "descripcion": "Arquitectura: usuarios → Django portal → n8n → Nextcloud, con flujo de datos detallado en 7 pasos"
+    }
+  ]
+}

@@ -43,8 +43,6 @@ services:
     volumes:
       - ./staticfiles:/app/staticfiles
       - ./media:/app/media
-      # MEDIA_ROOT en settings apunta a ../landing-automatizaciones (portfolio, screenshots).
-      - ../landing-automatizaciones:/landing-automatizaciones
     ports:
       - "127.0.0.1:${APP_PORT:-8000}:8000"
     depends_on:

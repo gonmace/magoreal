@@ -1,0 +1,238 @@
+{
+  "id": "generador-documentos-ia",
+  "orden": 2,
+  "nombre_solucion": "Generador de documentos técnicos con IA + validación humana",
+  "titulo": "Pliegos de especificaciones técnicas — para servicios y licitaciones — generados con IA y validados por tu equipo.",
+  "titulo_card": "La IA redacta. Tu equipo aprueba. El pliego sale en horas, no días.",
+  "subtitulo": "Plataforma con IA que redacta pliegos de especificaciones, términos de referencia y documentación técnica, lista para procesos de contratación de servicios o licitaciones públicas y privadas.",
+  "tipo_solucion": "Plataforma SaaS a medida con IA",
+  "categorias": [
+    "Automatización documental",
+    "IA aplicada a procesos de negocio",
+    "Orquestación de agentes LLM",
+    "Human-in-the-loop"
+  ],
+  "estado": "En producción con cliente corporativo",
+  "industrias_objetivo": [
+    "Compras y licitaciones (procurement)",
+    "Construcción e ingeniería",
+    "Legal y contratos",
+    "Farmacéutica y salud",
+    "Consultoría y auditoría",
+    "Educación y formación",
+    "Gobierno y compliance",
+    "Industria, mantenimiento y POEs"
+  ],
+  "capacidades": {
+    "wizard_guiado": [
+      "Captura de datos iniciales con validación",
+      "Validación de coherencia entre título y descripción por IA",
+      "Clasificación técnica automática (sistema, tipo, material, proceso)",
+      "Propuesta de parámetros técnicos con valores recomendados y unidades",
+      "Propuesta de normas/estándares aplicables con justificación",
+      "Propuesta de criterios de calidad y tolerancias",
+      "Reformulación de título en lenguaje técnico estándar",
+      "Descubrimiento de actividades o elementos complementarios"
+    ],
+    "generacion_documento": [
+      "Redacción de descripción y alcance",
+      "Materiales, equipos, herramientas y EPP",
+      "Procedimiento paso a paso",
+      "Medición y forma de pago (documentos contractuales)",
+      "Integración de normas y criterios en prosa profesional",
+      "Exportación a Word / PDF con plantilla corporativa"
+    ],
+    "personalizacion": [
+      "Branding y plantillas del cliente",
+      "Catálogo de normas específico por rubro / país",
+      "Vocabulario y estilo propio",
+      "Flujos de aprobación configurables",
+      "Tipos de documento extensibles"
+    ],
+    "gobernanza": [
+      "Historial y versiones de documentos",
+      "Trazabilidad de validación por usuario",
+      "Auditoría de sugerencias IA aceptadas/rechazadas",
+      "Analítica sobre uso de parámetros y normas"
+    ]
+  },
+  "arquitectura_ia": {
+    "patron": "Orquestación de agentes especializados (multi-agent) con pipeline validado y human-in-the-loop",
+    "agentes": [
+      {
+        "paso": "Coherencia",
+        "modelo": "GPT-5-mini",
+        "rol": "Valida consistencia entre título y descripción"
+      },
+      {
+        "paso": "Clasificación técnica",
+        "modelo": "GPT-5.1",
+        "rol": "Identifica sistema / elemento / material / proceso"
+      },
+      {
+        "paso": "Parámetros",
+        "modelo": "GPT-4.1-mini + GPT-5.1",
+        "rol": "Propone parámetros con valores, unidades y descripción"
+      },
+      {
+        "paso": "Normas",
+        "modelo": "GPT-5.1",
+        "rol": "Selecciona estándares aplicables con justificación"
+      },
+      {
+        "paso": "Calidad",
+        "modelo": "GPT-5.1",
+        "rol": "Define tolerancias y métodos de verificación"
+      },
+      {
+        "paso": "Título final",
+        "modelo": "GPT-5.1",
+        "rol": "Reformula el nombre en estándar técnico"
+      },
+      {
+        "paso": "Adicionales",
+        "modelo": "GPT-5.1",
+        "rol": "Descubre complementos y resumen"
+      },
+      {
+        "paso": "Documento final",
+        "modelo": "GPT-5.1",
+        "rol": "Redacta el documento completo en prosa profesional"
+      }
+    ],
+    "tecnicas": [
+      "Output estructurado con JSON Schema",
+      "Prompt engineering especializado por rol",
+      "Validación en cadena (pipeline)",
+      "Human-in-the-loop en cada paso",
+      "Retries con backoff ante fallos de API",
+      "Mezcla de modelos (liviano vs top) para optimizar costo"
+    ]
+  },
+  "stack": {
+    "frontend": [
+      "Web moderno",
+      "Wizard multi-paso",
+      "Modo oscuro y branding configurable"
+    ],
+    "orquestacion_ia": [
+      "n8n (workflows, webhooks, retries)"
+    ],
+    "modelos_llm": [
+      "OpenAI GPT-5.1",
+      "GPT-5-mini",
+      "GPT-4.1-mini"
+    ],
+    "output_estructurado": [
+      "JSON Schema",
+      "Structured Output Parsers (LangChain)"
+    ],
+    "backend": [
+      "API REST",
+      "Base relacional (historial, usuarios, plantillas)"
+    ],
+    "exportacion": [
+      "Word",
+      "PDF con plantilla corporativa"
+    ],
+    "hosting": [
+      "Nube o on-premise"
+    ]
+  },
+  "diferenciales": [
+    "No es 'meter ChatGPT' — es una orquestación de agentes con roles, prompts y validaciones",
+    "Flujos de IA editables sin redeploy (gracias a n8n)",
+    "Mezcla de modelos optimizada: costo bajo donde se puede, top donde se necesita",
+    "Human-in-the-loop: el experto siempre valida antes de avanzar",
+    "Output siempre estructurado (no texto libre difícil de consumir)",
+    "Adaptable a cualquier tipo de documento repetitivo de la empresa"
+  ],
+  "caso_referencia": {
+    "nombre": "Embotelladora multinacional",
+    "sector": "Bebidas y consumo masivo",
+    "uso": "Generación de especificaciones técnicas para licitaciones de obras civiles e infraestructura",
+    "publicable": "por confirmar",
+    "ejemplo_documento": "Especificación completa de 'Pavimento hormigón armado doble parrilla e=10 cm' con materiales, procedimiento, normas NB/ACI/ASTM y método de medición",
+    "pendientes_confirmar": [
+      "Autorización de uso del nombre",
+      "Fecha de puesta en producción",
+      "Ahorro de horas-persona",
+      "Cantidad de documentos generados",
+      "Testimonio del responsable del área"
+    ],
+    "ubicacion": ""
+  },
+  "ruta_codigo": "C:\\Users\\gonma\\Documents\\Claude\\CEV",
+  "copy_landing": {
+    "headline": "Pliegos y especificaciones listos en minutos. La IA redacta, tu equipo valida.",
+    "subheadline": "Plataforma con agentes de IA orquestados para generar especificaciones, pliegos, contratos, protocolos y POEs con el estándar de tu empresa. Validación humana en cada paso.",
+    "bullets": [
+      "Pliegos de especificaciones para licitaciones públicas y privadas.",
+      "Términos de referencia para contratación de servicios técnicos.",
+      "Wizard guiado con IA que propone y un experto que valida.",
+      "Agentes especializados por paso: coherencia, parámetros, normas, calidad, redacción.",
+      "Modelos mixtos (GPT-5.1 para razonamiento, GPT-5-mini para tareas livianas) — costo controlado.",
+      "Output estructurado en JSON: integra limpio con tu sistema.",
+      "Exportá a Word o PDF con plantilla corporativa.",
+      "Trazabilidad completa: quién validó qué, cuándo y por qué.",
+      "Adaptable a cualquier tipo de documento repetitivo de tu empresa."
+    ],
+    "cta": "Quiero ver cómo se adapta a mis documentos"
+  },
+  "screenshots": [
+    {
+      "archivo": "screenshots/1.webp",
+      "descripcion": "Paso 1: datos iniciales de la actividad (tipo, unidad, descripción)"
+    },
+    {
+      "archivo": "screenshots/2.webp",
+      "descripcion": "Paso 2: parámetros de materiales sugeridos por IA con valores recomendados"
+    },
+    {
+      "archivo": "screenshots/3.webp",
+      "descripcion": "Paso 3: parámetros de ejecución (dimensiones, tiempos, tolerancias)"
+    },
+    {
+      "archivo": "screenshots/4.webp",
+      "descripcion": "Paso 4: normas y estándares aplicables con justificación"
+    },
+    {
+      "archivo": "screenshots/5.webp",
+      "descripcion": "Paso 5: criterios de calidad con tolerancias y métodos de verificación"
+    },
+    {
+      "archivo": "screenshots/6.webp",
+      "descripcion": "Paso 6: ajuste de título con sugerencia técnica de IA"
+    },
+    {
+      "archivo": "screenshots/7.webp",
+      "descripcion": "Paso 7: actividades complementarias sugeridas"
+    },
+    {
+      "archivo": "screenshots/8.webp",
+      "descripcion": "Documento técnico completo generado, listo para licitación"
+    }
+  ],
+  "n8n_workflows": [
+    {
+      "archivo": "n8n-workflows/EspTec_01coherencia.json",
+      "descripcion": "Validación de coherencia + clasificación técnica"
+    },
+    {
+      "archivo": "n8n-workflows/EspTec_02-04parametros.json",
+      "descripcion": "Generación de parámetros (materiales, ejecución, normas, calidad)"
+    },
+    {
+      "archivo": "n8n-workflows/EspTec_05ajustar_titulo.json",
+      "descripcion": "Sugerencia de título final"
+    },
+    {
+      "archivo": "n8n-workflows/EspTec_06adicionales.json",
+      "descripcion": "Actividades adicionales y resumen"
+    },
+    {
+      "archivo": "n8n-workflows/EspTec_07final.json",
+      "descripcion": "Redacción del documento completo"
+    }
+  ]
+}

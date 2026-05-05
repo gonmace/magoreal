@@ -1,0 +1,268 @@
+{
+  "id": "chatbot-whatsapp-multi-agente-rag",
+  "orden": 3,
+  "nombre_solucion": "Plataforma de chatbots WhatsApp con IA multi-agente y RAG",
+  "titulo": "Un chatbot que conversa como humano. Responde, espera, clarifica — sin que el cliente sepa que no sos vos.",
+  "titulo_card": "Tu negocio atiende en WhatsApp 24/7 — sin que el cliente note la diferencia",
+  "subtitulo": "Atención 24/7 por WhatsApp con mensajes naturales en varias líneas, indicador \"escribiendo…\" y tiempos realistas. Responde, cotiza, agenda y deriva a humano cuando hace falta.",
+  "tipo_solucion": "Plataforma conversacional full-stack con IA",
+  "categorias": [
+    "Chatbots conversacionales con IA",
+    "Automatización de atención al cliente",
+    "Sistemas multi-agente con LLM",
+    "RAG (Retrieval Augmented Generation)",
+    "Integración WhatsApp Business"
+  ],
+  "estado": "En producción",
+  "industrias_objetivo": [
+    "Servicios con cotización y agenda (agua, gas, fletes, técnicos, limpieza)",
+    "E-commerce y retail con consultas de producto y stock",
+    "Clínicas, consultorios y centros de salud",
+    "Inmobiliarias y desarrolladoras",
+    "Instituciones educativas",
+    "PyMEs con alto volumen de consultas por WhatsApp"
+  ],
+  "problemas_que_resuelve": [
+    "Respuestas lentas o fuera de horario — ventas perdidas",
+    "Equipos saturados contestando siempre lo mismo",
+    "Información dispersa en PDFs y planillas que nadie encuentra rápido",
+    "Cotizaciones manuales lentas, con errores y sin trazabilidad",
+    "Falta de registro y análisis de las conversaciones",
+    "Plataformas SaaS de chatbots caras y con lógica limitada"
+  ],
+  "capacidades": {
+    "orquestacion_multi_agente": [
+      "Router inteligente que clasifica intención con LLM",
+      "Agentes especializados por dominio (cotización, consultas, reclamos, agenda)",
+      "Memoria conversacional persistente por usuario",
+      "Handoff automático a humano por urgencia o tono negativo",
+      "Salidas estructuradas con JSON Schema",
+      "Modelos mixtos: GPT-5.1 para razonamiento, GPT-4.1-mini para tareas rápidas"
+    ],
+    "rag_base_conocimiento": [
+      "ChromaDB como base vectorial local",
+      "Ingesta de PDFs, manuales, listas de precios, FAQs, políticas",
+      "Búsqueda semántica con MMR (Maximum Marginal Relevance)",
+      "Citación de fuente interna en cada respuesta",
+      "Base actualizable sin redeploy"
+    ],
+    "integracion_whatsapp": [
+      "WhatsApp Business API oficial",
+      "Soporte de texto, imagen, ubicación, audio y documentos",
+      "Multi-número — un backend para varias líneas",
+      "Transcripción automática de audios con Whisper",
+      "Envío programado y campañas saliente"
+    ],
+    "dashboard_control": [
+      "KPIs en vivo de conversaciones y resolución automática",
+      "Vista de conversaciones en tiempo real",
+      "Auditoría de cada mensaje: agente, modelo, tiempo, costo",
+      "Métricas por agente",
+      "Gestión web de la base de conocimiento",
+      "Exportación de conversaciones y métricas"
+    ],
+    "auditoria_mejora_continua": [
+      "Workflow de auditoría independiente",
+      "Detección de patrones de fallo",
+      "Sugerencia de nuevos documentos RAG o nuevos agentes",
+      "Proceso de mejora continua sin intervención manual"
+    ],
+    "mcp_integration": [
+      "Servidor n8n-MCP incluido",
+      "Integración con Cursor, Claude Code, Claude Desktop",
+      "Creación y modificación de workflows hablando en lenguaje natural"
+    ]
+  },
+  "arquitectura_multi_agente": {
+    "workflows_n8n": [
+      {
+        "archivo": "01_Main.json",
+        "rol": "Punto de entrada y router",
+        "funciones": [
+          "Recepción webhook WhatsApp",
+          "Normalización del mensaje",
+          "Recuperación de contexto",
+          "Clasificación de intención",
+          "Derivación al agente especializado"
+        ]
+      },
+      {
+        "archivo": "02_Agentes.json",
+        "rol": "Agentes especializados",
+        "funciones": [
+          "Cada agente con su prompt, modelo y herramientas propias",
+          "Devolución en JSON estructurado"
+        ]
+      },
+      {
+        "archivo": "03_Auditoria.json",
+        "rol": "Auditoría y mejora continua",
+        "funciones": [
+          "Revisión de conversaciones cerradas",
+          "Detección de huecos",
+          "Generación de reportes"
+        ]
+      }
+    ],
+    "nodos_totales_aproximados": "217+",
+    "agentes_tipicos": [
+      {
+        "nombre": "Cotizador",
+        "modelo": "GPT-5.1",
+        "rol": "Calcula precios consultando sistema operativo",
+        "tools": [
+          "API backend",
+          "RAG precios",
+          "Calculadora"
+        ]
+      },
+      {
+        "nombre": "Consultas",
+        "modelo": "GPT-4.1-mini",
+        "rol": "Responde sobre productos/servicios/horarios",
+        "tools": [
+          "RAG base conocimiento"
+        ]
+      },
+      {
+        "nombre": "Agenda",
+        "modelo": "GPT-5.1",
+        "rol": "Programa y reprograma servicios",
+        "tools": [
+          "API calendario",
+          "RAG políticas"
+        ]
+      },
+      {
+        "nombre": "Reclamos",
+        "modelo": "GPT-4.1-mini",
+        "rol": "Clasifica y escala reclamos a humano",
+        "tools": [
+          "Creación de ticket",
+          "Handoff"
+        ]
+      },
+      {
+        "nombre": "Fallback",
+        "modelo": "GPT-4.1-mini",
+        "rol": "Maneja mensajes no clasificados",
+        "tools": [
+          "RAG general"
+        ]
+      },
+      {
+        "nombre": "Cierre",
+        "modelo": "GPT-4.1-mini",
+        "rol": "Cierre con encuesta de satisfacción",
+        "tools": []
+      }
+    ]
+  },
+  "stack": {
+    "orquestacion": [
+      "n8n (self-hosted)"
+    ],
+    "ia": [
+      "OpenAI GPT-5.1",
+      "GPT-4.1-mini",
+      "Whisper",
+      "text-embedding-3"
+    ],
+    "rag": [
+      "ChromaDB"
+    ],
+    "backend_api": [
+      "FastAPI",
+      "Python"
+    ],
+    "dashboard": [
+      "Django",
+      "Django Admin",
+      "Tailwind CSS",
+      "daisyUI"
+    ],
+    "database": [
+      "PostgreSQL"
+    ],
+    "integracion": [
+      "WhatsApp Business API oficial"
+    ],
+    "infra": [
+      "Docker Compose",
+      "Nginx",
+      "VPS Ubuntu o nube del cliente"
+    ],
+    "extensibilidad": [
+      "Servidor n8n-MCP para Cursor / Claude Code / Claude Desktop"
+    ]
+  },
+  "diferenciales": [
+    "Humaniza la conversación: responde en varios mensajes cortos, con indicador \"escribiendo…\" y delays naturales entre respuestas — el cliente no nota la diferencia",
+    "Multi-agente real, no bot de un solo prompt",
+    "RAG con base propia auditable — documentos no salen a terceros",
+    "100% on-premise / nube privada — los datos de WhatsApp no salen del cliente",
+    "Código propietario sin vendor lock-in",
+    "Auditoría automática — el sistema se mejora solo detectando sus huecos",
+    "Integración con IDEs de IA (MCP) — extensión hablando con una IA",
+    "Arquitectura modular — agentes se enchufan/desenchufan sin romper el resto",
+    "Adaptable a cualquier rubro — core mismo, cambian prompts y RAG",
+    "Sin mensualidades por conversación ni por usuario"
+  ],
+  "beneficios": [
+    "Reducción drástica de tiempo de respuesta: de horas a segundos, 24/7",
+    "Descarga al equipo humano: el bot resuelve 60–80% de consultas repetitivas",
+    "Más conversiones: respuesta instantánea = cliente que compra",
+    "Trazabilidad total: cada conversación auditable y exportable",
+    "Sin costos por usuario ni conversación",
+    "Escalable: mismo backend atiende 10 o 10.000 conversaciones diarias",
+    "Aprende sola: auditoría marca huecos sin desarrollo adicional"
+  ],
+  "caso_referencia": {
+    "nombre": "Empresa de servicios con alto volumen WhatsApp",
+    "sector": "Servicios a domicilio",
+    "ubicacion": "",
+    "uso": "Canal comercial y de atención sobre WhatsApp integrado con el backoffice del cliente. El bot cotiza consultando el motor de precios, responde FAQs, agenda servicios y deriva a humano cuando hace falta.",
+    "publicable": "por confirmar"
+  },
+  "copy_landing": {
+    "headline": "Un chatbot que conversa como humano. El cliente no nota la diferencia.",
+    "subheadline": "Plataforma de chatbots con multi-agente, RAG y dashboard, desplegada en tu propia infraestructura. Sin mensualidades por conversación.",
+    "bullets": [
+      "Responde en varios mensajes cortos con tiempos naturales, como una persona real. Indicador \"escribiendo…\" incluido.",
+      "Agentes especializados que cotizan, consultan, agendan y derivan solos.",
+      "RAG sobre tus propios PDFs, listas de precios y políticas — sin fuga de datos.",
+      "Dashboard con KPIs en vivo, conversaciones, métricas por agente y auditoría.",
+      "WhatsApp Business API oficial — multi-número, texto, audio, imagen, ubicación.",
+      "Auditoría automática que detecta los huecos del bot y propone mejoras.",
+      "Se extiende desde tu IDE (Cursor / Claude Code) hablándole al servidor MCP.",
+      "Código propio, sin vendor lock-in — corre en VPS o nube privada."
+    ],
+    "cta": "Quiero ver cómo se adapta a mi operación"
+  },
+  "show_wa_demo": true,
+  "proximas_capacidades": [
+    "Agente de upsell proactivo basado en histórico",
+    "Dashboards predictivos de demanda por zona y día",
+    "Voicebot con la misma arquitectura",
+    "Integración con CRMs (HubSpot, Pipedrive) vía MCP",
+    "Módulo de campañas saliente con personalización por IA"
+  ],
+  "screenshots": [
+    {
+      "archivo": "screenshots/01-whatsapp-chat-bot.png",
+      "descripcion": "Vista del chat WhatsApp con el bot atendiendo un caso real"
+    },
+    {
+      "archivo": "screenshots/02-dashboard-django.png",
+      "descripcion": "Dashboard de control con KPIs, conversaciones en vivo y actividad por agente"
+    },
+    {
+      "archivo": "screenshots/03-arquitectura-stack.png",
+      "descripcion": "Diagrama técnico del stack completo con n8n, FastAPI, ChromaDB y servicios"
+    },
+    {
+      "archivo": "screenshots/04-multi-agente.png",
+      "descripcion": "Vista del sistema multi-agente con el router central y los especialistas"
+    }
+  ]
+}

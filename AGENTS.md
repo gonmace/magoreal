@@ -2,7 +2,7 @@
 
 ## Working directory
 
-All commands run inside `landing/`. The sibling `landing-automatizaciones/` directory contains project data (screenshots, metadata JSONs) -- managed separately from Django code.
+All commands run inside `landing/`. The `proyectos/` directory contains project data (screenshots, metadata JSONs) within the Django project.
 
 ## Developer commands
 
@@ -23,7 +23,7 @@ Django management commands use a dynamic MANAGE variable that routes to `docker 
 - `core/settings.py` -- unico, comportamiento driven por variables de entorno
 - Apps: `landing/`, `portfolio/`, `translations/`, `site_config/`
 - Plantillas: `templates/` (base + includes), `landing/templates/landing/`, `portfolio/templates/portfolio/`
-- PROYECTOS_DIR en settings = `landing-automatizaciones/proyectos/` -- los proyectos se cargan desde JSON en runtime
+- PROYECTOS_DIR en settings = `proyectos/` -- los proyectos se cargan desde JSON en runtime
 
 ## Tailwind / CSS
 
@@ -63,8 +63,8 @@ Django management commands use a dynamic MANAGE variable that routes to `docker 
 
 ## Portfolio project data
 
-- Metadatos: `landing-automatizaciones/proyectos/<slug>/metadata.json`
-- Screenshots: `landing-automatizaciones/proyectos/<slug>/screenshots/`
+- Metadatos: `proyectos/<slug>/metadata.json`
+- Screenshots: `proyectos/<slug>/screenshots/`
 - Loader: `portfolio/loaders.py` -> `portfolio/context_processors.py:get_proyectos()`
 - No son modelos Django -- se recargan en cache de modulo al restart o cuando cambia el JSON (dev mode)
 

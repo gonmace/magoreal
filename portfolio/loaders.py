@@ -1,6 +1,6 @@
 """
-Carga los proyectos del portfolio desde los metadata.json ubicados fuera del
-proyecto Django (en ../landing-automatizaciones/proyectos/).
+Carga los proyectos del portfolio desde los metadata.json ubicados en
+la carpeta proyectos/ dentro del proyecto Django.
 
 Los datos se leen en frío una sola vez y se cachean en memoria del proceso.
 En Gunicorn con múltiples workers cada worker mantiene su propia caché, lo

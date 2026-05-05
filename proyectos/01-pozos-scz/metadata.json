@@ -1,0 +1,181 @@
+{
+  "id": "plataforma-gestion-operativa",
+  "orden": 1,
+  "nombre_solucion": "Plataforma de gestión operativa para servicios con logística de campo",
+  "titulo": "Cotizá, programá y controlá operaciones con logística de campo desde un solo lugar",
+  "titulo_card": "Del presupuesto al trabajo en campo — cotizá, agendá y controlá desde un solo lugar",
+  "subtitulo": "Backoffice web con mapa inteligente + app móvil para operadores + motor de precio con desglose de costos reales. Adaptable a cualquier rubro que preste servicios a domicilio.",
+  "tipo_solucion": "Plataforma full-stack a medida",
+  "categorias": [
+    "Sistemas a medida para PyMEs",
+    "Apps móviles para operadores de campo",
+    "Inteligencia geográfica (GIS)",
+    "Automatización comercial"
+  ],
+  "estado": "En producción con clientes reales",
+  "industrias_objetivo": [
+    "Distribución a domicilio (agua, gas, combustible, alimentos)",
+    "Servicios técnicos en campo (plomería, electricidad, climatización, internet)",
+    "Fumigación, limpieza, jardinería, control de plagas",
+    "Fletes, mudanzas, courier, mensajería, last-mile",
+    "Construcción y asignación de cuadrillas",
+    "Servicios de salud a domicilio",
+    "Mantenimiento y posventa"
+  ],
+  "capacidades": {
+    "backoffice_web": [
+      "Mapa operativo con clusters y filtros",
+      "Gestión de clientes georreferenciada",
+      "Zonas con polígonos y factor configurable",
+      "Cotización instantánea desde link de Google Maps",
+      "Slider temporal de histórico multi-año",
+      "Pipeline Cotizado → Programado → Ejecutado",
+      "Leyenda visual por precio / categoría",
+      "Gestión multi-base (depósitos, sucursales)",
+      "Búsqueda avanzada de clientes con historial",
+      "Solicitud de ubicación en vivo al operador",
+      "Capas base intercambiables (mapa y satélite)"
+    ],
+    "app_movil_operadores": [
+      "Tareas del día ordenadas con distancia y valor",
+      "Navegación directa al cliente",
+      "WhatsApp pre-cargado al cliente",
+      "Indicadores de estado y recursos (stock, combustible, tanque)",
+      "Alertas por compromiso horario",
+      "Sincronización en tiempo real con el backoffice"
+    ],
+    "motor_precio": {
+      "variables_calculadas": [
+        "Distancia (km)",
+        "Tiempo estimado (min)",
+        "Costo variable (combustible / insumos)",
+        "Utilidad",
+        "Mantenimiento",
+        "Mano de obra",
+        "Precio final sugerido"
+      ],
+      "factores_aplicados": [
+        "Factor por zona (polígono configurable)",
+        "Factor de carga / dificultad",
+        "Utilidad de retorno",
+        "Costos de operación fijos"
+      ],
+      "niveles_precio": [
+        "Sin Factor",
+        "Cotizado",
+        "Facturado"
+      ],
+      "comparacion": "Evalúa todas las bases y recursos disponibles y recomienda la opción más rentable"
+    },
+    "inteligencia_operativa": [
+      "Historial completo de clientes y servicios",
+      "Análisis por zona, operador, base y fecha",
+      "Trazabilidad total del pipeline",
+      "Base para dashboards gerenciales"
+    ]
+  },
+  "stack": {
+    "backend": [
+      "Python",
+      "Django"
+    ],
+    "database": [
+      "PostgreSQL",
+      "PostGIS"
+    ],
+    "frontend_web": [
+      "Django Templates",
+      "JavaScript",
+      "Leaflet"
+    ],
+    "mapas": [
+      "OpenStreetMap",
+      "Esri World Imagery"
+    ],
+    "mobile": [
+      "Flutter (Android / iOS)"
+    ],
+    "integraciones": [
+      "Google Maps (links y coordenadas)",
+      "WhatsApp (deep links)"
+    ],
+    "hosting": [
+      "VPS Ubuntu propio o nube del cliente"
+    ]
+  },
+  "diferenciales": [
+    "Código propio, sin SaaS de por medio — cero mensualidades por usuario",
+    "100% adaptable al rubro — el mismo core se reconfigura para agua, gas, técnicos, fletes o fumigación",
+    "Motor de precio transparente y justificable frente al cliente final",
+    "Funciona con mapas gratuitos (OpenStreetMap) — sin costo por API de Google",
+    "Pensado para PyMEs de países en desarrollo — datos limitados, equipos modestos, conectividad variable",
+    "Modo oscuro y UX cuidada — se siente moderno, no 'sistema corporativo aburrido'",
+    "Extensible con IA — arquitectura lista para ruteo óptimo, predicción de demanda o sugerencia de zonas nuevas"
+  ],
+  "caso_referencia": {
+    "nombre": "Empresa de distribución de servicios a domicilio",
+    "sector": "Distribución con logística de campo",
+    "ubicacion": "",
+    "publicable": "confidencial",
+    "volumen_visible": {
+      "clientes_atendidos": "+2500",
+      "historial_paginas": "44 páginas (~500+ registros)",
+      "rango_temporal": "2020 - 2026",
+      "rangos_precio_gestionados": "USD 30 a USD 100+"
+    },
+    "pendientes_confirmar": [
+      "Fecha de puesta en producción",
+      "Servicios por mes",
+      "Métricas de antes/después",
+      "Testimonio del dueño"
+    ]
+  },
+  "copy_landing": {
+    "headline": "Del cuaderno y WhatsApp a una operación que cotiza, programa y rutea sola.",
+    "subheadline": "Plataforma web + app móvil para empresas que prestan servicios con logística de campo. Motor de precio con costos reales, mapa operativo y control total de tus operadores — adaptado a tu rubro.",
+    "bullets": [
+      "Cotizá en segundos pegando un link de Google Maps.",
+      "Motor de precio con desglose real: costos, utilidad, mantenimiento y mano de obra.",
+      "Comparador automático entre recursos y bases: siempre la opción más rentable.",
+      "Zonas con polígonos y factor configurable: el precio se ajusta solo.",
+      "Tus operadores en una app con sus tareas del día, navegación y WhatsApp al cliente.",
+      "Ubicación en vivo y estado de cada recurso sin tener que llamarlos.",
+      "Histórico multi-año para analizar qué zona te rinde más."
+    ],
+    "cta": "Quiero saber cómo se adapta a mi operación"
+  },
+  "screenshots": [
+    {
+      "archivo": "screenshots/01-mapa-mobile-clientes-activos.png",
+      "descripcion": "Vista mobile del backoffice con mapa y panel de clientes activos"
+    },
+    {
+      "archivo": "screenshots/02-panel-clientes-activos.png",
+      "descripcion": "Panel expandido de clientes con estados del pipeline"
+    },
+    {
+      "archivo": "screenshots/03-lista-clientes-historico.png",
+      "descripcion": "Lista paginada con cientos de registros históricos y filtros"
+    },
+    {
+      "archivo": "screenshots/04-buscar-cliente.png",
+      "descripcion": "Buscador avanzado con historial e importe de último servicio"
+    },
+    {
+      "archivo": "screenshots/05-mapa-admin-desktop.png",
+      "descripcion": "Vista desktop del admin con bases, zonas y solicitud de ubicación"
+    },
+    {
+      "archivo": "screenshots/06-mapa-leyenda-precios.png",
+      "descripcion": "Mapa con leyenda visual por rango de precio / categoría"
+    },
+    {
+      "archivo": "screenshots/07-app-operador-flutter.png",
+      "descripcion": "App Flutter del operador con tareas del día, estado y recursos"
+    },
+    {
+      "archivo": "screenshots/08-motor-calculo-precio.png",
+      "descripcion": "Motor de cálculo de precio con desglose completo por recurso y base"
+    }
+  ]
+}

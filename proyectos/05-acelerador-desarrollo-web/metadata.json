@@ -1,0 +1,238 @@
+{
+  "id": "acelerador-desarrollo-web-django-n8n-mcp",
+  "orden": 5,
+  "nombre_solucion": "Acelerador de desarrollo web a medida (Django + n8n + n8n-MCP)",
+  "titulo": "Aplicaciones web a medida en tu VPS en días, no meses — con IA y automatización integrada",
+  "titulo_card": "Tu app web en producción en días — sin deuda técnica, sin sorpresas",
+  "subtitulo": "Stack estandarizado Django 5 + PostgreSQL + Redis + n8n + n8n-MCP + Nginx, todo en Docker, con seguridad enterprise de fábrica y deploy de un solo comando.",
+  "tipo_solucion": "Stack de desarrollo y despliegue / backbone técnico reutilizable",
+  "categorias": [
+    "Desarrollo web a medida",
+    "Infraestructura en VPS / nube privada",
+    "Automatización self-hosted con n8n",
+    "Integración de IA vía MCP",
+    "Estándar de despliegue Django production-ready"
+  ],
+  "estado": "En producción — es el backbone de los Proyectos 1-4",
+  "para_quien": [
+    "PyMEs y empresas que necesitan una app web a medida rápido",
+    "Equipos de IT internos buscando un estándar de despliegue Django",
+    "Consultoras y agencias que necesitan acortar el time-to-production",
+    "Empresas que quieren automatizaciones self-hosted",
+    "Organizaciones que integran IA con procesos internos sin mandar datos afuera"
+  ],
+  "problemas_que_resuelve": [
+    "Gastar 2 meses configurando Django + Postgres + Nginx + SSL + Docker antes de escribir valor",
+    "Configuraciones distintas por proyecto, cada uno con sus bugs de deploy",
+    "Dependencia de SaaS de automatización con cobro por operación",
+    "Costos recurrentes altos de hosting gestionado",
+    "Querer sumar IA a un proyecto y descubrir que el stack no la soporta",
+    "Auditorías de seguridad que exigen reimplementar CSP, HSTS, rate limiting en cada app"
+  ],
+  "capacidades": {
+    "base_django": [
+      "Django 5.2+ con settings único adaptable por entorno",
+      "Gunicorn 3 workers",
+      "DRF listo",
+      "Whitenoise con hashes y gzip",
+      "Admin URL aleatorizada",
+      "Zonas horarias y locales configurables"
+    ],
+    "tailwind_daisyui": [
+      "Tailwind CSS v4.2 + DaisyUI v5.5",
+      "Hot reload en dev",
+      "Build multistage en prod",
+      "Sin node_modules en imagen final"
+    ],
+    "postgresql_dual_mode": [
+      "Modo container o modo host",
+      "Init script automático",
+      "Dos DBs (Django + n8n) en un cluster",
+      "Listo para backups"
+    ],
+    "redis": [
+      "Cache compartido entre workers",
+      "Sesiones en memoria",
+      "Backend de django-axes",
+      "Channel layer disponible",
+      "Sin puerto externo"
+    ],
+    "n8n_embebido": [
+      "Subdominio propio con SSL",
+      "Imagen custom con Python 3.12",
+      "Comparte Postgres",
+      "Workflows versionados en git",
+      "Auto-import al arrancar",
+      "Actualización con 1 comando",
+      "Encryption key estable"
+    ],
+    "n8n_mcp": [
+      "Servidor MCP sobre HTTP/SSE",
+      "Token JWT de autenticación",
+      "Integrable con Claude Code, Cursor, Claude Desktop",
+      "Tools: list/get/create/update/deploy/execute workflow, validate_node, search_nodes, n8n_executions",
+      "Roadmap: agentes IA autónomos"
+    ],
+    "nginx_lets_encrypt": [
+      "Reverse proxy con HTTPS",
+      "Config generada dinámicamente",
+      "Multi-dominio (django + n8n)",
+      "Headers duros de seguridad",
+      "gzip_static on",
+      "Renovación automática SSL"
+    ],
+    "seguridad_enterprise": [
+      "HSTS 1 año + subdomains + preload",
+      "CSP estricto (relajado solo en DEBUG)",
+      "django-axes con Redis backend",
+      "Admin URL aleatorizada desindexada",
+      "Throttling DRF",
+      "SECRET_KEY + tokens generados por wizard",
+      "JWT con blacklist y rotación"
+    ],
+    "docker_compose_profiles": [
+      "Postgres condicional (container/host)",
+      "n8n condicional",
+      "n8n-MCP condicional",
+      "Redis + Django siempre activos",
+      "Healthchecks + restart policies",
+      "Volúmenes persistentes"
+    ],
+    "wizard_setup": [
+      "make setup genera .env interactivo",
+      "Genera SECRET_KEY, N8N_ENCRYPTION_KEY, MCP_AUTH_TOKEN",
+      "Admin URL aleatoria",
+      "Configura dominios principal + n8n"
+    ]
+  },
+  "deploy_flow_4_pasos": [
+    {
+      "paso": 1,
+      "comando": "make setup",
+      "descripcion": "Wizard interactivo genera el .env"
+    },
+    {
+      "paso": 2,
+      "comando": "make nginx",
+      "descripcion": "Instala configuración reverse proxy"
+    },
+    {
+      "paso": 3,
+      "comando": "sudo certbot --nginx -d app.cliente.com -d n8n.cliente.com",
+      "descripcion": "Obtiene SSL automático"
+    },
+    {
+      "paso": 4,
+      "comando": "make deploy",
+      "descripcion": "Git pull + build + migrate + gunicorn up"
+    }
+  ],
+  "stack": {
+    "framework": [
+      "Django 5.2+",
+      "Django REST Framework"
+    ],
+    "wsgi": [
+      "Gunicorn (3 workers)"
+    ],
+    "database": [
+      "PostgreSQL 17 (container o host)"
+    ],
+    "cache_sessions": [
+      "Redis 7"
+    ],
+    "css": [
+      "Tailwind CSS 4.2",
+      "DaisyUI 5.5"
+    ],
+    "static": [
+      "Whitenoise CompressedManifestStaticFilesStorage",
+      "nginx gzip_static"
+    ],
+    "automation": [
+      "n8n self-hosted (imagen custom con Python 3.12)"
+    ],
+    "ai_channel": [
+      "n8n-MCP server HTTP/SSE"
+    ],
+    "security": [
+      "django-axes con Redis",
+      "django-csp",
+      "HSTS",
+      "throttling DRF"
+    ],
+    "proxy": [
+      "Nginx",
+      "Let's Encrypt auto-renovable"
+    ],
+    "orchestration": [
+      "Docker Compose con profiles"
+    ],
+    "hot_reload_dev": [
+      "django-browser-reload"
+    ]
+  },
+  "diferenciales": [
+    "vs. empezar de cero: ahorro de 1-2 meses de infra por proyecto",
+    "vs. SaaS (Heroku/Render/Vercel): datos y código en VPS propio, sin cobro por usuario",
+    "vs. no-code (Bubble/Retool): tenés el código, extensible, IA puede leerlo",
+    "vs. Zapier/Make: n8n embebido, sin cobro por operación, con Python en Code nodes",
+    "vs. Django solo: n8n-MCP permite que IA escriba workflows en tu infra",
+    "vs. boilerplates genéricos: afinado en 4 proyectos reales en producción"
+  ],
+  "beneficios": [
+    "Reducción de 60+ días a horas al primer deploy",
+    "Costos operativos controlados (1 VPS, Let's Encrypt gratuito)",
+    "Sin mensualidades por automatización",
+    "IA conectada desde el día 1 vía MCP",
+    "Seguridad enterprise out of the box",
+    "Datos y workflows dentro de casa",
+    "Estándar reusable — el equipo se especializa más rápido",
+    "Actualizaciones controladas con un comando"
+  ],
+  "modelos_contratacion": [
+    "Incluido en cualquier proyecto Django a medida",
+    "Licenciamiento al equipo interno de IT con soporte y capacitación",
+    "Consultoría de migración para llevar apps Django existentes a este stack",
+    "Soporte continuo con actualizaciones y nuevos módulos"
+  ],
+  "copy_landing": {
+    "headline": "Bajá a horas lo que te lleva meses. Stack Django + n8n + IA listo, en tu infraestructura.",
+    "subheadline": "Django 5 + PostgreSQL + Redis + n8n + n8n-MCP + Nginx, todo en Docker, desplegable con un comando, con seguridad enterprise de fábrica.",
+    "bullets": [
+      "Primer deploy a producción en menos de 10 minutos reales.",
+      "n8n integrado al arranque — automatizaciones sin pagar otra herramienta.",
+      "n8n-MCP para que Claude Code / Cursor escriban workflows hablando con una IA.",
+      "PostgreSQL dual mode (container o host) — se adapta a la VPS del cliente.",
+      "Seguridad enterprise: HSTS, CSP, rate limiting, admin aleatorizado, JWT blacklist.",
+      "Wizard interactivo que genera SECRET_KEY, tokens y admin URL al vuelo.",
+      "Base probada: corre debajo de los 4 productos anteriores de esta página."
+    ],
+    "cta": "Quiero ver una demo del flujo de deploy"
+  },
+  "roadmap": [
+    "Plantilla de agentes IA autónomos auto-desplegables vía n8n-MCP",
+    "Módulo opcional de observabilidad (Grafana + Prometheus)",
+    "Módulo opcional de CI/CD con GitHub Actions",
+    "Plantilla multi-tenant para entregar SaaS",
+    "Integración directa WhatsApp Business API plug-and-play"
+  ],
+  "screenshots": [
+    {
+      "archivo": "screenshots/01-stack-completo.png",
+      "descripcion": "Diagrama completo del stack con las 9 piezas y los 4 pasos de deploy"
+    },
+    {
+      "archivo": "screenshots/02-deploy-flow.png",
+      "descripcion": "Terminal con un deploy real desde git clone hasta producción en 4 min 12 s"
+    },
+    {
+      "archivo": "screenshots/03-mcp-integracion.png",
+      "descripcion": "Flujo IA (Claude Code / Cursor) ↔ n8n-MCP ↔ n8n ↔ Django"
+    },
+    {
+      "archivo": "screenshots/04-timeline-comparacion.png",
+      "descripcion": "Comparación visual de tiempos: desarrollo tradicional vs. con el acelerador"
+    }
+  ]
+}

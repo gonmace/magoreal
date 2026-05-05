@@ -151,14 +151,13 @@ STORAGES = {
 }
 
 MEDIA_URL = '/media/'
-# Los screenshots de los proyectos viven fuera del repo Django en
-# landing-automatizaciones/proyectos/*/screenshots/. Montamos ese directorio
-# como MEDIA_ROOT para que {% get_media_prefix %} resuelva sin copiar archivos.
-MEDIA_ROOT = os.path.normpath(os.path.join(BASE_DIR, '..', 'landing-automatizaciones'))
+# Los screenshots de los proyectos viven en la carpeta proyectos/ dentro del proyecto.
+# Montamos ese directorio como MEDIA_ROOT para que {% get_media_prefix %} resuelva sin copiar archivos.
+MEDIA_ROOT = BASE_DIR
 
 # Directorio donde viven los metadata.json del portfolio. Usado por
 # portfolio.loaders.load_proyectos().
-PROYECTOS_DIR = os.path.join(MEDIA_ROOT, 'proyectos')
+PROYECTOS_DIR = os.path.join(BASE_DIR, 'proyectos')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

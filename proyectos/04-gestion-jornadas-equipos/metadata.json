@@ -1,0 +1,185 @@
+{
+  "id": "gestion-jornadas-supervision-operativa",
+  "orden": 4,
+  "nombre_solucion": "Plataforma de gestión de jornadas y supervisión operativa de equipos",
+  "titulo": "Control horario y visibilidad del equipo en tiempo real — agente de escritorio + app móvil + dashboard ejecutivo",
+  "titulo_card": "Sabé quién trabaja, cuándo y dónde — sin planillas ni preguntas",
+  "subtitulo": "Sistema full-stack para saber quién está conectado, cómo va su jornada y dónde están los equipos de campo. Desplegable en infraestructura propia, sin mensualidades por usuario.",
+  "tipo_solucion": "Plataforma full-stack con agente de escritorio, app móvil SPA y backoffice web",
+  "categorias": [
+    "Control horario y jornada laboral",
+    "Supervisión de equipos remotos e híbridos",
+    "Tracking de personal de campo con GPS",
+    "Agente de escritorio con captura de pantalla",
+    "Dashboards operativos en tiempo real"
+  ],
+  "estado": "En producción",
+  "industrias_objetivo": [
+    "Empresas con equipos remotos o híbridos",
+    "Operaciones con personal de campo (técnicos, promotores, distribuidores)",
+    "Consultoras y agencias que facturan por horas",
+    "Empresas multirubro con oficina + calle",
+    "Organizaciones reguladas con exigencia de auditoría de presencia"
+  ],
+  "problemas_que_resuelve": [
+    "No saber quién está realmente trabajando en un momento dado",
+    "Reportes de horas informales por WhatsApp o planilla, con errores",
+    "Jornadas abiertas toda la noche por olvido del empleado",
+    "Personal de campo imposible de ubicar",
+    "Supervisores llamando uno por uno para pedir estado",
+    "Falta de calendario centralizado de vacaciones y feriados",
+    "SaaS de tracking que cobran por empleado y guardan datos sensibles afuera"
+  ],
+  "capacidades": {
+    "agente_desktop": [
+      "Instalador .exe profesional con autostart",
+      "Captura de pantalla por intervalo configurable",
+      "Captura automática al cerrar jornada",
+      "Auto-activación con token + config.json",
+      "WebSocket persistente al backend",
+      "Respuesta a capturas inmediatas en < 1 segundo",
+      "Renovación automática de JWT",
+      "Reconexión con backoff exponencial",
+      "Auto-update de versión"
+    ],
+    "app_movil": [
+      "SPA en navegador móvil (sin Play/App Store)",
+      "Login usuario/contraseña para personal externo",
+      "Iniciar/finalizar jornada con timer en vivo",
+      "GPS obligatorio al finalizar",
+      "Historial de actividad editable",
+      "Tokens JWT persistidos en localStorage"
+    ],
+    "dashboard_ejecutivo": [
+      "Tabla de empleados en tiempo real",
+      "Online/offline, jornada, inactividad, GPS, capturas del día",
+      "Captura inmediata bajo demanda por WebSocket",
+      "Calendario mensual por empleado",
+      "Calendario del equipo con notas y feriados",
+      "Registro de ausencias (vacación/licencia/permiso)",
+      "Toggles por empleado (capturas y acceso)",
+      "KPIs operativos en cabecera",
+      "Onboarding integrado del agente"
+    ],
+    "dashboard_empleado": [
+      "Estado del agente en vivo y versión",
+      "Jornada en curso con timer y botón finalizar",
+      "Calendario mensual con horas por día y semana",
+      "Jornadas auto-cerradas marcadas con alerta",
+      "Ausencias coloreadas por tipo",
+      "Notas del equipo visibles",
+      "Descarga del instalador"
+    ],
+    "cierre_automatico": [
+      "Detecta jornadas in_progress de días anteriores",
+      "Cierra a las 17:00 (zona horaria configurable)",
+      "Marca con auto_closed=True",
+      "Alerta visual en el calendario del empleado"
+    ],
+    "almacenamiento_capturas": [
+      "Local en filesystem por empleado/mes/hora",
+      "Nextcloud vía WebDAV con proxy interno",
+      "Limpieza programada por retención",
+      "Visibilidad solo para ejecutivo autorizado"
+    ],
+    "tiempo_real": [
+      "Django Channels 4 + Daphne",
+      "Canales ws/agent/ y ws/dashboard/",
+      "Handshake con JWT",
+      "Channel layer en Redis",
+      "Comandos remotos < 1 segundo"
+    ],
+    "automatizacion_n8n": [
+      "Alertas de ausencia al iniciar jornada",
+      "Resúmenes diarios automáticos",
+      "Export programado de reportes",
+      "Hooks con RRHH, ERP, nómina"
+    ],
+    "ia_roadmap": [
+      "Análisis de productividad por IA",
+      "Detección de anomalías en jornadas",
+      "Resumen semanal del equipo",
+      "Chat con asistente operativo"
+    ]
+  },
+  "stack": {
+    "backend": ["Django 5.1", "Django REST Framework", "SimpleJWT con blacklist"],
+    "realtime": ["Django Channels 4", "Daphne (ASGI)", "Redis"],
+    "database": ["PostgreSQL 17 (prod)", "SQLite (dev)"],
+    "frontend_web": ["Django Templates", "Tailwind CSS v4", "DaisyUI v5", "Whitenoise"],
+    "app_movil": ["SPA HTML/JS", "JWT en localStorage", "Geolocation API"],
+    "agente_desktop": ["Python 3.11", "Pillow", "WebSockets", "PyInstaller", "Inno Setup"],
+    "autenticacion": ["OAuth2 corporativo (Nextcloud / OIDC)", "JWT con refresh y blacklist", "usuario/pass para móviles"],
+    "almacenamiento": ["Local media/", "Nextcloud WebDAV con proxy interno"],
+    "orquestacion": ["n8n (self-hosted)"],
+    "infra": ["Docker Compose", "Nginx", "HTTPS Let's Encrypt", "VPS Ubuntu o nube del cliente"],
+    "seguridad": ["django-axes", "CSP", "HSTS", "Throttling DRF", "Admin URL aleatorizada"]
+  },
+  "diferenciales": [
+    "Desktop + Mobile + Web integrados en un solo producto",
+    "Agente propio con auto-activación de un clic (token + config embebido)",
+    "GPS obligatorio solo para empleados móviles",
+    "Cierre automático de jornadas — evita jornadas abandonadas",
+    "100% on-premise / nube privada — capturas y GPS no salen del cliente",
+    "SSO corporativo para internos + usuario/pass para externos",
+    "Sin mensualidad por empleado — licencia única",
+    "Seguridad enterprise: JWT blacklist, CSP, HSTS, rate limiting, brute-force blocker",
+    "Código propio, sin vendor lock-in",
+    "Arquitectura lista para IA"
+  ],
+  "beneficios": [
+    "Visibilidad total del equipo en un pantallazo",
+    "Evidencia irrefutable de horas trabajadas (agente + capturas + GPS)",
+    "Cero fricción para el empleado",
+    "Cero jornadas abandonadas",
+    "Reportes automáticos sin doble carga",
+    "Control sin espiar — el empleado sabe que existen capturas y las ve el ejecutivo",
+    "Datos dentro de casa",
+    "Escalable a cientos de empleados",
+    "Integrable con RRHH, nómina y ERP vía n8n"
+  ],
+  "caso_referencia": {
+    "nombre": "Cliente corporativo (confidencial — NDA)",
+    "sector": "Operación con equipo mixto oficina + personal técnico de campo",
+    "uso": "Tabla ejecutiva en vivo, captura inmediata bajo demanda, cierre automático, calendario de ausencias, app móvil con GPS para técnicos, integración con Nextcloud corporativo como SSO y almacén de capturas.",
+    "publicable": "Demo bajo NDA recíproco"
+  },
+  "rutas_codigo": {
+    "repo_interno": "uso interno — no publicable",
+    "local_clone": "/sessions/ecstatic-peaceful-bardeen/skylog"
+  },
+  "copy_landing": {
+    "headline": "Control horario real con evidencia, sin espiar y sin mensualidades por empleado.",
+    "subheadline": "Agente de escritorio, app móvil con GPS y dashboard ejecutivo — todo desde un solo producto, desplegado en tu infraestructura.",
+    "bullets": [
+      "Vista ejecutiva con el equipo en vivo: online, jornada, inactividad, GPS.",
+      "Captura inmediata bajo demanda — el agente responde en menos de un segundo.",
+      "App móvil con GPS obligatorio al cerrar jornada — evidencia de presencia en campo.",
+      "Cierre automático a las 17:00 — nunca más jornadas abandonadas.",
+      "Calendario del equipo con ausencias, feriados y notas compartidas.",
+      "Capturas guardadas en tu Nextcloud corporativo — no en un SaaS externo.",
+      "SSO corporativo para internos + usuario/pass para externos.",
+      "Arquitectura lista para enchufar IA de análisis de productividad."
+    ],
+    "cta": "Quiero ver una demo bajo NDA"
+  },
+  "proximas_capacidades": [
+    "Analizador de productividad con IA sobre reportes diarios",
+    "Detección de anomalías en jornadas",
+    "Chat con asistente operativo sobre la base",
+    "App móvil nativa en Flutter con modo offline",
+    "Integración con sistemas de nómina populares",
+    "Webhooks públicos de eventos de jornada"
+  ],
+  "screenshots": [
+    { "archivo": "screenshots/01-dashboard-ejecutivo.png", "descripcion": "Vista ejecutiva en tiempo real con tabla del equipo, KPIs y acciones por empleado" },
+    { "archivo": "screenshots/02-calendario-empleado.png", "descripcion": "Dashboard personal del empleado con calendario mensual, horas por día y estado del agente" },
+    { "archivo": "screenshots/03-app-movil-gps.png", "descripcion": "App móvil SPA con jornada en curso, GPS activo y actividades del día" },
+    { "archivo": "screenshots/04-arquitectura.png", "descripcion": "Arquitectura completa del producto: agente desktop, app móvil, backoffice, backend Django + Channels, Redis, PostgreSQL, n8n, infra" }
+  ],
+  "confidencialidad": {
+    "nombre_interno_real": "uso interno — no publicar",
+    "nombre_publico_sugerido": "OperaLog (placeholder usado en mockups)",
+    "nota": "El nombre real del producto y el nombre del cliente están bajo NDA. Los mockups usan 'OperaLog' como marca neutra."
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "id": "infraestructura-plataformas-self-hosted",
+  "orden": 7,
+  "nombre_solucion": "Servicios de infraestructura y plataformas self-hosted",
+  "titulo": "Tu infraestructura corriendo en tu VPS — sin mensualidades por usuario, sin datos afuera",
+  "titulo_card": "Tu servidor, tus datos, tus reglas — instalado y funcionando en días",
+  "subtitulo": "Setup llave en mano: VPS endurecido, nubes privadas (Nextcloud / ownCloud), automatización (n8n) y stack web completo (Nginx + Certbot + Docker). Te lo dejamos funcionando y documentado.",
+  "tipo_solucion": "Servicio profesional de implementación e instalación (llave en mano)",
+  "categorias": [
+    "Administración de sistemas Linux",
+    "Nubes privadas / almacenamiento self-hosted",
+    "Automatización self-hosted (n8n)",
+    "Web stack seguro (Nginx + Let's Encrypt + Docker)",
+    "Consultoría de migración desde SaaS a infraestructura propia"
+  ],
+  "estado": "Servicio activo — ofrecido como complemento o stand-alone de los Proyectos 1-6",
+  "modalidad": "Servicio profesional (no es un producto propietario — es trabajo de implementación)",
+  "para_quien": [
+    "PyMEs que quieren bajar costos de Google Workspace / Microsoft 365 / Dropbox Business",
+    "Consultoras que hoy pagan Zapier / Make por operación",
+    "Equipos de IT internos que necesitan estandarizar su stack de deploy",
+    "Empresas con datos sensibles (legal, salud, financiero, gobierno) que necesitan soberanía de datos",
+    "Organizaciones que quieren sumar automatización y/o IA sin subir datos a servicios externos",
+    "Clientes con compliance estricto que exigen infraestructura en jurisdicción conocida"
+  ],
+  "problemas_que_resuelve": [
+    "Factura de SaaS que crece cada mes con el equipo",
+    "Datos de la empresa en servidores de terceros sin control real",
+    "Vendor lock-in — migrar en 3 años es caro y doloroso",
+    "Dependencia de features que el SaaS puede quitar, mover de plan o cobrar aparte",
+    "Ausencia de un estándar de deploy en el equipo de IT",
+    "Miedo a tocar Linux puro — falta de conocimiento para montar todo bien",
+    "Cumplimiento regulatorio complicado cuando los datos viven en otra jurisdicción"
+  ],
+  "modulos": {
+    "vps_linux": {
+      "titulo": "VPS con Linux",
+      "tag": "Servidores base",
+      "duracion": "desde ½ día",
+      "incluye": [
+        "Instalación de Ubuntu 22.04 LTS o Debian 12 LTS",
+        "Usuario administrador con SSH por clave — root deshabilitado",
+        "Firewall con UFW / nftables configurado con solo los puertos necesarios",
+        "fail2ban contra brute-force (SSH, Nginx, n8n)",
+        "Unattended security upgrades para parches automáticos",
+        "Swap, timezone, locale, logrotate ajustados",
+        "Hardening CIS básico (auditoría inicial)",
+        "Backup dir + rutinas preparadas",
+        "Documentación de accesos"
+      ],
+      "entregable": "VPS endurecido + doc. de accesos"
+    },
+    "nube_privada": {
+      "titulo": "Nextcloud / ownCloud",
+      "tag": "Nube privada de archivos",
+      "duracion": "2-4 días",
+      "incluye": [
+        "Instalación de Nextcloud AIO u ownCloud con Docker",
+        "Base de datos Postgres o MariaDB gestionada",
+        "Redis como cache para rendimiento",
+        "SSL con subdominio propio (p. ej. cloud.tuempresa.com)",
+        "Apps: Calendar, Talk, Office online (Collabora u OnlyOffice)",
+        "Storage externo S3 / B2 / local según necesidad",
+        "LDAP / SAML / OIDC opcional para SSO con el directorio de la empresa",
+        "Backup rutinado con restore probado"
+      ],
+      "entregable": "Nube privada lista para usuarios — login y permisos configurados"
+    },
+    "n8n_automatizacion": {
+      "titulo": "n8n — Automatización",
+      "tag": "Integraciones self-hosted",
+      "duracion": "1-3 días",
+      "incluye": [
+        "n8n última versión en imagen oficial o custom (con Python 3.12 incluido)",
+        "Docker + Postgres + Redis queue — escalable horizontal",
+        "HTTPS con auth básica o OIDC",
+        "n8n-MCP opcional para conectar Claude Code / Cursor a n8n (IA ↔ workflows)",
+        "3 workflows base de ejemplo (mail, Slack/WhatsApp, API)",
+        "Credenciales cifradas con encryption key estable",
+        "Workflows versionados en git (workflows como código)",
+        "Monitoring básico de ejecuciones y errores"
+      ],
+      "entregable": "n8n corriendo + 3 workflows de ejemplo + documentación"
+    },
+    "web_stack": {
+      "titulo": "Nginx · Certbot · Docker",
+      "tag": "Web stack & deploy",
+      "duracion": "½ - 2 días",
+      "incluye": [
+        "Nginx reverse proxy multi-dominio",
+        "Let's Encrypt con renovación automática",
+        "Docker + Docker Compose (última versión estable)",
+        "Redirección HTTP → HTTPS forzada con HSTS",
+        "gzip / brotli + cache de estáticos",
+        "Rate limiting + headers de seguridad (CSP, X-Frame, XSS)",
+        "docker-compose.yml de ejemplo (app web + DB)",
+        "Healthchecks y restart policies para recuperación automática"
+      ],
+      "entregable": "Stack web seguro con SSL activo y monitoreado"
+    }
+  },
+  "proceso_entrega": [
+    {"n": "01", "titulo": "Kickoff",            "duracion": "½ día",        "entregable": "Plan de trabajo + accesos"},
+    {"n": "02", "titulo": "VPS base",           "duracion": "½ - 1 día",    "entregable": "VPS endurecido"},
+    {"n": "03", "titulo": "Docker + Nginx",     "duracion": "½ día",        "entregable": "Stack web con SSL"},
+    {"n": "04", "titulo": "Plataformas",        "duracion": "1-3 días",     "entregable": "Servicios listos para usar"},
+    {"n": "05", "titulo": "Backup + monitor",   "duracion": "½ día",        "entregable": "Operación cubierta"},
+    {"n": "06", "titulo": "Handoff",            "duracion": "½ día",        "entregable": "Cliente en control"}
+  ],
+  "duracion_tipica_total": "3,5 – 6 días (según módulos elegidos)",
+  "stack_que_queda_instalado": {
+    "vps": ["Ubuntu 22.04 LTS o Debian 12", "UFW + fail2ban + SSH key", "Swap + timezone + logrotate"],
+    "orquestacion": ["Docker", "Docker Compose"],
+    "reverse_proxy": ["Nginx", "Let's Encrypt / certbot auto-renovable"],
+    "bases_datos": ["PostgreSQL 17", "MariaDB 10.11 (opción Nextcloud)", "Redis 7"],
+    "plataformas": ["Nextcloud AIO / ownCloud", "n8n self-hosted", "n8n-MCP (opcional)"],
+    "app_web_opcional": ["Django + Gunicorn"],
+    "seguridad_transversal": ["HSTS", "CSP", "X-Frame", "rate limiting Nginx"],
+    "backup": ["pg_dump / mysqldump diario", "snapshot de volúmenes Docker", "retención 7d/30d/365d", "offsite S3/B2 opcional"],
+    "monitoring": ["uptime check externo", "alertas mail / Telegram", "journalctl + logrotate", "Grafana + Prometheus opcional"]
+  },
+  "casos_uso_con_numeros": [
+    {
+      "caso": "PyME con 20 empleados",
+      "contexto": "Quiere nube propia, mail, archivos compartidos",
+      "saas_equivalente": "Google Workspace + Zoom + almacenamiento extra · 20 usuarios",
+      "costo_saas_mensual": "$310/mes",
+      "costo_self_mensual": "~$90/mes",
+      "ahorro_mensual_pct": "−71%",
+      "ahorro_mensual_usd": "$220/mes menos",
+      "self_mensual_detalle": "VPS + servicio Magoreal",
+      "costo_saas_anual": "USD 3.720/año",
+      "costo_self_anual": "USD ~1.080/año"
+    },
+    {
+      "caso": "Consultora con 50+ automatizaciones",
+      "contexto": "Pagando Zapier / Make por operación",
+      "saas_equivalente": "Make Business $100 + Zapier Business $599 · uso real",
+      "costo_saas_mensual": "~$700/mes",
+      "costo_self_mensual": "~$150/mes",
+      "ahorro_mensual_pct": "−79%",
+      "ahorro_mensual_usd": "$550/mes menos",
+      "self_mensual_detalle": "VPS + n8n + Magoreal · ejecuciones ilimitadas",
+      "costo_saas_anual": "USD ~8.400/año",
+      "costo_self_anual": "USD ~1.800/año"
+    },
+    {
+      "caso": "Equipo de IT interno",
+      "contexto": "Necesita estandarizar su deploy para N apps",
+      "saas_equivalente": "Render / Heroku · 5 apps × $85/app (Standard)",
+      "costo_saas_mensual": "~$425/mes",
+      "costo_self_mensual": "~$90/mes",
+      "ahorro_mensual_pct": "−79%",
+      "ahorro_mensual_usd": "$335/mes menos",
+      "self_mensual_detalle": "Un VPS · todas las apps · sin límite",
+      "costo_saas_anual": "USD ~5.100/año",
+      "costo_self_anual": "USD ~1.080/año"
+    },
+    {
+      "caso": "Empresa con datos sensibles",
+      "contexto": "Legal, salud, financiero, sector público",
+      "saas_equivalente": "SaaS multi-tenant · datos fuera de tu control",
+      "costo_saas_mensual": "precio + riesgo legal",
+      "costo_self_mensual": "~$150/mes",
+      "ahorro_mensual_pct": "",
+      "ahorro_mensual_usd": "Control total",
+      "self_mensual_detalle": "VPS en tu jurisdicción · auditable",
+      "costo_saas_anual": "riesgo legal + auditoría",
+      "costo_self_anual": "VPS jurisdicción elegida"
+    }
+  ],
+  "diferenciales": [
+    "vs. instalar desde cero con tutoriales: te entrego en días lo que te tomaría semanas de ensayo-error",
+    "vs. contratar a un freelance genérico: base probada en 6 proyectos reales, no experimentación",
+    "vs. managed hosting (Cloudways, GridPane): control total, sin cobros por feature, sin tope de escalamiento",
+    "vs. SaaS: costo plano, datos donde elijas, sin vendor lock-in",
+    "vs. instalación 'a mano' sin código: todo queda versionado como código — reproducible, auditable",
+    "vs. solo entregar scripts: queda corriendo en tu VPS + documentación + capacitación + 30 días de soporte"
+  ],
+  "beneficios": [
+    "Ahorro sostenido del 70-90% frente a SaaS equivalentes (según caso)",
+    "Datos en tu jurisdicción, auditables punto por punto",
+    "Todo como código — reproducible y portable a otro proveedor",
+    "Stack consistente con los Proyectos 1-6 (si ya tenés Django + n8n funcionando, este servicio es natural)",
+    "30 días de soporte post-entrega incluidos",
+    "Capacitación al equipo para que pueda operarlo solo",
+    "Upgrade path claro — se puede sumar módulos sobre la marcha"
+  ],
+  "incluido_siempre": [
+    "VPS endurecido y documentado",
+    "Docker Compose completo del stack",
+    "Documento de accesos (credenciales cifradas)",
+    "Runbook de operación (backup, restore, upgrade)",
+    "30 días de soporte post-entrega",
+    "Capacitación básica al equipo (1 sesión)"
+  ],
+  "no_incluido": [
+    "El costo del VPS (se contrata a nombre del cliente — Hetzner, DigitalOcean, Contabo, etc.)",
+    "Dominio y DNS (el cliente los tiene o los compra)",
+    "Licencias de software de terceros si no son open source",
+    "Soporte ilimitado post 30 días (hay plan mensual separado)"
+  ],
+  "modelos_contratacion": [
+    "Por módulo (solo VPS, solo Nextcloud, solo n8n, solo web stack)",
+    "Paquete completo (los 4 módulos juntos con descuento)",
+    "Servicio continuo mensual (operación + actualizaciones + nuevas plataformas a pedido)",
+    "Consultoría de migración (de un SaaS actual al equivalente self-hosted, con plan y ejecución)"
+  ],
+  "referencias": {
+    "descripcion": "Este servicio es la base técnica sobre la que corren los Proyectos 1-6 de esta misma landing. Cada proyecto incluye la infraestructura descripta acá.",
+    "proyectos_que_lo_usan": [
+      "Proyecto 1 — Plataforma de gestión operativa",
+      "Proyecto 2 — Generador de documentos con IA",
+      "Proyecto 3 — Chatbot WhatsApp multi-agente",
+      "Proyecto 4 — Gestión de jornadas de equipos",
+      "Proyecto 5 — Acelerador de desarrollo web a medida",
+      "Proyecto 6 — Portal documental de obras distribuidas"
+    ]
+  },
+  "copy_landing": {
+    "headline": "Tu infra corriendo en tu VPS. Sin mensualidades por usuario. Sin datos afuera.",
+    "subheadline": "VPS endurecido, Nextcloud/ownCloud, n8n, Nginx con SSL y Docker — instalado, documentado, funcionando. En días, no semanas.",
+    "bullets": [
+      "VPS Linux: hardening, firewall, SSH por clave, fail2ban, updates automáticos.",
+      "Nextcloud / ownCloud: nube privada con calendario, chat, office online y backup.",
+      "n8n: automatización ilimitada, workflows versionados y conector IA vía MCP.",
+      "Nginx + Certbot + Docker: stack web con SSL auto-renovable, HSTS y healthchecks.",
+      "Todo en Docker Compose versionado — reproducible, portable, auditable.",
+      "Ahorro típico del 70-90% frente a Google Workspace, Zapier, Heroku, Dropbox.",
+      "30 días de soporte incluidos + runbook + capacitación al equipo."
+    ],
+    "cta": "Quiero mi infra self-hosted"
+  },
+  "roadmap": [
+    "Paquete 'Soberanía de datos' orientado a sector público y salud",
+    "Addon Mail server (Mailcow) como módulo opcional",
+    "Addon Monitoring avanzado (Grafana + Prometheus + Loki)",
+    "Addon GitLab / Gitea self-hosted para equipos de desarrollo",
+    "Plan multi-VPS con replicación y failover",
+    "Migración asistida desde Google Drive / Dropbox a Nextcloud"
+  ],
+  "screenshots": [
+    { "archivo": "screenshots/01-catalogo-servicios.png", "descripcion": "Catálogo de los 4 módulos (VPS, Nextcloud, n8n, Nginx/Docker) con lo incluido, duración y entregable de cada uno" },
+    { "archivo": "screenshots/02-stack-instalado.png",   "descripcion": "Diagrama del stack completo que queda corriendo: VPS + Nginx + Docker Compose con servicios + capa transversal de seguridad/backup/monitoring" },
+    { "archivo": "screenshots/03-proceso-entrega.png",   "descripcion": "Timeline de 6 fases (kickoff → VPS → Docker/Nginx → plataformas → backup/monitor → handoff) con entregable concreto en cada una" },
+    { "archivo": "screenshots/04-casos-uso.png",         "descripcion": "4 casos de uso con números concretos (PyME, consultora, IT interno, datos sensibles) y comparativa self-hosted vs SaaS" }
+  ]
+}
