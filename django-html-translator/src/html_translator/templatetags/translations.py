@@ -55,26 +55,25 @@ def _load_translations(page_key: str, lang: str) -> dict:
     data = cache.get(key)
     
     if data is None:
-        logger.debug('_load_translations: cache miss for %s:%s', page_key, lang)
+        logger.debug('_load_translations: cache MISS for key=%s', key)
         try:
             tc = TranslationCache.objects.get(page_key=page_key, lang=lang)
             data = tc.content or {}
-            logger.debug('_load_translations: loaded from DB, content keys: %s', list(data.keys()) if data else 'empty')
+            logger.debug('_load_translations: loaded from DB, has %d sections', len(data) if data else 0)
             
-            # Validar que el contenido no esté vacío
             if not data:
-                logger.warning('_load_translations: TranslationCache exists but content is empty for %s:%s', page_key, lang)
+                logger.warning('_load_translations: TranslationCache exists but content is EMPTY for %s', key)
                 
         except TranslationCache.DoesNotExist:
-            logger.warning('_load_translations: TranslationCache not found for %s:%s', page_key, lang)
+            logger.warning('_load_translations: TranslationCache NOT FOUND for %s', key)
             data = {}
         except Exception as exc:
-            logger.error('_load_translations: error loading translation for %s:%s: %s', page_key, lang, exc)
+            logger.error('_load_translations: ERROR loading %s: %s', key, exc)
             data = {}
             
         cache.set(key, data, _CACHE_TIMEOUT)
     else:
-        logger.debug('_load_translations: cache hit for %s:%s, keys: %s', page_key, lang, list(data.keys()) if data else 'empty')
+        logger.debug('_load_translations: cache HIT for key=%s, has %d sections', key, len(data) if data else 0)
     
     return data
 
@@ -179,9 +178,14 @@ def section(context, section_key: str, template_name: str):
 
     from .. import conf
     default_lang = conf.get_default_language()
+    page_key = _detect_page_key(request)
+    
+    logger.debug('section DEBUG: section_key=%s, lang=%s, default_lang=%s, page_key=%s', 
+                 section_key, lang, default_lang, page_key)
 
     if lang != default_lang:
-        content = _load_translations(_detect_page_key(request), lang)
+        content = _load_translations(page_key, lang)
+        logger.debug('section DEBUG: content keys=%s', list(content.keys()) if content else 'empty')
         translated_html = content.get(section_key)
         if translated_html:
             translated_html = _apply_url_rewrites(translated_html, lang)
@@ -190,15 +194,18 @@ def section(context, section_key: str, template_name: str):
                 section_key, lang, len(translated_html),
             )
             return mark_safe(translated_html)
+        else:
+            logger.debug('section DEBUG: no translated_html for section_key=%s in lang=%s', section_key, lang)
 
     # Fallback: renderiza el template original
+    logger.debug('section DEBUG: fallback to original template for section_key=%s', section_key)
     from django.template.loader import render_to_string
     ctx = dict(context.flatten())
 
     ctx_provider = conf.get_section_context_provider()
     if ctx_provider:
         try:
-            extra = ctx_provider(request, _detect_page_key(request))
+            extra = ctx_provider(request, page_key)
             for k, v in extra.items():
                 ctx.setdefault(k, v)
         except Exception as exc:
