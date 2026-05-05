@@ -11,5 +11,6 @@ django-redis>=5.4
 django-ratelimit>=4.1
 sentry-sdk[django]>=2.0
 redis>=5.2
+django-browser-reload>=1.18
 # django-html-translator incluye beautifulsoup4, openai y django-ratelimit como dependencias
 django-html-translator @ file:///app/django-html-translator
