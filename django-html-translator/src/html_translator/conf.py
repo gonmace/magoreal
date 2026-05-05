@@ -66,14 +66,16 @@ def get_openai_api_key() -> str:
     db = _get_db_config()
     if db and db.openai_api_key:
         return db.openai_api_key
-    return _resolve_setting('OPENAI_API_KEY', '')
+    # No fallback to settings.py — only TranslatorConfig in admin
+    return ''
 
 
 def get_openai_model() -> str:
     db = _get_db_config()
     if db and db.openai_model:
         return db.openai_model
-    return _resolve_setting('OPENAI_MODEL', 'gpt-4o-mini')
+    # Default model if not configured in TranslatorConfig
+    return 'gpt-4o-mini'
 
 
 def get_callback_token() -> str:

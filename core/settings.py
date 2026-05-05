@@ -268,9 +268,9 @@ def _get_openai_model():
 
 # ── html_translator: configuración central ───────────────────────────────────
 TRANSLATIONS_CONFIG = {
-    # OpenAI — callables: se evalúan en cada traducción, leen desde SiteConfig admin
-    'OPENAI_API_KEY': lambda: _get_openai_api_key(),
-    'OPENAI_MODEL':   lambda: _get_openai_model(),
+    # OpenAI — now configured only via TranslatorConfig in admin (html_translator)
+    # 'OPENAI_API_KEY': lambda: _get_openai_api_key(),
+    # 'OPENAI_MODEL':   lambda: _get_openai_model(),
 
     'CALLBACK_TOKEN':   config('TRANSLATIONS_CALLBACK_TOKEN', default=''),
     'DEFAULT_LANGUAGE': 'es',
