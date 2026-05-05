@@ -25,17 +25,20 @@
       {# ── Eyebrow: 3 pilares comerciales ───────────────────────── #}
 
       <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight text-white leading-snug">
-        <span class="hero-line mb-2"><span class="inner">Test translation: Automatize your company with AI</span></span>
-        <span class="hero-line"><span class="inner">{{ siteconfig.hero_title }}</span></span>
+        {% for linea in siteconfig.hero_title.splitlines %}
+          <span class="hero-line {% if not forloop.last %}mb-2{% endif %}"><span class="inner">{{ linea }}</span></span>
+        {% endfor %}
       </h1>
 
       <div class="mt-6 max-w-2xl reveal">
-        <p class="text-lg sm:text-xl text-base-content leading-relaxed">
-          Test translation subtitle: We automate your processes with AI. In your own system.
-        </p>
-        <p class="text-lg sm:text-xl text-base-content leading-relaxed mt-3">
-          {{ siteconfig.hero_subtitle }}
-        </p>
+        {% for parrafo in siteconfig.hero_subtitle.splitlines %}
+          {% if parrafo.strip %}
+            <p class="text-lg sm:text-xl text-base-content leading-relaxed
+                      {% if not forloop.first %}mt-3{% endif %}">
+              {{ parrafo }}
+            </p>
+          {% endif %}
+        {% endfor %}
       </div>
 
       <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-3 reveal">
