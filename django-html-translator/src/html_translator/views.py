@@ -101,9 +101,10 @@ def _render_sections(
             sections_texts[section_key] = extractor.get_texts()
             total_chars += len(html)
         except Exception as exc:
-            logger.warning(
+            logger.error(
                 'render_sections: error en %s (%s): %s',
                 section_key, template_path, exc,
+                exc_info=True,
             )
 
     hash_payload = {k: _normalize_for_hash(v) for k, v in sections_html.items()}
@@ -305,11 +306,26 @@ def request_translation(request):
             tc.save(update_fields=['source_html', 'source_hash', 'updated_at'])
     except TranslationCache.DoesNotExist:
         pass
+    except Exception as exc:
+        logger.error(
+            'request_translation: error en preparación para %s/%s: %s',
+            page_key, lang, exc,
+            exc_info=True,
+        )
+        return JsonResponse({'status': 'error', 'reason': 'preparation failed'}, status=500)
 
     if _prerendered:
         sections_html, sections_texts, current_hash = _prerendered
     else:
-        sections_html, sections_texts, current_hash = _render_for_page(request, page_key)
+        try:
+            sections_html, sections_texts, current_hash = _render_for_page(request, page_key)
+        except Exception as exc:
+            logger.error(
+                'request_translation: error en renderizado para %s/%s: %s',
+                page_key, lang, exc,
+                exc_info=True,
+            )
+            return JsonResponse({'status': 'error', 'reason': 'render failed'}, status=500)
 
     if not sections_html:
         return JsonResponse({'status': 'error', 'reason': 'no sections rendered'}, status=500)
