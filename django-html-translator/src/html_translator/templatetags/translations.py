@@ -53,34 +53,59 @@ def _cache_key(page_key: str, lang: str) -> str:
 def _load_translations(page_key: str, lang: str) -> dict:
     key = _cache_key(page_key, lang)
     data = cache.get(key)
+    
     if data is None:
+        logger.debug('_load_translations: cache miss for %s:%s', page_key, lang)
         try:
             tc = TranslationCache.objects.get(page_key=page_key, lang=lang)
             data = tc.content or {}
+            logger.debug('_load_translations: loaded from DB, content keys: %s', list(data.keys()) if data else 'empty')
+            
+            # Validar que el contenido no esté vacío
+            if not data:
+                logger.warning('_load_translations: TranslationCache exists but content is empty for %s:%s', page_key, lang)
+                
         except TranslationCache.DoesNotExist:
+            logger.warning('_load_translations: TranslationCache not found for %s:%s', page_key, lang)
             data = {}
+        except Exception as exc:
+            logger.error('_load_translations: error loading translation for %s:%s: %s', page_key, lang, exc)
+            data = {}
+            
         cache.set(key, data, _CACHE_TIMEOUT)
+    else:
+        logger.debug('_load_translations: cache hit for %s:%s, keys: %s', page_key, lang, list(data.keys()) if data else 'empty')
+    
     return data
 
 
-def _invalidate_cache(page_key: str = 'home') -> None:
-    """Invalida el caché en memoria para un page_key en todos sus idiomas."""
+def _invalidate_cache(page_key: str = 'home', specific_lang: str = None) -> None:
+    """Invalida el caché en memoria para un page_key.
+    
+    Args:
+        page_key: Clave de la página
+        specific_lang: Si se especifica, solo invalida para este idioma. 
+                      Si es None, invalida para todos los idiomas.
+    """
     langs: set[str] = set()
-    try:
-        langs.update(
-            TranslationCache.objects.filter(page_key=page_key)
-            .values_list('lang', flat=True)
-        )
-    except Exception:
-        pass
-
-    from .. import conf
-    available = conf.get_available_languages()
-    if available:
-        langs.update(available)
+    
+    if specific_lang:
+        langs.add(specific_lang)
     else:
-        # Default languages if not configured in TranslatorConfig
-        langs.update(['en', 'pt', 'fr', 'de', 'it'])
+        try:
+            langs.update(
+                TranslationCache.objects.filter(page_key=page_key)
+                .values_list('lang', flat=True)
+            )
+        except Exception:
+            pass
+
+        from .. import conf
+        available = conf.get_available_languages()
+        if available:
+            langs.update(available)
+        else:
+            langs.update(['en', 'pt', 'fr', 'de', 'it'])
 
     for lc in langs:
         cache.delete(_cache_key(page_key, lc))
@@ -317,3 +342,35 @@ def language_selector(context, variant: str = 'desktop', page_key: str = None):
     }
 
     return mark_safe(render_to_string('html_translator/_selector.html', ctx, request=request))
+
+
+# ── Función de depuración ─────────────────────────────────────────────────────
+
+def debug_translations(page_key: str = 'home') -> dict:
+    """Función de depuración para verificar el estado de las traducciones."""
+    from ..models import TranslationCache
+    
+    result = {
+        'page_key': page_key,
+        'translations': {},
+        'cache_status': {}
+    }
+    
+    # Verificar todas las traducciones en la BD
+    for tc in TranslationCache.objects.filter(page_key=page_key):
+        result['translations'][tc.lang] = {
+            'has_content': bool(tc.content),
+            'content_keys': list(tc.content.keys()) if tc.content else [],
+            'source_hash': tc.source_hash,
+            'updated_at': tc.updated_at
+        }
+        
+        # Verificar caché de memoria
+        cache_key = _cache_key(page_key, tc.lang)
+        cached_data = cache.get(cache_key)
+        result['cache_status'][tc.lang] = {
+            'in_cache': cached_data is not None,
+            'cache_keys': list(cached_data.keys()) if cached_data else []
+        }
+    
+    return result

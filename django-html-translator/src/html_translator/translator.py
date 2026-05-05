@@ -131,7 +131,7 @@ def translate_page(
     finally:
         cache.delete(pending_key)
 
-    _invalidate_cache(page_key)
+    _invalidate_cache(page_key, specific_lang=lang)
     cache.set(f'tr_fresh:{page_key}:{lang}', True, 300)
 
     hook = conf.get_on_translation_updated()

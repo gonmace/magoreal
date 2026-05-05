@@ -206,7 +206,7 @@ def callback(request):
     merged_content = {**existing_content, **translated_html}
     tc.content = merged_content
     tc.save(update_fields=['content', 'updated_at'])
-    _invalidate_cache(page_key)
+    _invalidate_cache(page_key, specific_lang=lang)
     cache.delete(f'tr_pending:{page_key}:{lang}')
 
     hook = conf.get_on_translation_updated()
