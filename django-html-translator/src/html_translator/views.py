@@ -59,9 +59,10 @@ def _check_rate_limit(request) -> bool:
     Uses a conservative rate to prevent abuse while allowing polling.
     Adjust rate as needed in production.
     """
+    # Temporarily disabled for debugging 500 error
     # 30/h per IP for translation requests (polling is cheap)
-    if is_ratelimited(request, rate='30/h', key='ip', method='POST', increment=True):
-        return True
+    # if is_ratelimited(request, rate='30/h', key='ip', method='POST', increment=True):
+    #     return True
     return False
 
 
