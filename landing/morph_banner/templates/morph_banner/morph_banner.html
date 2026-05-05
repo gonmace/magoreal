@@ -113,7 +113,7 @@
   {% endif %}
 </style>
 
-<svg class="block mx-auto w-full max-w-4xl text-primary py-3{% if neon %} morph-neon{% endif %}"
+{% if word %}<svg class="block mx-auto w-full max-w-4xl text-primary py-3{% if neon %} morph-neon{% endif %}"
          style="isolation: isolate; transform: translateX(2px);"
          viewBox="0 0 {{ viewbox_width }} {{ viewbox_height }}"
          preserveAspectRatio="xMidYMid meet"
@@ -173,4 +173,4 @@
             style="fill: {{ letter.color }}" />
       {% endfor %}
 
-</svg>
+</svg>{% endif %}

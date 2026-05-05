@@ -19,7 +19,10 @@ def morph_banner(context):
     config = MorphBanner.get_for_sitepage(sitepage)
 
     if not config:
-        return {'word': '', 'letters': [], 'neon': False, 'neon_filter_id': ''}
+        return {
+            'word': '', 'letters': [], 'neon': False, 'neon_filter_id': '',
+            'viewbox_width': 0, 'viewbox_height': 0, 'effect': '',
+        }
 
     word = config.word
     raw_colors = config.letter_colors
