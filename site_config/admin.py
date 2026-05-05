@@ -69,8 +69,8 @@ class SiteConfigAdmin(admin.ModelAdmin):
                 'NO pegar código de fuentes no confiables.'
             ),
         }),
-        ('Traducción / OpenAI', {
-            'fields': ['openai_api_key', 'openai_model', 'multilingual', 'available_languages'],
+        ('Traducción', {
+            'fields': ['multilingual', 'available_languages'],
             'classes': ['collapse'],
         }),
         ('Webhooks — shared secrets', {
@@ -85,7 +85,6 @@ class SiteConfigAdmin(admin.ModelAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        form.base_fields['openai_api_key'].widget = PasswordInput(render_value=True)
         return form
 
     def logo_preview(self, obj):
