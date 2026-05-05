@@ -76,6 +76,10 @@ function langSelector(options = {}) {
       _autoTranslateTriggered = true;
       try {
         const resp = await requestTranslation(pageKey, initial);
+        if (!resp.ok) {
+          // Server error (4xx, 5xx) - stop auto-translate
+          return;
+        }
         const data = await resp.json();
         if (data.status === 'generating') {
           this.loading = true;
@@ -85,9 +89,26 @@ function langSelector(options = {}) {
             await new Promise(r => setTimeout(r, pollInterval));
             try {
               const pr = await requestTranslation(pageKey, initial);
+              if (!pr.ok) {
+                // Stop polling on server errors (4xx, 5xx)
+                this.error = true;
+                this.loading = false;
+                return;
+              }
               const pd = await pr.json();
               if (pd.status === 'cached') { window.location.reload(); return; }
-            } catch { /* ignore network errors during polling */ }
+              if (pd.status !== 'generating') {
+                // Unexpected status - stop polling
+                this.error = true;
+                this.loading = false;
+                return;
+              }
+            } catch (e) {
+              // Network error - stop polling
+              this.error = true;
+              this.loading = false;
+              return;
+            }
           }
           this.error = true;
           this.loading = false;
@@ -109,6 +130,12 @@ function langSelector(options = {}) {
       const deadline = Date.now() + pollTimeout;
       try {
         const resp = await requestTranslation(pageKey, lang);
+        if (!resp.ok) {
+          // Server error (4xx, 5xx)
+          this.error = true;
+          this.loading = false;
+          return;
+        }
         const data = await resp.json();
         if (data.status === 'cached') {
           window.location.href = getUrl(lang);
@@ -117,9 +144,26 @@ function langSelector(options = {}) {
             await new Promise(r => setTimeout(r, pollInterval));
             try {
               const pr = await requestTranslation(pageKey, lang);
+              if (!pr.ok) {
+                // Stop polling on server errors (4xx, 5xx)
+                this.error = true;
+                this.loading = false;
+                return;
+              }
               const pd = await pr.json();
               if (pd.status === 'cached') { window.location.href = getUrl(lang); return; }
-            } catch { /* ignore network errors */ }
+              if (pd.status !== 'generating') {
+                // Unexpected status - stop polling
+                this.error = true;
+                this.loading = false;
+                return;
+              }
+            } catch (e) {
+              // Network error - stop polling
+              this.error = true;
+              this.loading = false;
+              return;
+            }
           }
           this.error = true;
           this.loading = false;

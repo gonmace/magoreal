@@ -19,7 +19,8 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django_ratelimit.decorators import ratelimit
+from django_ratelimit.core import is_ratelimited
+from django_ratelimit.exceptions import Ratelimited
 
 from . import conf
 from .models import TranslationCache
@@ -50,6 +51,18 @@ def _strip_untranslatable(html: str) -> str:
 def _normalize_for_hash(html: str) -> str:
     """Strip request-specific content before hashing so the hash is deterministic."""
     return _CSRF_RE.sub('', html)
+
+
+def _check_rate_limit(request) -> bool:
+    """
+    Check if request exceeds rate limit. Returns True if rate limited.
+    Uses a conservative rate to prevent abuse while allowing polling.
+    Adjust rate as needed in production.
+    """
+    # 30/h per IP for translation requests (polling is cheap)
+    if is_ratelimited(request, rate='30/h', key='ip', method='POST', increment=True):
+        return True
+    return False
 
 
 def _authorized(request) -> bool:
@@ -205,13 +218,8 @@ def callback(request):
     })
 
 
-def _translation_rate(group, request):
-    return conf.get_rate_limit(settings.DEBUG)
-
-
 @csrf_exempt
 @require_POST
-@ratelimit(key='ip', rate=_translation_rate, method='POST', block=True)
 def request_translation(request):
     """
     Cliente pide generar traducción para un idioma.
@@ -257,6 +265,13 @@ def request_translation(request):
     # Shortcut rápido: traducción en curso — no re-renderizar ni lanzar otro thread
     if cache.get(_pending_key):
         return JsonResponse({'status': 'generating'})
+
+    # Rate limit solo después de shortcuts baratos (cached/generating)
+    if _check_rate_limit(request):
+        return JsonResponse(
+            {'error': 'rate_limited', 'detail': 'Too many translation requests'},
+            status=429,
+        )
 
     api_key = conf.get_openai_api_key()
     if not api_key:
