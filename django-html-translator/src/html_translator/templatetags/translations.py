@@ -167,7 +167,9 @@ def section(context, section_key: str, template_name: str):
                 'section: %s lang=%s → translated HTML (%d chars)',
                 section_key, lang, len(translated_html),
             )
-            return mark_safe(translated_html)
+            # Add HTML comment for debugging
+            comment = f'<!-- TRANSLATED: {section_key} lang={lang} -->'
+            return mark_safe(comment + translated_html)
 
     # Fallback: renderiza el template original
     from django.template.loader import render_to_string
