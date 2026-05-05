@@ -151,13 +151,16 @@ def section(context, section_key: str, template_name: str):
     """
     request = context.get('request')
     lang = getattr(request, 'LANGUAGE_CODE', 'es') if request else 'es'
+    logger.debug('section tag: section_key=%s, lang=%s, request.LANGUAGE_CODE=%s', section_key, lang, getattr(request, 'LANGUAGE_CODE', 'none'))
 
     from .. import conf
     default_lang = conf.get_default_language()
 
     if lang != default_lang:
-        content = _load_translations(_detect_page_key(request), lang)
+        page_key = _detect_page_key(request)
+        content = _load_translations(page_key, lang)
         translated_html = content.get(section_key)
+        logger.debug('section tag: page_key=%s, content keys=%s, found translation=%s', page_key, list(content.keys()), bool(translated_html))
         if translated_html:
             translated_html = _apply_url_rewrites(translated_html, lang)
             logger.debug(
