@@ -21,6 +21,7 @@ cache/
 
 # Entorno
 .env
+.env.sample.local
 .venv/
 venv/
 env/
