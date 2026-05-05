@@ -10,7 +10,9 @@
       {# ── Col 1: Marca ────────────────────────────────────────── #}
       <div>
         <div class="h-9 mb-3">
-          {% if siteconfig.logo_svg %}
+          {% if sitepage and sitepage.logo_svg %}
+            <span class="inline-block h-9 [&>svg]:h-9 [&>svg]:w-auto">{{ sitepage.logo_svg|safe }}</span>
+          {% elif siteconfig.logo_svg %}
             <span class="inline-block h-9 [&>svg]:h-9 [&>svg]:w-auto">{{ siteconfig.logo_svg|safe }}</span>
           {% else %}
             <span class="font-bold text-white">{{ siteconfig.site_name }}</span>

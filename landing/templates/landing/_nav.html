@@ -6,7 +6,9 @@
     {# ── Logo ───────────────────────────────────────────────── #}
     <a href="{{ lang_prefix }}" aria-label="Inicio"
        class="flex items-center h-10">
-      {% if siteconfig.logo_svg %}
+      {% if sitepage and sitepage.logo_svg %}
+        <span class="block h-10 w-auto [&>svg]:h-10 [&>svg]:w-auto">{{ sitepage.logo_svg|safe }}</span>
+      {% elif siteconfig.logo_svg %}
         <span class="block h-10 w-auto [&>svg]:h-10 [&>svg]:w-auto">{{ siteconfig.logo_svg|safe }}</span>
       {% else %}
         <span class="font-extrabold text-xl tracking-tight text-white" translate="no">
