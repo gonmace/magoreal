@@ -72,18 +72,18 @@ def translate_page(
 
     client = OpenAI(api_key=api_key)
     translated_html: dict[str, str] = {}
-    # Si no se especifica, traducir todas las secciones
+    translation_succeeded = False  # se pone True solo si al menos una sección OK
     if sections_to_translate is None:
         sections_to_translate = list(sections_texts.keys())
     
     for section_key, texts in sections_texts.items():
-        # Si la sección no está en la lista de traducción, usar HTML original
+        # Si la sección no está en la lista de traducción, omitir —
+        # el contenido existente se preserva en el merge.
         if section_key not in sections_to_translate:
-            translated_html[section_key] = sections_html[section_key]
             continue
         if not texts:
-            # Si no hay textos, usar HTML original
-            translated_html[section_key] = sections_html[section_key]
+            # Sin textos traducibles: omitir — el {% section %} tag
+            # renderizará el template original directamente, sin cachear español.
             continue
         try:
             t_texts = _translate_section(client, model, texts, lang)
@@ -98,8 +98,7 @@ def translate_page(
                 'translate_page: %s/%s [%s] FALLO — %s',
                 page_key, lang, section_key, exc,
             )
-            # NO guardar el HTML original como traducción
-            # Marcar como None para indicar que esta sección falló
+            # Marcar como None — no guardar español como "traducción"
             translated_html[section_key] = None
 
     try:
@@ -118,19 +117,24 @@ def translate_page(
             # Si la sección falló (None) o no hay traducción válida, no incluirla
             # Esto fuerza al sistema a usar el template original o reintentar
         
-        # Si no hay ninguna traducción exitosa, marcar como fallido
-        if not merged_content:
+        # Determinar si al menos una sección con texto fue traducida exitosamente
+        expected = {k for k in sections_to_translate if sections_texts.get(k)}
+        actually_translated = {k for k, v in translated_html.items() if v is not None}
+        # Si no había secciones con texto, considerar exitoso (nada que traducir)
+        translation_succeeded = not expected or bool(actually_translated & expected)
+
+        if not translation_succeeded:
             logger.warning(
-                'translate_page: TODAS las secciones fallaron para %s/%s — manteniendo contenido anterior',
+                'translate_page: TODAS las secciones fallaron para %s/%s — sin guardar',
                 page_key, lang,
             )
-            merged_content = existing_content if existing_content else {}
+            # No guardar ni marcar como fresh — el próximo request reintentará
         else:
             tc.content = merged_content
             tc.save(update_fields=['content', 'updated_at'])
             logger.info(
-                'translate_page: COMPLETADO %s/%s — %d secciones traducidas',
-                page_key, lang, len(merged_content),
+                'translate_page: COMPLETADO %s/%s — %d/%d secciones traducidas',
+                page_key, lang, len(actually_translated & expected), len(expected),
             )
     except TranslationCache.DoesNotExist:
         logger.error(
@@ -140,6 +144,9 @@ def translate_page(
         return
     finally:
         cache.delete(pending_key)
+
+    if not translation_succeeded:
+        return
 
     _invalidate_cache(page_key, specific_lang=lang)
     cache.set(f'tr_fresh:{page_key}:{lang}', True, 300)
