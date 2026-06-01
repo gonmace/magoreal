@@ -24,4 +24,5 @@ def detalle(request, slug, lang=None):
     return render(request, 'portfolio/proyecto_detalle.html', {
         'proyecto': proyecto,
         'seo': seo,
+        'page_key': f'portfolio-{slug}',
     })

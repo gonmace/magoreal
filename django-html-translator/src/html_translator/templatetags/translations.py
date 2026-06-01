@@ -197,6 +197,50 @@ def section(context, section_key: str, template_name: str):
     return mark_safe(render_to_string(template_name, ctx, request=request))
 
 
+# ── Tag: texto individual traducido ───────────────────────────────────────────
+
+@register.simple_tag(takes_context=True)
+def translated_text(context, section_key: str, original: str, page_key: str = None):
+    """
+    Devuelve la versión traducida de `original` buscándola en la sección indicada
+    del TranslationCache. Útil para bloques <title> y <meta> que no son secciones.
+
+    Ejemplo:
+        {% translated_text "hero" siteconfig.hero_subtitle %}
+        {% translated_text "detalle_hero" proyecto.titulo page_key=page_key %}
+    """
+    if not original:
+        return original
+
+    request = context.get('request')
+    lang = getattr(request, 'LANGUAGE_CODE', 'es') if request else 'es'
+
+    from .. import conf
+    if lang == conf.get_default_language():
+        return original
+
+    pk = page_key or _detect_page_key(request)
+
+    try:
+        tc = TranslationCache.objects.get(page_key=pk, lang=lang)
+        if not tc.content or section_key not in tc.content:
+            return original
+
+        from ..utils import HtmlTextExtractor
+        source_html = tc.source_html.get(section_key, '')
+        source_texts = HtmlTextExtractor(source_html).get_texts()
+        translated_texts = HtmlTextExtractor(tc.content[section_key]).get_texts()
+
+        original_stripped = original.strip()
+        for i, src in enumerate(source_texts):
+            if src.strip() == original_stripped and i < len(translated_texts):
+                return translated_texts[i]
+    except Exception:
+        pass
+
+    return original
+
+
 # ── Tag legado: campo individual ────────────────────────────────────────────────
 
 @register.simple_tag(takes_context=True)

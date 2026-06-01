@@ -2,9 +2,9 @@
 {% load static translations %}
 
 {% block title %}{{ nav_t.tagline|default:siteconfig.tagline|truncatechars:45 }} — {{ nav_t.site_name|default:siteconfig.site_name }}{% endblock %}
-{% block meta_description %}{{ siteconfig.hero_subtitle|truncatewords:24 }}{% endblock %}
+{% block meta_description %}{% translated_text "hero" siteconfig.hero_subtitle %}{% endblock %}
 {% block og_title %}{{ nav_t.site_name|default:siteconfig.site_name }}{% endblock %}
-{% block og_description %}{{ nav_t.tagline|default:siteconfig.tagline }}{% endblock %}
+{% block og_description %}{% translated_text "hero" siteconfig.tagline %}{% endblock %}
 
 {% block extra_head %}
   {% section "seo_schema" "landing/_seo_schema.html" %}
