@@ -127,19 +127,7 @@ class Command(BaseCommand):
                 self.stdout.flush()
 
                 try:
-                    # Verificar si ya está traducido y vigente
-                    from django.core.cache import cache as _cache
-                    fresh_key = f'tr_fresh:{page_key}:{lang}'
-                    if _cache.get(fresh_key):
-                        try:
-                            tc = TranslationCache.objects.get(page_key=page_key, lang=lang)
-                            if tc.content:
-                                self.stdout.write(ok('ya traducido ✓'))
-                                continue
-                        except TranslationCache.DoesNotExist:
-                            pass
-
-                    # Construir request falso para renderizar secciones
+                    # Construir request para renderizar secciones y calcular hash actual
                     lang_prefix = f'/{lang}/' if lang != 'es' else '/'
                     request = factory.get(lang_prefix)
                     request.LANGUAGE_CODE = lang
@@ -151,6 +139,15 @@ class Command(BaseCommand):
                     if not sections_html:
                         self.stdout.write(warn('sin secciones — omitido'))
                         continue
+
+                    # Verificar en DB si ya está traducido y el contenido no está desactualizado
+                    try:
+                        tc_existing = TranslationCache.objects.get(page_key=page_key, lang=lang)
+                        if tc_existing.content and not tc_existing.is_stale(source_hash):
+                            self.stdout.write(ok('ya traducido ✓'))
+                            continue
+                    except TranslationCache.DoesNotExist:
+                        pass
 
                     # Guardar/actualizar TranslationCache
                     tc, _ = TranslationCache.objects.get_or_create(
