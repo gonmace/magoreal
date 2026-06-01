@@ -45,7 +45,7 @@ def _responsive_variant(path: str, width: int) -> str:
 
 
 @register.simple_tag
-def picture(path, alt='', css_class='', loading='lazy', sizes='(max-width: 768px) 100vw, 50vw', eager=False):
+def picture(path, alt='', css_class='', loading='lazy', sizes='(max-width: 768px) 100vw, 50vw', eager=False, width=None, height=None):
     """
     Renderiza <picture> con WebP + fallback al original.
     Si existe variante -800w.webp, se usa en srcset para viewports chicos.

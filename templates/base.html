@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
     <meta name="theme-color" content="{% if sitepage %}{{ sitepage.theme_color }}{% else %}#050A14{% endif %}">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 
     <title>{% block title %}{{ siteconfig.site_name }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ siteconfig.tagline }}{% endblock %}">
@@ -43,7 +44,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="icon" href="{% if sitepage and sitepage.favicon %}{{ sitepage.favicon.url }}{% elif siteconfig.favicon %}{{ siteconfig.favicon.url }}{% else %}{% static 'img/favicon.svg' %}{% endif %}">
+    <link rel="icon" type="image/svg+xml" href="{% if sitepage and sitepage.favicon %}{{ sitepage.favicon.url }}{% elif siteconfig.favicon %}{{ siteconfig.favicon.url }}{% else %}{% static 'img/favicon.svg' %}{% endif %}">
     {% tailwind_css %}
 
     {# Alpine.js — interactividad del lado cliente (filtros, modales, etc.) #}

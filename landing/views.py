@@ -84,7 +84,36 @@ def contacto_submit(request):
         except (urllib.error.URLError, TimeoutError) as e:
             logger.warning('Contacto: error reenviando a n8n: %s', e)
 
+    # Notificación por email al equipo (nunca bloquea la respuesta al usuario)
+    _notify_contacto(msg)
+
     return JsonResponse({'ok': True, 'id': msg.id})
+
+
+def _notify_contacto(msg):
+    """Email de notificación a sales cuando llega un mensaje de contacto."""
+    try:
+        site = SiteConfig.load()
+        page = msg.sitepage
+        to_email = getattr(settings, 'LEADS_NOTIFY_EMAIL', '') or (page.email if page else '') or site.email
+        if not to_email:
+            logger.info('ContactMessage #%s guardado sin destino de notificación', msg.id)
+            return
+        from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', to_email)
+        subject = f'[Contacto] {msg.nombre} — {msg.get_interes_display()}'
+        body = (
+            f'Nuevo mensaje desde el formulario de contacto:\n\n'
+            f'  Nombre:  {msg.nombre}\n'
+            f'  Email:   {msg.email}\n'
+            f'  Empresa: {msg.empresa or "—"}\n'
+            f'  Interés: {msg.get_interes_display()}\n\n'
+            f'  Mensaje:\n  {msg.mensaje}\n\n'
+            f'  Origen:  {msg.meta_origen or "—"}\n\n'
+            f'Revisá en admin: /admin/landing/contactmessage/{msg.id}/change/\n'
+        )
+        send_mail(subject, body, from_email, [to_email], fail_silently=True)
+    except Exception as e:
+        logger.warning('ContactMessage: error notificando a sales: %s', e)
 
 
 # ═══════════════════════════════════════════════════════════════════════

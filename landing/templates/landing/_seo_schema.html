@@ -10,12 +10,12 @@
       "name": "{{ siteconfig.site_name }}",
       "url": "{{ request.scheme }}://{{ request.get_host }}/",
       "email": "{{ siteconfig.email }}",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Santa Cruz de la Sierra",
-        "addressRegion": "Santa Cruz",
-        "addressCountry": "BO"
-      },
+      {% if siteconfig.favicon %}"logo": {
+        "@type": "ImageObject",
+        "url": "{{ request.scheme }}://{{ request.get_host }}{{ siteconfig.favicon.url }}",
+        "width": 512,
+        "height": 512
+      },{% endif %}
       "sameAs": [
         {% if siteconfig.github_url %}"{{ siteconfig.github_url }}"{% if siteconfig.linkedin_url or siteconfig.twitter_url %},{% endif %}{% endif %}
         {% if siteconfig.linkedin_url %}"{{ siteconfig.linkedin_url }}"{% if siteconfig.twitter_url %},{% endif %}{% endif %}

@@ -19,6 +19,13 @@ if DEBUG:
     # host.docker.internal: permite callbacks desde contenedores n8n en dev
     ALLOWED_HOSTS += ['host.docker.internal']
 
+# Hosts del sitio principal (Magoreal). El SitePageMiddleware nunca aplica
+# el fallback is_default a estos hosts — SiteConfig los gestiona directamente.
+_magoreal_hosts_raw = config('MAGOREAL_HOSTS', default='magoreal.com,www.magoreal.com')
+MAGOREAL_HOSTS: set[str] = {h.strip() for h in _magoreal_hosts_raw.split(',')}
+if DEBUG:
+    MAGOREAL_HOSTS |= {'localhost', '127.0.0.1', 'host.docker.internal'}
+
 ADMIN_URL = config('ADMIN_URL', default='admin/')
 
 # Application definition
@@ -162,14 +169,18 @@ PROYECTOS_DIR = os.path.join(BASE_DIR, 'proyectos')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email: consola en dev, SMTP en prod si se configura EMAIL_HOST
+# Puerto 465 → EMAIL_USE_SSL=True (SSL directo). Puerto 587 → EMAIL_USE_TLS=True (STARTTLS).
+# UntrustedCertEmailBackend maneja cPanel/WHM con cert self-signed.
 if config('EMAIL_HOST', default=''):
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_BACKEND = 'core.email_backend.UntrustedCertEmailBackend'
     EMAIL_HOST = config('EMAIL_HOST')
-    EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-    EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+    EMAIL_PORT = config('EMAIL_PORT', default=465, cast=int)
+    EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=True, cast=bool)
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
     EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
     DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@example.com')
+    SERVER_EMAIL = DEFAULT_FROM_EMAIL
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

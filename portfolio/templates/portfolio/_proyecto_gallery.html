@@ -71,6 +71,7 @@
           <div x-show="current === {{ forloop.counter0 }}" class="flex flex-col gap-4">
             <img src="{% get_media_prefix %}{{ shot.url }}"
                  alt="{{ shot.descripcion|default:proyecto.titulo }}"
+                 loading="lazy" decoding="async"
                  class="max-w-full max-h-[75vh] object-contain rounded-lg ring-1 ring-cyan-500/10">
             {% if shot.descripcion %}
               <p class="text-sm text-base-content/70 text-center max-w-3xl mx-auto">

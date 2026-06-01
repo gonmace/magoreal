@@ -3,14 +3,22 @@
   <div class="absolute inset-0 pointer-events-none hero-mesh opacity-50"></div>
 
   <div class="relative max-w-7xl mx-auto px-5 md:px-8">
-    <a href="{{ lang_prefix }}#proyectos"
-       class="inline-flex items-center gap-2 text-sm text-base-content/60 hover:text-primary mb-6 transition-colors">
-      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
-      </svg>
-      Volver a proyectos
-    </a>
+    <nav aria-label="breadcrumb" class="flex items-center gap-2 text-sm text-base-content/60 mb-6 flex-wrap">
+      <a href="{{ lang_prefix }}"
+         class="hover:text-primary transition-colors">{{ siteconfig.site_name }}</a>
+      <span aria-hidden="true" class="opacity-40">/</span>
+      <a href="{{ lang_prefix }}#proyectos"
+         class="hover:text-primary transition-colors inline-flex items-center gap-1">
+        <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Proyectos
+      </a>
+      <span aria-hidden="true" class="opacity-40">/</span>
+      <span aria-current="page" class="text-base-content/40 truncate max-w-[16rem] sm:max-w-none">{{ proyecto.nombre_solucion|default:proyecto.titulo }}</span>
+    </nav>
 
     <div class="grid lg:grid-cols-[1fr_1fr] gap-12 items-center">
       <div>
