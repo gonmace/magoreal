@@ -122,18 +122,20 @@ class TranslationCache(models.Model):
 
     def stale_sections(self, current_sections_html: dict) -> list[str]:
         """
-        Devuelve lista de claves de sección cuyo HTML ha cambiado.
-        Compara el hash SHA-256 de cada sección individual.
+        Devuelve lista de claves de sección cuyos TEXTOS visibles han cambiado.
+        Compara texto extraído (no HTML completo) para evitar re-traducciones
+        por cambios puramente estructurales (h3→p, atributos CSS, lazy, etc.).
         """
+        from .utils import HtmlTextExtractor
         stale = []
         for section_key, html in current_sections_html.items():
             old_html = self.source_html.get(section_key, '')
             if not old_html:
                 stale.append(section_key)
                 continue
-            current_hash = self.compute_hash({section_key: html})
-            old_hash = self.compute_hash({section_key: old_html})
-            if current_hash != old_hash:
+            current_texts = HtmlTextExtractor(html).get_texts()
+            old_texts = HtmlTextExtractor(old_html).get_texts()
+            if current_texts != old_texts:
                 stale.append(section_key)
         return stale
 
