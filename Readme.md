@@ -8,7 +8,7 @@ Sitio web de [Magoreal Tecnología](https://magoreal.com), empresa de desarrollo
 - **Portfolio** de proyectos con páginas de detalle SEO-optimizadas
 - **Lead magnet de licitaciones** — el prospecto sube un TDR/compulsa en PDF y recibe un borrador de pliego técnico generado con IA vía n8n
 - **Páginas white-label** — un mismo Django sirve dominios de clientes distintos con identidad visual propia (tema, logo, idioma, webhooks) vía el modelo `SitePage`
-- **Multilenguaje** (ES/EN) con `django-html-translator` y OpenAI como motor de traducción
+- **Multilenguaje** (ES/EN/PT/DE/FR y más) con `django-html-translator` y OpenAI como motor de traducción
 - **MorphBanner** — componente SVG de letras animadas con morphing
 
 ## Stack
@@ -158,6 +158,39 @@ Expone un servidor MCP sobre HTTP en `https://n8n.tudominio.com/mcp` para integr
 
 ---
 
+## Traducciones
+
+El sistema traduce HTML completo por sección usando OpenAI. Las traducciones se almacenan en `TranslationCache` (PostgreSQL) y se sirven desde Redis.
+
+### Generar traducciones post-deploy
+
+```bash
+# Traduce todas las páginas (home + proyectos) a EN y PT (default)
+docker compose exec django python manage.py warm_translations
+
+# Agregar nuevos idiomas (skipea los ya traducidos)
+docker compose exec django python manage.py warm_translations --langs de fr
+
+# Forzar re-traducción completa (limpia todo el caché primero)
+docker compose exec django python manage.py warm_translations --clear
+
+# Solo una página específica
+docker compose exec django python manage.py warm_translations --pages home --langs en
+docker compose exec django python manage.py warm_translations --pages portfolio-01-pozos-scz --langs en pt
+```
+
+### Comportamiento
+
+- Las páginas ya traducidas se **saltean automáticamente** (`ya traducido ✓`)
+- Si una traducción falla, el caché **no se contamina** con contenido en español — el próximo request reintenta
+- Al visitar `/en/` sin traducción previa, el selector de idioma auto-dispara la traducción (~60-90s primera vez) y muestra un spinner
+
+### Requisito
+
+La clave de OpenAI se configura desde el admin de Django: **TranslatorConfig → OpenAI API Key**. Sin ella, `warm_translations` no puede generar traducciones.
+
+---
+
 ## Comandos
 
 | Comando | Descripción |
@@ -178,6 +211,8 @@ Expone un servidor MCP sobre HTTP en `https://n8n.tudominio.com/mcp` para integr
 | `make nginx` | Instala config nginx (**solo primera vez**) |
 | `make deploy` | Despliega en VPS (git pull + verifica puertos + rebuild) |
 | `make logs` | Logs de Django en producción |
+| `python manage.py warm_translations` | Genera traducciones para todas las páginas |
+| `python manage.py html_translator_check` | Diagnóstico de configuración de traducciones |
 
 ---
 
