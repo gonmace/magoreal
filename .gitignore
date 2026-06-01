@@ -47,6 +47,7 @@ Thumbs.db
 *.pid
 volumes/
 db/
+redis/
 
 # Nginx generado por nginx-deploy.sh (usa PROJECT_NAME como nombre)
 *.conf
