@@ -104,7 +104,17 @@ class Command(BaseCommand):
         self.stdout.write('')
 
         # ── 3. Traducir cada página × idioma ─────────────────────────────────
-        factory = RequestFactory()
+        # Usar el dominio real para que request.get_host() pase ALLOWED_HOSTS
+        import os
+        domain = (
+            os.environ.get('DOMAIN')
+            or next((h for h in settings.ALLOWED_HOSTS
+                     if h and not h.startswith('.') and h not in ('*', 'localhost', '127.0.0.1')),
+                    None)
+            or settings.ALLOWED_HOSTS[0]
+            if settings.ALLOWED_HOSTS else 'localhost'
+        )
+        factory = RequestFactory(SERVER_NAME=domain, HTTP_HOST=domain)
         total = len(page_keys) * len(langs)
         done = 0
         failed = 0
