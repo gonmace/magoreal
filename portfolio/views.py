@@ -21,8 +21,13 @@ def detalle(request, slug, lang=None):
         raise Http404(f"Proyecto '{slug}' no encontrado")
 
     seo = ProjectSEO.objects.filter(slug=slug).first()
+    # titulo_display coincide con lo que renderiza el H1 en _proyecto_hero.html
+    titulo_display = proyecto.get('titulo_card') or proyecto.get('titulo', '')
+    subtitulo_display = proyecto.get('subtitulo', '')
     return render(request, 'portfolio/proyecto_detalle.html', {
         'proyecto': proyecto,
         'seo': seo,
         'page_key': f'portfolio-{slug}',
+        'titulo_display': titulo_display,
+        'subtitulo_display': subtitulo_display,
     })

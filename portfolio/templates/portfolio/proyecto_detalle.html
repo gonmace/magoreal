@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load static portfolio_tags translations %}
 
-{% block title %}{% if seo.seo_title %}{{ seo.seo_title }}{% else %}{% translated_text "detalle_hero" proyecto.titulo page_key=page_key as titulo_t %}{{ titulo_t|truncatechars:45 }}{% endif %} — {{ siteconfig.site_name }}{% endblock %}
-{% block meta_description %}{% if seo.seo_description %}{{ seo.seo_description }}{% else %}{% translated_text "detalle_hero" proyecto.subtitulo page_key=page_key as desc_t %}{{ desc_t|truncatewords:24 }}{% endif %}{% endblock %}
-{% block og_title %}{% if seo.seo_title %}{{ seo.seo_title }}{% else %}{% translated_text "detalle_hero" proyecto.titulo page_key=page_key as og_titulo_t %}{{ og_titulo_t|truncatechars:60 }}{% endif %}{% endblock %}
-{% block og_description %}{% if seo.seo_description %}{{ seo.seo_description }}{% else %}{% translated_text "detalle_hero" proyecto.subtitulo page_key=page_key as og_desc_t %}{{ og_desc_t|truncatewords:25 }}{% endif %}{% endblock %}
+{% block title %}{% if seo.seo_title %}{{ seo.seo_title }}{% else %}{% translated_text "detalle_hero" titulo_display page_key=page_key as titulo_t %}{{ titulo_t|truncatechars:45 }}{% endif %} — {{ siteconfig.site_name }}{% endblock %}
+{% block meta_description %}{% if seo.seo_description %}{{ seo.seo_description }}{% else %}{% translated_text "detalle_hero" subtitulo_display page_key=page_key as desc_t %}{{ desc_t|truncatewords:24 }}{% endif %}{% endblock %}
+{% block og_title %}{% if seo.seo_title %}{{ seo.seo_title }}{% else %}{% translated_text "detalle_hero" titulo_display page_key=page_key as og_titulo_t %}{{ og_titulo_t|truncatechars:60 }}{% endif %}{% endblock %}
+{% block og_description %}{% if seo.seo_description %}{{ seo.seo_description }}{% else %}{% translated_text "detalle_hero" subtitulo_display page_key=page_key as og_desc_t %}{{ og_desc_t|truncatewords:25 }}{% endif %}{% endblock %}
 {% block og_image %}{% with og_path="og/og-"|add:proyecto.slug|add:".png" %}{{ request.scheme }}://{{ request.get_host }}{% static og_path %}{% endwith %}{% endblock %}
 {% block twitter_image %}{% with og_path="og/og-"|add:proyecto.slug|add:".png" %}{{ request.scheme }}://{{ request.get_host }}{% static og_path %}{% endwith %}{% endblock %}
 
