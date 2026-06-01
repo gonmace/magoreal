@@ -29,9 +29,9 @@ class Command(BaseCommand):
         parser.add_argument(
             '--langs',
             nargs='+',
-            default=['en', 'pt', 'de', 'fr'],
+            default=['en', 'pt'],
             metavar='LANG',
-            help='Idiomas a traducir (default: en pt de fr)',
+            help='Idiomas a traducir (default: en pt). Skippea los ya traducidos.',
         )
         parser.add_argument(
             '--clear',
