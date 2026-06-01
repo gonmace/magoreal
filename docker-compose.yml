@@ -22,7 +22,7 @@ services:
     restart: always
     command: redis-server --appendonly yes --appendfsync everysec
     volumes:
-      - ./volumes/redis:/data
+      - ./redis:/data
     networks:
       - app_network
     healthcheck:
